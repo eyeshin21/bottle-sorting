@@ -1,6 +1,10 @@
 ﻿using Anvil.Legacy;
 using UnityEngine;
 
+enum TrayType
+{
+    
+}
 public class GameConfig : SingletonScriptableObject<GameConfig>
 {
     [SerializeField] private float _slotWidth;

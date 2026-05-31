@@ -167,7 +167,9 @@ namespace Anvil.Legacy
             {
                 return;
             }
-            if (_targetDesignator == null || !_targetDesignator.IsActive || _trajectoryCalculator == null)
+            if (_targetDesignator == null 
+                // || !_targetDesignator.IsActive 
+                || _trajectoryCalculator == null)
             {
                 return;
             }
