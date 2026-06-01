@@ -26,14 +26,14 @@ namespace Anvil.Legacy
             column = _column;
         }
 
-        public TCell GetAdjacentCell(Direction direction)
+        public TCell GetAdjacentCell(Direction4 direction)
         {
             if (_board != null)
             {
-                if (direction == Direction.Left) return _board.GetCell(_row, _column - 1);
-                if (direction == Direction.Right) return _board.GetCell(_row, _column + 1);
-                if (direction == Direction.Up) return _board.GetCell(_row - 1, _column);
-                if (direction == Direction.Down) return _board.GetCell(_row + 1, _column);
+                if (direction == Direction4.Left) return _board.GetCell(_row, _column - 1);
+                if (direction == Direction4.Right) return _board.GetCell(_row, _column + 1);
+                if (direction == Direction4.Up) return _board.GetCell(_row - 1, _column);
+                if (direction == Direction4.Down) return _board.GetCell(_row + 1, _column);
             }
             return default;
         }

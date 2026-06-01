@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Anvil.Legacy;
+using Drawing;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class ConveyorSlot : BottleSlot, ITargetDesignator
     }
 }
 
-public class Conveyor : MonoBehaviour
+public class Conveyor : MonoBehaviourGizmos
 {
 #region Segment
 
@@ -126,7 +127,9 @@ public class Conveyor : MonoBehaviour
     [SerializeField, ReadOnly] private float _totalLength;
     [SerializeField, ReadOnly] private float _distanceSpeed;
     [SerializeField, ReadOnly] private float _slotOffset;
+    [SerializeField] private MainBoard _board;
     HashSet<Bottle> _bottlesOnConveyor = new();
+    
     
     public float TotalLength => _totalLength;
     public ConveyorSlot[] Slots => _slots;
@@ -140,6 +143,26 @@ public class Conveyor : MonoBehaviour
     {
         UpdateConveyorMovement();
         UpdateContentMovement();
+        
+        UpdateBottleIntake();
+    }
+
+    private List<Bottle> _bottlesToRemove = new List<Bottle>();
+    private void UpdateBottleIntake()
+    {
+        foreach (Bottle bottle in _bottlesOnConveyor)
+        {
+            if (_board.TryIntakeBottle(bottle))
+            {
+                _bottlesToRemove.Add(bottle);
+            }
+        }
+
+        foreach (var bottle in _bottlesToRemove)
+        {
+            _bottlesOnConveyor.Remove(bottle);
+        }
+        _bottlesToRemove.Clear();
     }
 
     private void UpdateContentMovement()
@@ -348,7 +371,7 @@ public class Conveyor : MonoBehaviour
         BuildSegments();
     }
 
-    private void OnDrawGizmos()
+    public override void DrawGizmos()
     {
         if (!_drawDebug)
             return;
@@ -359,10 +382,9 @@ public class Conveyor : MonoBehaviour
 
         // DRAW WAYPOINTS
         Gizmos.color = Color.yellow;
-
         foreach (var point in _waypoints)
         {
-            Gizmos.DrawSphere(point, 0.15f);
+            Draw.SphereOutline(point, 0.15f);
         }
 
         // DRAW SEGMENTS
@@ -378,7 +400,7 @@ public class Conveyor : MonoBehaviour
 
                 Vector3 current = segment.Evaluate(t);
 
-                Gizmos.DrawLine(prev, current);
+                Draw.Line(prev, current);
 
                 prev = current;
             }
@@ -393,17 +415,18 @@ public class Conveyor : MonoBehaviour
         // Draw slot
         for (var i = 0; i < _slots.Length; i++)
         {
-            Gizmos.color = i == 0 ? Color.yellow : Color.red;
+            Color color = i == 0 ? Color.yellow : Color.red;
 
             var slot = _slots[i];
             if (slot == null) continue;
             if (intakeSlot != null && slot == intakeSlot)
-                Gizmos.color = Color.green;
+                color = Color.green;
             Vector3 worldPos = transform.TransformPoint(slot.LocalPosition);
             if (slot.IsEmpty)
-                Gizmos.DrawWireCube(worldPos, Vector3.one * _slotDrawSize);
+                Draw.WireBox(worldPos, Vector3.one * _slotDrawSize, color: color);
             else
-                Gizmos.DrawCube(worldPos, Vector3.one * _slotDrawSize);
+                Draw.SolidBox(worldPos, Vector3.one * _slotDrawSize, color: color);
+            
         }
     }
 }

@@ -40,11 +40,11 @@ namespace Anvil.Legacy
             return new Vector2(Random.Range(v.x, v2.x), Random.Range(v.y, v2.y));
         }
 
-        public static void GetRandomDirections(ref Direction[] directions)
+        public static void GetRandomDirections(ref Direction4[] directions)
         {
             if (directions == null)
             {
-                directions = new Direction[] { Direction.Left, Direction.Up, Direction.Right, Direction.Down };
+                directions = new Direction4[] { Direction4.Left, Direction4.Up, Direction4.Right, Direction4.Down };
             }
             directions.Swap();
         }

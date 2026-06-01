@@ -17,7 +17,7 @@ namespace Anvil
         public static float TextPaddingUD = 30;
         public static float MinHeigh = 150;
 
-        public static GameObject ShowTextTip(string text,RectTransform targetRTF,Direction direction = Direction.Up,GameObject prefab = null, Action onShow = null,Action onHide = null)
+        public static GameObject ShowTextTip(string text,RectTransform targetRTF,Direction4 direction = Direction4.Up,GameObject prefab = null, Action onShow = null,Action onHide = null)
         {
             Vector3 worldPos = targetRTF.position;
 
@@ -37,7 +37,7 @@ namespace Anvil
             return textTipObj;
         }
 
-        public static GameObject ShowTextTip(string text,Vector3 position,Direction direction = Direction.Up, GameObject prefab = null, Action onShow = null,Action onHide = null)
+        public static GameObject ShowTextTip(string text,Vector3 position,Direction4 direction = Direction4.Up, GameObject prefab = null, Action onShow = null,Action onHide = null)
         {
             position.z = 0;
             if (prefab == null)
@@ -137,19 +137,19 @@ namespace Anvil
         //     Vector2 ret = new Vector2(rectTransform.rect.width, rectTransform.rect.height);
         //
         // }
-        private static RectTransform SetDirection(this IGameObjectReferenceAdapter iref,Direction direction)
+        private static RectTransform SetDirection(this IGameObjectReferenceAdapter iref,Direction4 direction)
         {
             RectTransform ret = null;
             RectTransform rectTransform = iref.GetComponent<RectTransform>();
             GameObject rootObj = iref.GetGameObjectReference(GameObjectReferenceIDAdapter.Root);
             RectTransform rootRTF = rootObj.TryGetComponent<RectTransform>();
-            if (direction != Direction.Down && direction != Direction.Up)
+            if (direction != Direction4.Down && direction != Direction4.Up)
             {
-                direction = Direction.Up;
+                direction = Direction4.Up;
                 Debug.LogWarning($"[TextTip] Direction {direction} is not supported. default to UP");
             }
 
-            if (direction == Direction.Down)
+            if (direction == Direction4.Down)
             {
                 rootRTF.pivot = new Vector2(0.5f,1);
                 iref.SetActiveGameObjectReference(GameObjectReferenceIDAdapter.Bottom,false);
@@ -157,7 +157,7 @@ namespace Anvil
                 ret = iref.GetComponentReference<RectTransform>(GameObjectReferenceIDAdapter.Top);
             }
 
-            if (direction == Direction.Up)
+            if (direction == Direction4.Up)
             {
                 rootRTF.pivot = new Vector2(0.5f,0);
                 iref.SetActiveGameObjectReference(GameObjectReferenceIDAdapter.Bottom,true);

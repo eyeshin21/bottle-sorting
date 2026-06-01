@@ -88,9 +88,9 @@ namespace Anvil.Legacy
             int segmentCount = _segments.Count;
             for (int i = 0; i < segmentCount; i++)
             {
-                _segments[i].Get(out Direction direction, out int length);
+                _segments[i].Get(out Direction4 direction, out int length);
 
-                if (direction == Direction.Left)
+                if (direction == Direction4.Left)
                 {
                     for (int j = 1; j < length; j++)
                     {
@@ -98,7 +98,7 @@ namespace Anvil.Legacy
                         callback(row, column);
                     }
                 }
-                else if (direction == Direction.Right)
+                else if (direction == Direction4.Right)
                 {
                     for (int j = 1; j < length; j++)
                     {
@@ -106,7 +106,7 @@ namespace Anvil.Legacy
                         callback(row, column);
                     }
                 }
-                else if (direction == Direction.Up)
+                else if (direction == Direction4.Up)
                 {
                     for (int j = 1; j < length; j++)
                     {
@@ -114,7 +114,7 @@ namespace Anvil.Legacy
                         callback(row, column);
                     }
                 }
-                else if (direction == Direction.Down)
+                else if (direction == Direction4.Down)
                 {
                     for (int j = 1; j < length; j++)
                     {
@@ -138,24 +138,24 @@ namespace Anvil.Legacy
             int segmentCount = _segments.Count;
             for (int i = 0; i < segmentCount; i++)
             {
-                _segments[i].Get(out Direction direction, out int length);
+                _segments[i].Get(out Direction4 direction, out int length);
 
-                if (direction == Direction.Left)
+                if (direction == Direction4.Left)
                 {
                     column -= length - 1;
                     callback(row, column);
                 }
-                else if (direction == Direction.Right)
+                else if (direction == Direction4.Right)
                 {
                     column += length - 1;
                     callback(row, column);
                 }
-                else if (direction == Direction.Up)
+                else if (direction == Direction4.Up)
                 {
                     row -= length - 1;
                     callback(row, column);
                 }
-                else if (direction == Direction.Down)
+                else if (direction == Direction4.Down)
                 {
                     row += length - 1;
                     callback(row, column);

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Anvil;
 using Anvil.Legacy;
+using Drawing;
+using NaughtyAttributes;
 using UnityEngine;
 
 public interface IGridCell
@@ -36,7 +39,7 @@ public class GridCell : IGridCell
     }
 }
 
-public class TrayGrid : MonoBehaviour
+public class TrayGrid : MonoBehaviourGizmos
 {
     [Serializable]
     public class TrayPositionData
@@ -57,6 +60,8 @@ public class TrayGrid : MonoBehaviour
     private float _cellSize;
     private float _unscaledWidth;
     private float  _unscaledHeight;
+    private float _height;
+    private float _width;
     private GridCell[,] _gridCells;
 
     public Tray[] Trays => _trays;
@@ -83,6 +88,8 @@ public class TrayGrid : MonoBehaviour
         _gridCells = new GridCell[_rowCount, _columnCount];
         _unscaledHeight = _rowCount * _cellSize;
         _unscaledWidth = _columnCount * _cellSize;
+        _height = _unscaledHeight * transform.localScale.z;
+        _width = _unscaledWidth * transform.localScale.x;
         for (int row = 0; row < _rowCount; row++)
         {
             for (int column = 0; column < _columnCount; column++)
@@ -95,9 +102,11 @@ public class TrayGrid : MonoBehaviour
     }
     private void Generate(List<TrayPositionData> testData)
     {
+        GameObjectPool.ClearManagedChild(gameObject);
         foreach (var positionData in testData)
         {
             GridCell cell = GetCell(positionData.row, positionData.column);
+            Debug.Log($"cell {cell.Row}-{cell.Column}");
             if (cell == null || !cell.IsEmpty) continue;
             if (!CheckAvailableSpace(positionData.prefabTray, cell, out List<GridCell> cells)) continue;
             cells.Add(cell);
@@ -105,7 +114,7 @@ public class TrayGrid : MonoBehaviour
             RegisterTray(positionData.prefabTray, cells);
             Vector3 centerPosition = Vector3.zero;
             foreach (GridCell gridCell in cells)
-            {                
+            {
                 centerPosition += gridCell.localPosition;
             }
             centerPosition /= cells.Count;
@@ -118,8 +127,8 @@ public class TrayGrid : MonoBehaviour
     }
     private Vector3 CalculateLocalPosition(GridCell cell)
     {        
-        float x = cell.Column * _cellSize - _unscaledWidth / 2;
-        float z = cell.Row * _cellSize + _unscaledHeight / 2;
+        float x = cell.Column * _cellSize - _unscaledWidth / 2 + _cellSize / 2;
+        float z = _unscaledHeight / 2 - cell.Row * _cellSize - _cellSize / 2;
         return new Vector3(x, 0, z);
     }
     private bool IsInBound(int row, int column)
@@ -132,9 +141,9 @@ public class TrayGrid : MonoBehaviour
         if (!IsInBound(row, column)) return null;
         return _gridCells[row, column];
     }
-    private GridCell OffSetCell(GridCell cell, Vector2Int offset)
+    private GridCell OffSetCellInverseCoord(GridCell cell, Vector2Int offset)
     {
-        return GetCell(cell.Row + offset.x, cell.Column + offset.y);
+        return GetCell(cell.Row - offset.y, cell.Column + offset.x);
     }
     private bool RegisterTray(Tray tray, int row, int column)
     {
@@ -165,7 +174,7 @@ public class TrayGrid : MonoBehaviour
         cells = new List<GridCell>();
         foreach (Vector2Int offset in tray.ShapeProfile)
         {
-            var targetCell =OffSetCell(cell, offset);
+            var targetCell =OffSetCellInverseCoord(cell, offset);
             if (targetCell == null || !targetCell.IsEmpty)
             {
                 Debug.LogError($"cannot register tray at {cell.Row}-{cell.Column}");
@@ -177,5 +186,106 @@ public class TrayGrid : MonoBehaviour
         return true;
     }
 
+    public GridCell GetCellNear(Vector3 worldPos, out Directions directionsFromPoint)
+    {
+        directionsFromPoint = default;
+        Vector3 localPos = TransformPoint(worldPos);
+        int rowIndex = Mathf.FloorToInt(localPos.x / _cellSize);
+        int colIndex =  Mathf.FloorToInt(localPos.z / _cellSize);
+        var cell = GetCell(Mathf.Clamp(rowIndex, 0, _rowCount - 1), 
+                        Mathf.Clamp(colIndex, 0, _columnCount - 1));
+        if (cell == null) return null;
+        if (!Mathf.Approximately(localPos.z, cell.localPosition.z) &&
+            localPos.x.IsInRange(cell.localPosition.x - _cellSize / 2, cell.localPosition.x + _cellSize / 2))
+        {
+            if (localPos.z > cell.localPosition.z)
+            {
+                directionsFromPoint |= Directions.Up;
+            }
+            else
+            {
+                directionsFromPoint |= Directions.Down;
+            }
+        }
+        else if (!Mathf.Approximately(localPos.x, cell.localPosition.x) &&
+            localPos.z.IsInRange(cell.localPosition.z - _cellSize / 2, cell.localPosition.z + _cellSize / 2))
+        {
+            if (localPos.x > cell.localPosition.x)
+            {
+                directionsFromPoint |= Directions.Right;
+            }
+            else
+            {
+                directionsFromPoint |= Directions.Left;
+            }
+        }
+
+        return cell;
+    }
+    public Tray GetTrayAlong(GridCell cell, Directions direction)
+    {
+        if (cell == null) return null;
+        int maxIndex = (direction == Directions.Up || direction == Directions.Down) ? _rowCount - 1 : _columnCount - 1;
+        for (int i = 0; i <= maxIndex; i++)
+        {
+            var targetCell = OffsetCell(cell, direction, i);
+            if (targetCell == null) break;
+            if (!targetCell.IsEmpty) return targetCell.Tray;
+        }
+        return null;
+    }
+    public GridCell OffsetCell(GridCell cell, Directions direction, int offset = 1)
+    {
+        if (cell == null) return null;
+        switch (direction)
+        {
+            case Directions.Up:
+                return GetCell(cell.Row - offset, cell.Column);
+            case Directions.Down:
+                return GetCell(cell.Row + offset, cell.Column);
+            case Directions.Left:
+                return GetCell(cell.Row, cell.Column - offset);
+            case Directions.Right:
+                return GetCell(cell.Row, cell.Column + offset);
+        }
+
+        return null;
+    }
+        
+    [Button]
+    private void TestGenerate()
+    {
+        Construct(GameConfig.SlotWidth);
+        Generate(_testData);
+    }
+
+    public override void DrawGizmos()
+    {
+        float top = transform.position.z + _height / 2;
+        float left = transform.position.x - _width / 2;
+        float bottom = transform.position.z - _height / 2;
+        float right = transform.position.x + _width / 2;
+        for (int i = 0; i <= _columnCount; i++)
+        {
+            float x = left + i * _cellSize;
+            Draw.Line(new Vector3(x, transform.position.y, top), new Vector3 (x, transform.position.y, bottom));
+        }
+
+        for (int i = 0; i <= _rowCount; i++)
+        {
+            float z = bottom + i * _cellSize;
+            Draw.Line(new Vector3(left, transform.position.y, z), new Vector3 (right, transform.position.y, z));
+        }
+
+        if (_gridCells == null)
+        {
+            return;
+        }
+        foreach (GridCell cell in _gridCells)
+        {
+            // Draw.SphereOutline(TransformPoint(cell.localPosition), 0.015f);
+            Draw.Label2D(TransformPoint(cell.localPosition), $"{cell.Row}-{cell.Column}");
+        }
+    }
     // public void 
 }

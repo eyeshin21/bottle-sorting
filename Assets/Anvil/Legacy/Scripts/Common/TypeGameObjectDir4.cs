@@ -32,12 +32,12 @@ namespace Anvil.Legacy
         /// <summary>
         /// Left, Up, Right, Down
         /// </summary>
-        public GameObject GetGameObject(Direction direction)
+        public GameObject GetGameObject(Direction4 direction)
         {
-            if (direction == Direction.Left) return _gameObject1;
-            if (direction == Direction.Up) return _gameObject2;
-            if (direction == Direction.Right) return _gameObject3;
-            if (direction == Direction.Down) return _gameObject4;
+            if (direction == Direction4.Left) return _gameObject1;
+            if (direction == Direction4.Up) return _gameObject2;
+            if (direction == Direction4.Right) return _gameObject3;
+            if (direction == Direction4.Down) return _gameObject4;
 
             return _gameObject1;
         }

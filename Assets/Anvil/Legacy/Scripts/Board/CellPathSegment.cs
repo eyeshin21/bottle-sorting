@@ -5,10 +5,10 @@ namespace Anvil.Legacy
 {
     public class CellPathSegment
     {
-        Direction _direction;
+        Direction4 _direction;
         int _length;
 
-        public Direction Direction => _direction;
+        public Direction4 Direction => _direction;
         public int Length
         {
             get => _length;
@@ -17,14 +17,14 @@ namespace Anvil.Legacy
 
         //public CellPathSegment Next { get; set; }
 
-        public void Construct(Direction direction, int length)
+        public void Construct(Direction4 direction, int length)
         {
             Assert.IsGreaterThan(length, 1);
             _direction = direction;
             _length = length;
         }
 
-        public void Get(out Direction direction, out int length)
+        public void Get(out Direction4 direction, out int length)
         {
             direction = _direction;
             length = _length;
@@ -38,7 +38,7 @@ namespace Anvil.Legacy
         #region Pool
         static Pool<CellPathSegment> _pool = new();
 
-        public static CellPathSegment Create(Direction direction, int length)
+        public static CellPathSegment Create(Direction4 direction, int length)
         {
             var segment = _pool.Get();
             segment.Construct(direction, length);

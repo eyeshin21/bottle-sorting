@@ -19,12 +19,12 @@ namespace Anvil.Legacy
         public Sprite Sprite2 => _sprite2;
         public Sprite Sprite3 => _sprite3;
 
-        public Sprite Get(Direction direction)
+        public Sprite Get(Direction4 direction)
         {
-            if (direction == Direction.Left) return _sprite2;
-            if (direction == Direction.Up) return _sprite3;
-            if (direction == Direction.Right) return _sprite2;
-            if (direction == Direction.Down) return _sprite1;
+            if (direction == Direction4.Left) return _sprite2;
+            if (direction == Direction4.Up) return _sprite3;
+            if (direction == Direction4.Right) return _sprite2;
+            if (direction == Direction4.Down) return _sprite1;
             return _sprite1;
         }
 

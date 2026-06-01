@@ -27,7 +27,7 @@ namespace Anvil.Legacy
         {
             [SerializeField, OnValueChanged("OnBoolChanged")] bool _bool;
             [SerializeField, OnValueChanged("OnIntChanged")] int _int;
-            [SerializeField, OnValueChanged("OnDirChanged")] Direction _dir;
+            [SerializeField, OnValueChanged("OnDirChanged")] Direction4 _dir;
             [SerializeField, OnValueChanged("OnSpriteChanged")] Sprite _sprite;
             [SerializeField, OnSpriteChanged("OnSprite2Changed")] Sprite _sprite2;
             [SerializeField, OnValueChanged("OnStringChanged")] string _string;

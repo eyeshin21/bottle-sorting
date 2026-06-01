@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Anvil;
 using Anvil.Legacy;
+using Drawing;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class Tray : MonoBehaviour
+public class Tray : MonoBehaviourGizmos
 {
     [SerializeField] private ColorType _colorType;
     [SerializeField] private TraySlot[] _slots;
@@ -164,15 +165,15 @@ public class Tray : MonoBehaviour
 
     [SerializeField] private float _debugDrawSize = 0.15f;
 
-    private void OnDrawGizmos()
+    public override void DrawGizmos()
     {
         Gizmos.color = Color.white;
         foreach (var slot in _slots)
         {
             if (slot.IsEmpty) 
-                Gizmos.DrawWireCube(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
+                Draw.WireBox(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
             else
-                Gizmos.DrawCube(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
+                Draw.SolidBox(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
                 
         }
     }

@@ -73,7 +73,7 @@ namespace Anvil.Legacy
         {
             List<BorderNode> nodes = new();
             BorderNode lastNode;
-            Direction nextDirection;
+            Direction4 nextDirection;
             float startX, startY;
             bool isClosed;
 
@@ -124,7 +124,7 @@ namespace Anvil.Legacy
             lastNode = new BorderNode(x, y, CornerType.TopLeft);
             nodes.Add(lastNode);
 
-            nextDirection = Direction.Right;
+            nextDirection = Direction4.Right;
             startX = x;
             startY = y;
             isClosed = false;
@@ -154,7 +154,7 @@ namespace Anvil.Legacy
 
                             row--;
                             column++;
-                            nextDirection = Direction.Up;
+                            nextDirection = Direction4.Up;
                         }
                         /* Right-Right
                          * 1--->2--->+
@@ -176,7 +176,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.TopRight);
-                            nextDirection = Direction.Down;
+                            nextDirection = Direction4.Down;
                         }
                     }
                     else if (nextDirection.IsDown())
@@ -199,7 +199,7 @@ namespace Anvil.Legacy
 
                             row++;
                             column--;
-                            nextDirection = Direction.Left;
+                            nextDirection = Direction4.Left;
                         }
                         /* Down-Down
                          * 1----+
@@ -224,7 +224,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.BottomLeft);
-                            nextDirection = Direction.Right;
+                            nextDirection = Direction4.Right;
                         }
                     }
                     else
@@ -254,7 +254,7 @@ namespace Anvil.Legacy
 
                             row--;
                             column--;
-                            nextDirection = Direction.Up;
+                            nextDirection = Direction4.Up;
                         }
                         /* Left-Left
                          * +<---2<---1
@@ -278,7 +278,7 @@ namespace Anvil.Legacy
 
                             // 2
                             AddNode(x, y, CornerType.TopLeft);
-                            nextDirection = Direction.Down;
+                            nextDirection = Direction4.Down;
                         }
                     }
                     else if (nextDirection.IsDown())
@@ -301,7 +301,7 @@ namespace Anvil.Legacy
 
                             row++;
                             column++;
-                            nextDirection = Direction.Right;
+                            nextDirection = Direction4.Right;
                         }
                         /* Down-Down
                          * +----1
@@ -326,7 +326,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.BottomRight);
-                            nextDirection = Direction.Left;
+                            nextDirection = Direction4.Left;
                         }
                     }
                     else
@@ -356,7 +356,7 @@ namespace Anvil.Legacy
 
                             row++;
                             column--;
-                            nextDirection = Direction.Down;
+                            nextDirection = Direction4.Down;
                         }
                         /* Left-Left
                          * +----+----+
@@ -378,7 +378,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.BottomLeft);
-                            nextDirection = Direction.Up;
+                            nextDirection = Direction4.Up;
                         }
                     }
                     else if (nextDirection.IsUp())
@@ -401,7 +401,7 @@ namespace Anvil.Legacy
 
                             row--;
                             column++;
-                            nextDirection = Direction.Right;
+                            nextDirection = Direction4.Right;
                         }
                         /* Up-Up
                          * +----+
@@ -426,7 +426,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.TopRight);
-                            nextDirection = Direction.Left;
+                            nextDirection = Direction4.Left;
                         }
                     }
                     else
@@ -456,7 +456,7 @@ namespace Anvil.Legacy
 
                             row--;
                             column--;
-                            nextDirection = Direction.Left;
+                            nextDirection = Direction4.Left;
                         }
                         /* Up-Up
                          * +----+
@@ -481,7 +481,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.TopLeft);
-                            nextDirection = Direction.Right;
+                            nextDirection = Direction4.Right;
                         }
                     }
                     else if (nextDirection.IsRight())
@@ -504,7 +504,7 @@ namespace Anvil.Legacy
 
                             row++;
                             column++;
-                            nextDirection = Direction.Down;
+                            nextDirection = Direction4.Down;
                         }
                         /* Right-Right
                          * +----+----+
@@ -526,7 +526,7 @@ namespace Anvil.Legacy
                         {
                             // 2
                             AddNode(x, y, CornerType.BottomRight);
-                            nextDirection = Direction.Up;
+                            nextDirection = Direction4.Up;
                         }
                     }
                     else

@@ -47,7 +47,7 @@ namespace Anvil.Legacy
             }
         }
 
-        public Direction Direction => Angle.ToDirection();
+        public Direction4 Direction => Angle.ToDirection();
 
         /// <summary>
         /// Returns angle in degrees.

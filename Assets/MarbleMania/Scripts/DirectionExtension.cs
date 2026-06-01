@@ -14,4 +14,10 @@
 
         return flag;
     }
+
+    public static bool HasMultipleFlag(this Directions flag)
+    {
+        int value = (int)flag;
+        return value != 0 && (value & (value - 1)) != 0;
+    }
 }

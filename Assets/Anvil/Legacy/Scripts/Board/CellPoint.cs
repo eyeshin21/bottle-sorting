@@ -52,20 +52,20 @@ namespace Anvil.Legacy
             return other._row == _row && other._column == _column;
         }
 
-        public Direction GetDirectionTo(CellPoint other)
+        public Direction4 GetDirectionTo(CellPoint other)
         {
             if (other._row == _row)
             {
-                if (other._column < _column) return Direction.Left;
-                if (other._column > _column) return Direction.Right;
+                if (other._column < _column) return Direction4.Left;
+                if (other._column > _column) return Direction4.Right;
             }
             else if (other._column == _column)
             {
-                if (other._row < _row) return Direction.Up;
-                if (other._row > _row) return Direction.Down;
+                if (other._row < _row) return Direction4.Up;
+                if (other._row > _row) return Direction4.Down;
             }
 
-            return Direction.None;
+            return Direction4.None;
         }
 
         public int GetCellCount(CellPoint other)

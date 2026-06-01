@@ -33,4 +33,14 @@ public class MainBoard : MonoBehaviour
             }
         }
     }
+
+    public bool TryIntakeBottle(Bottle bottle)
+    {
+        TrayGrid grid = _trayGrid;
+        GridCell cell = grid.GetCellNear(bottle.transform.position, out Directions direction);
+        {
+            if (direction.HasMultipleFlag()) return false;
+            
+        }
+    }
 }
