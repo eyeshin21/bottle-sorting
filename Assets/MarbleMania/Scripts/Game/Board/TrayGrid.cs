@@ -118,12 +118,17 @@ public class TrayGrid : MonoBehaviourGizmos
                 centerPosition += gridCell.localPosition;
             }
             centerPosition /= cells.Count;
-            tray.SetPositionToCenter(TransformPoint(centerPosition));
+            tray.SetPositionToCenter(ConvertToWorldSpace(centerPosition));
         }
     }
-    private Vector3 TransformPoint(Vector3 localPosition)
+    private Vector3 ConvertToWorldSpace(Vector3 localPosition)
     {
         return transform.TransformPoint(localPosition);
+    }
+
+    private Vector3 ConvertToLocalSpace(Vector3 worldPos)
+    {
+        return transform.InverseTransformPoint(worldPos);
     }
     private Vector3 CalculateLocalPosition(GridCell cell)
     {        
@@ -189,9 +194,16 @@ public class TrayGrid : MonoBehaviourGizmos
     public GridCell GetCellNear(Vector3 worldPos, out Directions directionsFromPoint)
     {
         directionsFromPoint = default;
-        Vector3 localPos = TransformPoint(worldPos);
-        int rowIndex = Mathf.FloorToInt(localPos.x / _cellSize);
-        int colIndex =  Mathf.FloorToInt(localPos.z / _cellSize);
+        Vector3 localPos = ConvertToLocalSpace(worldPos);
+        
+        float x = localPos.x + _unscaledWidth * 0.5f;
+        float z = _unscaledHeight * 0.5f - localPos.z;
+
+        int colIndex = Mathf.FloorToInt(x / _cellSize);
+        int rowIndex = Mathf.FloorToInt(z / _cellSize);
+        
+        // int rowIndex = Mathf.FloorToInt(localPos.x / _cellSize);
+        // int colIndex =  Mathf.FloorToInt(localPos.z / _cellSize);
         var cell = GetCell(Mathf.Clamp(rowIndex, 0, _rowCount - 1), 
                         Mathf.Clamp(colIndex, 0, _columnCount - 1));
         if (cell == null) return null;
@@ -284,7 +296,7 @@ public class TrayGrid : MonoBehaviourGizmos
         foreach (GridCell cell in _gridCells)
         {
             // Draw.SphereOutline(TransformPoint(cell.localPosition), 0.015f);
-            Draw.Label2D(TransformPoint(cell.localPosition), $"{cell.Row}-{cell.Column}");
+            // Draw.Label2D(ConvertToWorldSpace(cell.localPosition), $"{cell.Row}-{cell.Column}");
         }
     }
     // public void 

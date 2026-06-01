@@ -114,11 +114,23 @@ public class Tray : MonoBehaviourGizmos
         var slot = GetEmptySlot();
         if(slot == null) 
             return false;
-        slot.bottle = bottle;
+        slot.RegisterBottle(bottle);
         bottle.MoveTo(GetSlotPosition(slot));
 
         return true;
     }
+
+    public bool IntakeBottle(Bottle bottle)
+    {
+        var slot = GetEmptySlot();
+        if(slot == null) 
+            return false;
+        slot.RegisterBottle(bottle);
+        bottle.MoveTo(GetSlotPosition(slot));
+
+        return true;
+    }
+    
     public Vector3 GetSlotPosition(BottleSlot slot)
     {
         return transform.TransformPoint(slot.localPosition);

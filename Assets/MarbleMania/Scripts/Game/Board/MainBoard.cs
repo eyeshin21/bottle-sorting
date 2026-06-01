@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
+using Drawing;
 using UnityEngine;
 
-public class MainBoard : MonoBehaviour
+public class MainBoard : MonoBehaviourGizmos
 {
     [SerializeField] private int _rowCount;
     [SerializeField] private int _columnCount;
     [SerializeField] private TrayGrid _trayGrid;
     [SerializeField] private Conveyor _conveyor;
+
     private void Construct()
     {
     }
@@ -18,18 +21,15 @@ public class MainBoard : MonoBehaviour
 
     private void OnUpdate()
     {
-        foreach (Tray tray in _trayGrid.Trays)
+        for (var i = 0; i < _conveyor.Slots.Length; i++)
         {
-            if (tray == null) continue;
-            for (var i = 0; i < _conveyor.Slots.Length; i++)
+            var slot = _conveyor.Slots[i];
+            if (slot.IsEmpty) continue;
+            Bottle bottle = slot.bottle;
+            bool taken = TryIntakeBottle(bottle);
+            if (taken)
             {
-                var slot = _conveyor.Slots[i];
-                if (slot.IsEmpty) continue;
-                bool taken = tray.TryIntake(slot.bottle);
-                if (taken)
-                {
-                    slot.RemoveBottle();
-                }
+                _conveyor.RemoveBottle(slot);
             }
         }
     }
@@ -38,9 +38,20 @@ public class MainBoard : MonoBehaviour
     {
         TrayGrid grid = _trayGrid;
         GridCell cell = grid.GetCellNear(bottle.transform.position, out Directions direction);
+        contactCells.Add(cell);
+        if (direction.HasMultipleFlag()) return false;
+        var tray = grid.GetTrayAlong(cell, direction);
+        if (tray == null) return false;
+        return tray.IntakeBottle(bottle);
+    }
+
+    private List<GridCell> contactCells = new List<GridCell>();
+    public override void DrawGizmos()
+    {
+        foreach (GridCell cell in contactCells)
         {
-            if (direction.HasMultipleFlag()) return false;
-            
+            Draw.SolidBox(_trayGrid.transform.TransformPoint(cell.localPosition), Vector3.one * 0.1f, Color.blue);
         }
+        contactCells.Clear();
     }
 }

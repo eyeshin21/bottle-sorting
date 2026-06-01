@@ -143,27 +143,26 @@ public class Conveyor : MonoBehaviourGizmos
     {
         UpdateConveyorMovement();
         UpdateContentMovement();
-        
-        UpdateBottleIntake();
     }
 
     private List<Bottle> _bottlesToRemove = new List<Bottle>();
-    private void UpdateBottleIntake()
-    {
-        foreach (Bottle bottle in _bottlesOnConveyor)
-        {
-            if (_board.TryIntakeBottle(bottle))
-            {
-                _bottlesToRemove.Add(bottle);
-            }
-        }
-
-        foreach (var bottle in _bottlesToRemove)
-        {
-            _bottlesOnConveyor.Remove(bottle);
-        }
-        _bottlesToRemove.Clear();
-    }
+    // private void UpdateBottleIntake()
+    // {
+    //     foreach (Bottle bottle in _bottlesOnConveyor)
+    //     {
+    //         if (_board.TryIntakeBottle(bottle))
+    //         {
+    //             _bottlesToRemove.Add(bottle);
+    //         }
+    //     }
+    //
+    //     foreach (var bottle in _bottlesToRemove)
+    //     {
+    //         _bottlesOnConveyor.Remove(bottle);
+    //         
+    //     }
+    //     _bottlesToRemove.Clear();
+    // }
 
     private void UpdateContentMovement()
     {
@@ -428,5 +427,11 @@ public class Conveyor : MonoBehaviourGizmos
                 Draw.SolidBox(worldPos, Vector3.one * _slotDrawSize, color: color);
             
         }
+    }
+
+    public void RemoveBottle(ConveyorSlot slot)
+    {
+        _bottlesOnConveyor.Remove(slot.bottle);
+        slot.RemoveBottle();
     }
 }
