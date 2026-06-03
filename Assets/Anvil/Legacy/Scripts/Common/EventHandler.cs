@@ -20,44 +20,44 @@ namespace Anvil.Legacy
         Dictionary<E, List<Delegate>> _checkEvents = new Dictionary<E, List<Delegate>>();
 #endif
         #region AddListener
-        public void AddListener(E eventID, Callback listener)
+        public void AddListener(E eventID, Action listener)
         {
-            AddListener(eventID, listener, d => { return (Callback)d + listener; });
+            AddListener(eventID, listener, d => { return (Action)d + listener; });
         }
 
-        public void AddListener<T>(E eventID, Callback<T> listener)
+        public void AddListener<T>(E eventID, Action<T> listener)
         {
-            AddListener(eventID, listener, d => { return (Callback<T>)d + listener; });
+            AddListener(eventID, listener, d => { return (Action<T>)d + listener; });
         }
 
-        public void AddListener<T, U>(E eventID, Callback<T, U> listener)
+        public void AddListener<T, U>(E eventID, Action<T, U> listener)
         {
-            AddListener(eventID, listener, d => { return (Callback<T, U>)d + listener; });
+            AddListener(eventID, listener, d => { return (Action<T, U>)d + listener; });
         }
 
-        public void AddListener<T, U, V>(E eventID, Callback<T, U, V> listener)
+        public void AddListener<T, U, V>(E eventID, Action<T, U, V> listener)
         {
-            AddListener(eventID, listener, d => { return (Callback<T, U, V>)d + listener; });
+            AddListener(eventID, listener, d => { return (Action<T, U, V>)d + listener; });
         }
 
-        public void InsertFirstListener(E eventID, Callback listener)
+        public void InsertFirstListener(E eventID, Action listener)
         {
-            AddListener(eventID, listener, d => { return listener + (Callback)d; });
+            AddListener(eventID, listener, d => { return listener + (Action)d; });
         }
 
-        public void InsertFirstListener<T>(E eventID, Callback<T> listener)
+        public void InsertFirstListener<T>(E eventID, Action<T> listener)
         {
-            AddListener(eventID, listener, d => { return listener + (Callback<T>)d; });
+            AddListener(eventID, listener, d => { return listener + (Action<T>)d; });
         }
 
-        public void InsertFirstListener<T, U>(E eventID, Callback<T, U> listener)
+        public void InsertFirstListener<T, U>(E eventID, Action<T, U> listener)
         {
-            AddListener(eventID, listener, d => { return listener + (Callback<T, U>)d; });
+            AddListener(eventID, listener, d => { return listener + (Action<T, U>)d; });
         }
 
-        public void InsertFirstListener<T, U, V>(E eventID, Callback<T, U, V> listener)
+        public void InsertFirstListener<T, U, V>(E eventID, Action<T, U, V> listener)
         {
-            AddListener(eventID, listener, d => { return listener + (Callback<T, U, V>)d; });
+            AddListener(eventID, listener, d => { return listener + (Action<T, U, V>)d; });
         }
 
         public void AddListener(E eventID, Delegate listener, Func<Delegate, Delegate> func)
@@ -99,24 +99,24 @@ namespace Anvil.Legacy
         #endregion
 
         #region RemoveListener
-        public void RemoveListener(E eventID, Callback listener)
+        public void RemoveListener(E eventID, Action listener)
         {
-            RemoveListener(eventID, listener, d => { return (Callback)d - listener; });
+            RemoveListener(eventID, listener, d => { return (Action)d - listener; });
         }
 
-        public void RemoveListener<T>(E eventID, Callback<T> listener)
+        public void RemoveListener<T>(E eventID, Action<T> listener)
         {
-            RemoveListener(eventID, listener, d => { return (Callback<T>)d - listener; });
+            RemoveListener(eventID, listener, d => { return (Action<T>)d - listener; });
         }
 
-        public void RemoveListener<T, U>(E eventID, Callback<T, U> listener)
+        public void RemoveListener<T, U>(E eventID, Action<T, U> listener)
         {
-            RemoveListener(eventID, listener, d => { return (Callback<T, U>)d - listener; });
+            RemoveListener(eventID, listener, d => { return (Action<T, U>)d - listener; });
         }
 
-        public void RemoveListener<T, U, V>(E eventID, Callback<T, U, V> listener)
+        public void RemoveListener<T, U, V>(E eventID, Action<T, U, V> listener)
         {
-            RemoveListener(eventID, listener, d => { return (Callback<T, U, V>)d - listener; });
+            RemoveListener(eventID, listener, d => { return (Action<T, U, V>)d - listener; });
         }
 
         public void RemoveListener(E eventID, Delegate listener, Func<Delegate, Delegate> func)
@@ -158,7 +158,7 @@ namespace Anvil.Legacy
 #endif
             Broadcast(eventID, d =>
             {
-                Callback callback = d as Callback;
+                Action callback = d as Action;
 #if CHECK_BROADCAST
                 Assert.IsNotNull(callback, $"Invalid event \"{eventID}\"");
 #endif
@@ -173,7 +173,7 @@ namespace Anvil.Legacy
 #endif
             Broadcast(eventID, d =>
             {
-                Callback<T> callback = d as Callback<T>;
+                Action<T> callback = d as Action<T>;
 #if CHECK_BROADCAST
                 Assert.IsNotNull(callback, $"Invalid event \"{eventID}\": arg={arg}");
 #endif
@@ -188,7 +188,7 @@ namespace Anvil.Legacy
 #endif
             Broadcast(eventID, d =>
             {
-                Callback<T, U> callback = d as Callback<T, U>;
+                Action<T, U> callback = d as Action<T, U>;
 #if CHECK_BROADCAST
                 Assert.IsNotNull(callback, $"Invalid event \"{eventID}\": arg1={arg1}, arg2={arg2}");
 #endif
@@ -203,7 +203,7 @@ namespace Anvil.Legacy
 #endif
             Broadcast(eventID, d =>
             {
-                Callback<T, U, V> callback = d as Callback<T, U, V>;
+                Action<T, U, V> callback = d as Action<T, U, V>;
 #if CHECK_BROADCAST
                 Assert.IsNotNull(callback, $"Invalid event \"{eventID}\": arg1={arg1}, arg2={arg2}, arg3={arg3}");
 #endif

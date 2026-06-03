@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Anvil;
 using Anvil.Legacy;
 using Drawing;
+using MarbleMania.Scripts.Game;
 using NaughtyAttributes;
 using UnityEngine;
+using IAnimationController = Anvil.IAnimationController;
 
 public class Tray : MonoBehaviourGizmos
 {
@@ -14,9 +16,17 @@ public class Tray : MonoBehaviourGizmos
     [SerializeField] private List<Vector2Int> _gridShape;
     [SerializeField, ReadOnly] private Vector3 _localCenter;
     [SerializeField] private Vector3 _centerOffset;
+    [SerializeField] private Transform _bottleParent;
+    private IAnimationController _animationController;
+    private HashSet<Bottle> _bottles = new HashSet<Bottle>();
     private Vector3 _center => transform.TransformPoint(_localCenter);
 
     public List<Vector2Int> ShapeProfile => _gridShape;
+
+    private void Awake()
+    {
+        // _animationController = gameObject.CreateAnimationController();
+    }
 
     private void Start()
     {
@@ -116,18 +126,32 @@ public class Tray : MonoBehaviourGizmos
             return false;
         slot.RegisterBottle(bottle);
         bottle.MoveTo(GetSlotPosition(slot));
-
+        bottle.transform.SetParent(_bottleParent != null ? _bottleParent : transform);
         return true;
     }
 
+    private int GetEmptySlotCount()
+    {
+        return _slots.Length - _bottles.Count;
+    }
+
+    public bool IsCompatible(Bottle bottle)
+    {
+        return bottle.ColorType == _colorType;
+    }
     public bool IntakeBottle(Bottle bottle)
     {
         var slot = GetEmptySlot();
         if(slot == null) 
             return false;
         slot.RegisterBottle(bottle);
+        _bottles.Add(bottle);
+        bottle.transform.SetParent(_bottleParent != null ? _bottleParent : transform, true);
         bottle.MoveTo(GetSlotPosition(slot));
-
+        if (GetEmptySlotCount() <= 0)
+        {
+            MainGameEventType.TrayFillComplete.Broadcast(this);
+        }
         return true;
     }
     
@@ -179,19 +203,28 @@ public class Tray : MonoBehaviourGizmos
 
     public override void DrawGizmos()
     {
-        Gizmos.color = Color.white;
-        foreach (var slot in _slots)
-        {
-            if (slot.IsEmpty) 
-                Draw.WireBox(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
-            else
-                Draw.SolidBox(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
-                
-        }
+        // Gizmos.color = Color.white;
+        // foreach (var slot in _slots)
+        // {
+        //     if (slot.IsEmpty) 
+        //         Draw.WireBox(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
+        //     else
+        //         Draw.SolidBox(GetSlotPosition(slot), Vector3.one * _debugDrawSize);
+        // }
     }
 
     public void SetPositionToCenter(Vector3 location)
     {
         transform.position = location - _centerOffset;
+    }
+
+    public void Complete()
+    {
+        GameObjectPool.RemoveObject(gameObject);
+    }
+
+    private void PlayAnimation(string name, Action callback)
+    {
+        
     }
 }

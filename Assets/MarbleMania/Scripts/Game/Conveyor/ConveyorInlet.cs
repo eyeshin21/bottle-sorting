@@ -37,7 +37,7 @@ public class ConveyorInlet : MonoBehaviour
         var bottle = _intakeQueue[0];
         if (_conveyor.TryAddBottle(bottle, slot))
         {
-            bottle.ActivePhysic(false);
+            bottle.ActivePhysicDynamic(false);
             bottle.MoveTo(slot);
             _intakeQueue.RemoveAt(0);
         }

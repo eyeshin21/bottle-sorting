@@ -7,13 +7,13 @@ namespace Anvil.Legacy
         /// <summary>
         /// Returns true if control touch.
         /// </summary>
-        bool OnTouchPressed(Vector3 pos);
+        bool OnTouchPressed(Vector2 pos);
 
         /// <summary>
         /// Returns true if control touch.
         /// </summary>
-        bool OnTouchMoved(Vector3 pos);
+        bool OnTouchMoved(Vector2 pos);
 
-        void OnTouchReleased(Vector3 pos);
+        void OnTouchReleased(Vector2 pos);
     }
 }

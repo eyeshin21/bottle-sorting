@@ -36,17 +36,17 @@ namespace Anvil.Legacy
             _touchController.Handler = this;
         }
 
-        public virtual bool OnTouchPressed(Vector3 pos)
+        public virtual bool OnTouchPressed(Vector2 pos)
         {
             return false;
         }
 
-        public virtual bool OnTouchMoved(Vector3 pos)
+        public virtual bool OnTouchMoved(Vector2 pos)
         {
             return false;
         }
 
-        public virtual void OnTouchReleased(Vector3 pos)
+        public virtual void OnTouchReleased(Vector2 pos)
         {
 
         }

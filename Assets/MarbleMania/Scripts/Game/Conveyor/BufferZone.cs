@@ -28,6 +28,7 @@ namespace MarbleMania.Scripts
         {
             foreach (Bottle bottle in _content)
             {
+                if (bottle == null) continue;
                 bottle.Rigidbody.AddForce(_pushVector, ForceMode.Force);
             }
         }

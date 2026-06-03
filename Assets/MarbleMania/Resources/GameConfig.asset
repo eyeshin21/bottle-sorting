@@ -14,3 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   _slotWidth: 0.3
   _slotHeight: 0.3
+  _bottleByColor:
+  - {fileID: 3078116910693302262, guid: cc5c28dc422aaf841a7af7fedb682055, type: 3}
+  - {fileID: 4361086690739587014, guid: 2e12304671b1ace4c89b5af2628863b1, type: 3}
+  - {fileID: 1739037428947074684, guid: 51d0c8ab8ceacde4aa63e088429d725a, type: 3}
+  _crateByType:
+  - {fileID: 6803848509304014117, guid: 51dfd737a21426e4fa37a9ec8710d6b8, type: 3}
+  - {fileID: 6803848509304014117, guid: 51dfd737a21426e4fa37a9ec8710d6b8, type: 3}

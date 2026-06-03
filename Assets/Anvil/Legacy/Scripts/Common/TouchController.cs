@@ -65,7 +65,7 @@ namespace Anvil.Legacy
                 {
                     if (!_isCheckPointerOverGameObject || !IsPointerOverGameObject(touch.fingerId))
                     {
-                        _isControlTouch = _handler.OnTouchPressed(ScreenToWorldPoint(touch.position));
+                        _isControlTouch = _handler.OnTouchPressed(touch.position);
                     }
                 }
                 else
@@ -74,14 +74,14 @@ namespace Anvil.Legacy
                     {
                         if (touch.phase == TouchPhase.Moved)
                         {
-                            if (!_handler.OnTouchMoved(ScreenToWorldPoint(touch.position)))
+                            if (!_handler.OnTouchMoved(touch.position))
                             {
                                 _isControlTouch = false;
                             }
                         }
                         else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
                         {
-                            _handler.OnTouchReleased(ScreenToWorldPoint(touch.position));
+                            _handler.OnTouchReleased(touch.position);
                             _isControlTouch = false;
                         }
                     }
@@ -96,7 +96,7 @@ namespace Anvil.Legacy
                     if (!_isCheckPointerOverGameObject || !IsPointerOverGameObject(-1))
                     {
                         _mousePosition = Input.mousePosition;
-                        _isControlTouch = _handler.OnTouchPressed(ScreenToWorldPoint(_mousePosition));
+                        _isControlTouch = _handler.OnTouchPressed((_mousePosition));
                     }
                 }
                 else
@@ -109,7 +109,7 @@ namespace Anvil.Legacy
                             if (!Mathf.Approximately(mousePosition.x, _mousePosition.x) || !Mathf.Approximately(mousePosition.y, _mousePosition.y))
                             {
                                 _mousePosition = mousePosition;
-                                if (!_handler.OnTouchMoved(ScreenToWorldPoint(mousePosition)))
+                                if (!_handler.OnTouchMoved((mousePosition)))
                                 {
                                     _isControlTouch = false;
                                 }
@@ -117,7 +117,7 @@ namespace Anvil.Legacy
                         }
                         else if (Input.GetMouseButtonUp(0))
                         {
-                            _handler.OnTouchReleased(ScreenToWorldPoint(Input.mousePosition));
+                            _handler.OnTouchReleased((Input.mousePosition));
                             _isControlTouch = false;
                         }
                     }

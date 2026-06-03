@@ -202,7 +202,7 @@ public class Conveyor : MonoBehaviourGizmos
         {
             ConveyorSlot slot = new ConveyorSlot();
             slot.masterTransform = transform;
-            slot.LocalPosition = EvaluateDistance(distance);
+            slot.LocalPosition = transform.InverseTransformPoint(EvaluateDistance(distance));
             slot.DistanceAlongConveyor = distance;
             _slots[i] = slot;
             distance += TotalLength / _slotCount;
@@ -220,9 +220,9 @@ public class Conveyor : MonoBehaviourGizmos
 
         for (int i = 0; i < count; i++)
         {
-            Vector3 prev = _waypoints[(i - 1 + count) % count];
-            Vector3 current = _waypoints[i];
-            Vector3 next = _waypoints[(i + 1) % count];
+            Vector3 prev = transform.TransformPoint(_waypoints[(i - 1 + count) % count]);
+            Vector3 current = transform.TransformPoint(_waypoints[i]);
+            Vector3 next = transform.TransformPoint(_waypoints[(i + 1) % count]);
 
             Vector3 dirToPrev = (prev - current).normalized;
             Vector3 dirToNext = (next - current).normalized;
@@ -383,7 +383,7 @@ public class Conveyor : MonoBehaviourGizmos
         Gizmos.color = Color.yellow;
         foreach (var point in _waypoints)
         {
-            Draw.SphereOutline(point, 0.15f);
+            Draw.SphereOutline(transform.TransformPoint(point), 0.15f);
         }
 
         // DRAW SEGMENTS
@@ -421,10 +421,10 @@ public class Conveyor : MonoBehaviourGizmos
             if (intakeSlot != null && slot == intakeSlot)
                 color = Color.green;
             Vector3 worldPos = transform.TransformPoint(slot.LocalPosition);
-            if (slot.IsEmpty)
+            // if (slot.IsEmpty)
                 Draw.WireBox(worldPos, Vector3.one * _slotDrawSize, color: color);
-            else
-                Draw.SolidBox(worldPos, Vector3.one * _slotDrawSize, color: color);
+            // else
+                // Draw.SolidBox(worldPos, Vector3.one * _slotDrawSize, color: color);
             
         }
     }
