@@ -52,6 +52,38 @@ PrefabInstance:
       propertyPath: _colorType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _centerOffset.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _centerOffset.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _slots.Array.data[0].directions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _slots.Array.data[1].directions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _slots.Array.data[2].directions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _slots.Array.data[3].directions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _slots.Array.data[4].directions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
+      propertyPath: _slots.Array.data[5].directions
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2755623062345825067, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

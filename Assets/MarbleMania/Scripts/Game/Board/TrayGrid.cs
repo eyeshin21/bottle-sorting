@@ -54,21 +54,30 @@ public class TrayGridCell : GridCell
     }
 }
 
+[Serializable]
+public class TrayGridData
+{
+    public int row;
+    public int col;
+    public List<TrayPositionData> _gridData;
+}
+[Serializable]
+public class TrayPositionData
+{
+    public TrayType type;
+    public ColorType trayColor;
+    public int row;
+    public int column;
+}
 public class TrayGrid : MonoBehaviourGizmos
 {
-    [Serializable]
-    public class TrayPositionData
-    {
-        public Tray prefabTray;
-        public int row;
-        public int column;
-    }
+
     [SerializeField]private List<TrayPositionData> _testData;
     
     [SerializeField] private int _rowCount;
     [SerializeField] private int _columnCount;
     [SerializeField] private GameObject _trayPrefab;
-    [SerializeField] private Tray[] _trays;
+    [SerializeField] private List<Tray> _trays;
     [SerializeField] private Tray[,] _trayMap;
     [SerializeField] private int _row;
 
@@ -78,22 +87,16 @@ public class TrayGrid : MonoBehaviourGizmos
     private float _height;
     private float _width;
     private TrayGridCell[,] _gridCells;
+    private MainBoard _board;
 
-    public Tray[] Trays => _trays;
-
-    private void Awake()
+    public void Init(TrayGridData data, MainBoard board)
     {
+        _board = board;
+        _rowCount = data.row;
+        _columnCount = data.col;
         Construct(GameConfig.SlotWidth);
-        _trays = new Tray[transform.childCount];
-        foreach (Transform child in transform)
-        {
-            if (child.TryGetComponent(out Tray tray))
-            {
-                _trays[child.GetSiblingIndex()] = tray;
-            }
-        }
 
-        Generate(_testData);
+        Generate(data);
     }
 
     private void Construct(float cellSize)
@@ -115,17 +118,20 @@ public class TrayGrid : MonoBehaviourGizmos
             }
         }
     }
-    private void Generate(List<TrayPositionData> testData)
+    private void Generate(TrayGridData data)
     {
         GameObjectPool.ClearManagedChild(gameObject);
-        foreach (var positionData in testData)
+        _trays = new List<Tray>();
+        foreach (var positionData in data._gridData)
         {
             TrayGridCell cell = GetCell(positionData.row, positionData.column);
             Debug.Log($"cell {cell.Row}-{cell.Column}");
             if (cell == null || !cell.IsEmpty) continue;
-            if (!CheckAvailableSpace(positionData.prefabTray, cell, out List<TrayGridCell> cells)) continue;
+            var prefabTray = GameConfig.GetTrayPrefab(positionData.type);
+            if (!CheckAvailableSpace(prefabTray, cell, out List<TrayGridCell> cells)) continue;
             cells.Add(cell);
-            Tray tray = GameObjectPool.CreateObject<Tray>(transform, positionData.prefabTray.gameObject);
+            Tray tray = GameObjectPool.CreateObject<Tray>(transform, prefabTray.gameObject);
+            tray.Init(positionData);
             RegisterTray(tray, cells);
             Vector3 centerPosition = Vector3.zero;
             foreach (TrayGridCell gridCell in cells)
@@ -184,13 +190,38 @@ public class TrayGrid : MonoBehaviourGizmos
             if (!cell.IsEmpty) return false;
             cell.AddTray(tray);
         }
-
+        _trays.Add(tray);
         return true;
     }
+    public void Remove(Tray tray)
+    {
+        bool dirty = false;
+        foreach (TrayGridCell cell in _gridCells)
+        {
+            if (cell.Tray == tray)
+            {
+                cell.RemoveTray();
+                dirty = true;
+            }
+        }
 
+        if (dirty)
+        {
+            _trays.Remove(tray);
+            if (_trays.IsNullOrEmpty())
+            {
+                _board.OnTrayGridEmpty(this);
+            }
+        }
+    }
     // private List<TrayGridCell> _tempCells = new  List<TrayGridCell>();
     private bool CheckAvailableSpace(Tray tray, TrayGridCell cell, out List<TrayGridCell> cells)
     {
+        if (tray == null)
+        {
+            cells = null;
+            return false;
+        }
         cells = new List<TrayGridCell>();
         foreach (Vector2Int offset in tray.ShapeProfile)
         {
@@ -283,13 +314,18 @@ public class TrayGrid : MonoBehaviourGizmos
     private void TestGenerate()
     {
         Construct(GameConfig.SlotWidth);
-        Generate(_testData);
+        // Generate(_testData);
     }
 
-    [SerializeField] private bool drawCoord = false;
+    [SerializeField] public bool drawDebug = false;
+    [SerializeField] public bool drawCoord = false;
     [SerializeField] private float textSize = 0.3f;
     public override void DrawGizmos()
     {
+        if (!drawDebug)
+        {
+            return;
+        }
         float top = transform.position.z + _height / 2;
         float left = transform.position.x - _width / 2;
         float bottom = transform.position.z - _height / 2;
@@ -321,14 +357,5 @@ public class TrayGrid : MonoBehaviourGizmos
         }
     }
     // public void 
-    public void Remove(Tray tray)
-    {
-        foreach (TrayGridCell cell in _gridCells)
-        {
-            if (cell.Tray == tray)
-            {
-                cell.RemoveTray();
-            }
-        }
-    }
+
 }

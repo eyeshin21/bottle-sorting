@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Anvil.Legacy;
 
 namespace Anvil
 {
@@ -12,9 +13,9 @@ namespace Anvil
             }
             list.RemoveAll(item => item == null);
         }
-        public static bool IsNullOrEmpty<T>(this List<T> list)
-        {
-            return list == null || list.Count == 0;
-        }
+        // public static bool IsNullOrEmpty<T>(this List<T> list)
+        // {
+        //     return list == null || list.Count == 0;
+        // }
     }
 }

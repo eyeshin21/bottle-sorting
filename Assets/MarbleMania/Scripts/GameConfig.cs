@@ -3,9 +3,11 @@ using Anvil.Legacy;
 using MarbleMania;
 using UnityEngine;
 
-enum TrayType
+public enum TrayType
 {
-    
+    ThreeByThreeH,
+    ThreeByThreeV,
+    TwoByTwo,
 }
 public class GameConfig : SingletonScriptableObject<GameConfig>
 {
@@ -13,6 +15,7 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     [SerializeField] private float _slotHeight;
     [ElementName(typeof(ColorType))] [SerializeField] private List<Bottle> _bottleByColor;
     [ElementName(typeof(CrateType))] [SerializeField] private List<Crate> _crateByType;
+    [ElementName(typeof(TrayType))] [SerializeField] private List<Tray> _trayByType;
 
     public static Bottle GetBottlePrefab(ColorType color)
     {
@@ -22,8 +25,11 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     {
         return Instance._crateByType.TryGet((int)type);
     }
+    public static Tray GetTrayPrefab(TrayType positionDataType)
+    {
+        return Instance._trayByType.TryGet((int)positionDataType);
+    }
     
     public static float SlotWidth => Instance._slotWidth;
     public static float SlotHeight => Instance._slotHeight;
-    
 }

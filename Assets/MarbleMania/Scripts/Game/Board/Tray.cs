@@ -17,6 +17,8 @@ public class Tray : MonoBehaviourGizmos
     [SerializeField, ReadOnly] private Vector3 _localCenter;
     [SerializeField] private Vector3 _centerOffset;
     [SerializeField] private Transform _bottleParent;
+    [SerializeField] private MeshRenderer _renderer;
+    [SerializeField, ElementName(typeof(ColorType))] private List<Material> _colorMaterials;
     private IAnimationController _animationController;
     private HashSet<Bottle> _bottles = new HashSet<Bottle>();
     private Vector3 _center => transform.TransformPoint(_localCenter);
@@ -32,10 +34,19 @@ public class Tray : MonoBehaviourGizmos
     {
         CacheOffset();
     }
-
     private void CacheOffset()
     {
         _centerOffset = transform.InverseTransformDirection(_localCenter).normalized;
+    }
+    public void Init(TrayPositionData data)
+    {
+        InitColor(data.trayColor);
+    }
+
+    private void InitColor(ColorType color)
+    {
+        _colorType = color;
+        _renderer.material = _colorMaterials.TryGet((int)color);
     }
 
     [Button]

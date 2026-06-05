@@ -188,6 +188,11 @@ MonoBehaviour:
   _localCenter: {x: 0.15, y: 0.15, z: 0}
   _centerOffset: {x: 0, y: 0, z: 0}
   _bottleParent: {fileID: 6223355185784805341}
+  _renderer: {fileID: 2755623062345825067}
+  _colorMaterials:
+  - {fileID: 2100000, guid: 9ab763990591cd24eb195fedd2310275, type: 2}
+  - {fileID: 2100000, guid: 3780329f5fc7b0248b72969fca98f131, type: 2}
+  - {fileID: 2100000, guid: 98d87c24421cfc943a90db0f1ed4558c, type: 2}
   _slotContainer: {fileID: 5598761178947196265}
   _debugDrawSize: 0.3
 --- !u!65 &6370274681085804401
@@ -433,6 +438,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f18e1efd804d774b9295d1900cb4d86, type: 3}
+--- !u!23 &2755623062345825067 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 1f18e1efd804d774b9295d1900cb4d86, type: 3}
+  m_PrefabInstance: {fileID: 3601865069951821743}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3924566361084313668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1f18e1efd804d774b9295d1900cb4d86, type: 3}

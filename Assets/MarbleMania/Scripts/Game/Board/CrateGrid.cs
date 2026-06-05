@@ -28,6 +28,8 @@ namespace MarbleMania
     [Serializable]
     public class CrateGridData
     {
+        public int row;
+        public int col;
         public List<CrateCellData> _gridData;
     }
 
@@ -68,14 +70,15 @@ namespace MarbleMania
         [SerializeField, ReadOnly]private float _width;
         [SerializeField, ReadOnly]private float _height;
 
-        [Button]
+        // [Button]
         private void Awake()
         {
-            Generate(_testData);
         }
 
-        private void Generate(CrateGridData gridData)
+        public void Init(CrateGridData gridData)
         {
+            _rowCount = gridData.row;
+            _colCount = gridData.col;
             _crates = new Crate[_rowCount, _colCount];
 
             GameObjectPool.ClearManagedChild(_rowContainer.gameObject);
@@ -87,7 +90,7 @@ namespace MarbleMania
                 var data = gridData._gridData[i];
                 if (!IsValid(data.row, data.col) || GetCrate(data.row, data.col) != null) continue;
                 var prefab = GameConfig.GetCratePrefab(data.crate.type);
-                var crate = GameObjectPool.CreateObject<Crate>(transform, prefab.gameObject);
+                var crate = GameObjectPool.CreateObject<Crate>(transform, prefab.gameObject, resetScale: false);
                 if (crate == null) continue;
                 _crates[data.row, data.col] = crate;
                 crate.col = data.col;
@@ -179,7 +182,6 @@ namespace MarbleMania
                 }
             }
         }
-
 
     }
 }
