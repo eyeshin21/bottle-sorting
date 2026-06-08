@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3859381650255472622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1050308564690762548}
+  - component: {fileID: 7604546551602728964}
+  m_Layer: 0
+  m_Name: CrateGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1050308564690762548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859381650255472622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.014036179, y: 0, z: -3.3}
+  m_LocalScale: {x: 0.8666666, y: 0.8666666, z: 0.8666666}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7604546551602728964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859381650255472622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40def7bd26d840cc9fc342f46bef1147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarbleMania.CrateGrid
+  _testData:
+    row: 0
+    col: 0
+    _gridData:
+    - row: 0
+      col: 0
+      crate:
+        type: 0
+        colorData: 000000000000000000000000000000000000000000000000000000000000000000000000
+    - row: 1
+      col: 0
+      crate:
+        type: 0
+        colorData: 010000000100000001000000010000000100000001000000010000000100000001000000
+    - row: 2
+      col: 0
+      crate:
+        type: 0
+        colorData: 020000000200000002000000020000000200000002000000020000000200000002000000
+    - row: 0
+      col: 1
+      crate:
+        type: 0
+        colorData: 000000000000000000000000000000000000000000000000010000000100000001000000
+    - row: 1
+      col: 1
+      crate:
+        type: 0
+        colorData: 020000000200000002000000020000000200000002000000010000000100000001000000
+  _rowContainer: {fileID: 1050308564690762548}
+  drawCoord: 0
+  textSize: 0.3
+  _rowCount: 5
+  _colCount: 5
+  _spacing: 0
+  _cellSize: 0.6
+  _maxSize: {x: 3, y: 2.6}
+  _width: 3
+  _height: 3

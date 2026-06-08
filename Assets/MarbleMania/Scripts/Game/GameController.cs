@@ -12,7 +12,7 @@ namespace MarbleMania.Scripts.Game
     {
         public List<TrayGridData> trayGridDatas = new List<TrayGridData>();
         public CrateGridData crateGridData;
-        
+        public int conveyorSlot;
         public string Serialize()
         {
             return string.Empty;
@@ -28,6 +28,10 @@ namespace MarbleMania.Scripts.Game
         [SerializeField] private Conveyor _conveyor;
         [SerializeField] private CrateGrid _crateGrid;
         [SerializeField] private LevelData _testLevelData;
+        
+        [SerializeField] private ConveyorInlet _conveyorInlet;
+        [SerializeField] private Transform _lowerMeshContainer;
+        [SerializeField] private float crateGridDistance = 0.7f;
         protected override void Awake()
         {
             base.Awake();
@@ -37,6 +41,15 @@ namespace MarbleMania.Scripts.Game
         public void GenerateGame(LevelData levelData)
         {
             _board.Init(levelData.trayGridDatas);
+            _conveyor.Init(_board.Size, levelData.conveyorSlot);
+
+            Vector3 entryPoint = _conveyorInlet.transform.position;
+            entryPoint = _conveyor.EvaluateDistanceWorld(_conveyor.FindClosestDistance(entryPoint));
+            _conveyorInlet.transform.position = entryPoint;
+            _lowerMeshContainer.position = entryPoint;
+            
+            entryPoint.z -= crateGridDistance;
+            _crateGrid.transform.position = entryPoint;
             _crateGrid.Init(levelData.crateGridData);
         }
 

@@ -9,6 +9,7 @@ namespace Anvil.Legacy
         GameObject gameObject { get; }
         Sprite Sprite { get; set; }
         Material Material { get; set; }
+        Color Color { get; set; }
         void SetShow(bool show);
     }
 
@@ -17,6 +18,7 @@ namespace Anvil.Legacy
         public abstract GameObject gameObject { get; }
         public abstract Sprite Sprite { get; set; }
         public abstract Material Material { get; set; }
+        public abstract Color Color { get; set; }
         public abstract void SetShow(bool show);
 
         public static void SetSprite(GameObject gameObject, Sprite sprite)
@@ -164,6 +166,12 @@ namespace Anvil.Legacy
                 }
             }
 
+            public override Color Color 
+            {
+                get => _spriteRenderer.color;
+                set => _spriteRenderer.color = value;
+            }
+
             public override void SetShow(bool show)
             {
                 _spriteRenderer.enabled = show;
@@ -212,6 +220,12 @@ namespace Anvil.Legacy
                 }
             }
 
+            public override Color Color 
+            {
+                get => _image.color;
+                set => _image.color = value;
+            }
+
             public override void SetShow(bool show)
             {
                 _image.enabled = show;
@@ -241,6 +255,12 @@ namespace Anvil.Legacy
             {
                 get => _material;
                 set => _material = value;
+            }
+
+            public override Color Color 
+            {
+                get => Color.white;
+                set { }
             }
 
             public override void SetShow(bool show)
@@ -288,6 +308,18 @@ namespace Anvil.Legacy
                         _adapters[i].Material = value;
                     }
                     _material = value;
+                }
+            }
+
+            public override Color Color 
+            {
+                get => _count > 0 ? _adapters[0].Color : Color.white;
+                set
+                {
+                    for (int i = 0; i < _count; i++)
+                    {
+                        _adapters[i].Color = value;
+                    }
                 }
             }
 

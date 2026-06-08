@@ -1,0 +1,306 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2662083411485846396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4566773671135271754}
+  - component: {fileID: 7903917082998609268}
+  - component: {fileID: 7933430019553490835}
+  - component: {fileID: 4210155817386780132}
+  m_Layer: 0
+  m_Name: Conveyor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4566773671135271754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662083411485846396}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7903917082998609268
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662083411485846396}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7933430019553490835
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662083411485846396}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4210155817386780132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662083411485846396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab41a2394fab2046bba45cd623322dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Conveyor
+  _waypoints:
+  - {x: -2, y: 0, z: -2}
+  - {x: 2, y: 0, z: -2}
+  - {x: 2, y: 0, z: 2}
+  - {x: -2, y: 0, z: 2}
+  _cornerRadius: 1
+  _slotCount: 30
+  _slots:
+  - colorType: 0
+    localPosition: {x: -2, y: 0, z: 1}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 0
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -2, y: 0, z: 0.5171257}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 0.4828743
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -2, y: 0, z: 0.034251392}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 0.9657486
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -2, y: 0, z: -0.44862294}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 1.448623
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -2, y: 0, z: -0.9314972}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 1.9314972
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -1.9346997, y: 0, z: -1.4457781}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 2.4143715
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -1.693833, y: 0, z: -1.8004801}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 2.897246
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -1.2756152, y: 0, z: -1.9778311}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 3.3801203
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -0.75856256, y: 0, z: -2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 3.8629947
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -0.27568817, y: 0, z: -2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 4.345869
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 0.20718622, y: 0, z: -2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 4.8287435
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 0.6900606, y: 0, z: -2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 5.311618
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 1.2019213, y: 0, z: -1.9886264}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 5.7944922
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 1.6452986, y: 0, z: -1.8364351}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 6.2773666
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 1.9113249, y: 0, z: -1.5068924}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 6.760241
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 2, y: 0, z: -0.99999905}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 7.2431154
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 2, y: 0, z: -0.51712465}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 7.72599
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 2, y: 0, z: -0.03425026}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 8.208864
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 2, y: 0, z: 0.44862366}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 8.691738
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 2, y: 0, z: 0.9314976}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 9.174612
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 1.9346997, y: 0, z: 1.4457781}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 9.657486
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 1.6938334, y: 0, z: 1.80048}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 10.14036
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 1.2756162, y: 0, z: 1.9778309}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 10.623234
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 0.758564, y: 0, z: 2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 11.106108
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: 0.27569008, y: 0, z: 2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 11.588982
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -0.20718384, y: 0, z: 2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 12.071856
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -0.69005775, y: 0, z: 2}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 12.554729
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -1.2019175, y: 0, z: 1.9886267}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 13.037603
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -1.6452959, y: 0, z: 1.8364367}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 13.520477
+    masterTransform: {fileID: 4566773671135271754}
+  - colorType: 0
+    localPosition: {x: -1.9113233, y: 0, z: 1.506896}
+    directions: 0
+    bottle: {fileID: 0}
+    DistanceAlongConveyor: 14.003351
+    masterTransform: {fileID: 4566773671135271754}
+  _speed: 2
+  _totalLength: 14.486229
+  _distanceSpeed: 2
+  _slotOffset: 0
+  _board: {fileID: 0}
+  _paddingH: 0.5
+  _paddingV: 0.5
+  _distanceSearchSamples: 200
+  _slotSearchRange: 0
+  _drawDebug: 1
+  _curveResolution: 10
+  _slotDrawSize: 0.4
+  _inlet: {fileID: 0}

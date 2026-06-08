@@ -88,7 +88,10 @@ public class TrayGrid : MonoBehaviourGizmos
     private float _width;
     private TrayGridCell[,] _gridCells;
     private MainBoard _board;
+    private Rect _size;
 
+    public Rect Size => _size;
+    
     public void Init(TrayGridData data, MainBoard board)
     {
         _board = board;
@@ -108,6 +111,7 @@ public class TrayGrid : MonoBehaviourGizmos
         _unscaledWidth = _columnCount * _cellSize;
         _height = _unscaledHeight * transform.localScale.z;
         _width = _unscaledWidth * transform.localScale.x;
+        _size = new Rect(-_width / 2, -_height / 2, _width, _height);
         for (int row = 0; row < _rowCount; row++)
         {
             for (int column = 0; column < _columnCount; column++)
@@ -125,7 +129,6 @@ public class TrayGrid : MonoBehaviourGizmos
         foreach (var positionData in data._gridData)
         {
             TrayGridCell cell = GetCell(positionData.row, positionData.column);
-            Debug.Log($"cell {cell.Row}-{cell.Column}");
             if (cell == null || !cell.IsEmpty) continue;
             var prefabTray = GameConfig.GetTrayPrefab(positionData.type);
             if (!CheckAvailableSpace(prefabTray, cell, out List<TrayGridCell> cells)) continue;
@@ -326,19 +329,25 @@ public class TrayGrid : MonoBehaviourGizmos
         {
             return;
         }
+        float scale = transform.lossyScale.x;
         float top = transform.position.z + _height / 2;
         float left = transform.position.x - _width / 2;
         float bottom = transform.position.z - _height / 2;
         float right = transform.position.x + _width / 2;
+        float cellSize = _cellSize * scale;
+        top *= scale;
+        left *= scale;
+        bottom *= scale;
+        right *= scale;
         for (int i = 0; i <= _columnCount; i++)
         {
-            float x = left + i * _cellSize;
+            float x = left + i * cellSize;
             Draw.Line(new Vector3(x, transform.position.y, top), new Vector3 (x, transform.position.y, bottom));
         }
 
         for (int i = 0; i <= _rowCount; i++)
         {
-            float z = bottom + i * _cellSize;
+            float z = bottom + i * cellSize;
             Draw.Line(new Vector3(left, transform.position.y, z), new Vector3 (right, transform.position.y, z));
         }
 

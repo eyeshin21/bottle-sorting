@@ -14,6 +14,8 @@ namespace Anvil
 
         public Sprite Sprite { get => _adapter.Sprite; set => _adapter.Sprite = value; }
         public Material Material { get => _adapter.Material; set => _adapter.Material = value; }
+        public Color Color { get => _adapter.Color; set => _adapter.Color = value; }
+
         public void SetShow(bool show)
         {
             _adapter.SetShow(show);

@@ -128,6 +128,8 @@ public class Conveyor : MonoBehaviourGizmos
     [SerializeField, ReadOnly] private float _distanceSpeed;
     [SerializeField, ReadOnly] private float _slotOffset;
     [SerializeField] private MainBoard _board;
+    [SerializeField] private float _paddingH;
+    [SerializeField] private float _paddingV;
     HashSet<Bottle> _bottlesOnConveyor = new();
     
     
@@ -136,7 +138,6 @@ public class Conveyor : MonoBehaviourGizmos
 
     private void Start()
     {
-        Init();
     }
 
     private void Update()
@@ -184,6 +185,18 @@ public class Conveyor : MonoBehaviourGizmos
         }
     }
 
+    
+    public void Init(Rect boardSize, int slotCount)
+    {
+        _slotCount = slotCount;
+        _waypoints.Clear();
+        _waypoints.Add(new Vector3(boardSize.xMin - _paddingH, 0, boardSize.yMin  - _paddingV));
+        _waypoints.Add(new Vector3(boardSize.xMax + _paddingH, 0, boardSize.yMin - _paddingV));
+        _waypoints.Add(new Vector3(boardSize.xMax + _paddingH, 0, boardSize.yMax + _paddingV));
+        _waypoints.Add(new Vector3(boardSize.xMin - _paddingH, 0, boardSize.yMax + _paddingV));
+        Init();
+        
+    }
     [Button]
     public void Init()
     {
@@ -202,7 +215,7 @@ public class Conveyor : MonoBehaviourGizmos
         {
             ConveyorSlot slot = new ConveyorSlot();
             slot.masterTransform = transform;
-            slot.LocalPosition = transform.InverseTransformPoint(EvaluateDistance(distance));
+            slot.LocalPosition =EvaluateDistance(distance);
             slot.DistanceAlongConveyor = distance;
             _slots[i] = slot;
             distance += TotalLength / _slotCount;
@@ -220,9 +233,13 @@ public class Conveyor : MonoBehaviourGizmos
 
         for (int i = 0; i < count; i++)
         {
-            Vector3 prev = transform.TransformPoint(_waypoints[(i - 1 + count) % count]);
-            Vector3 current = transform.TransformPoint(_waypoints[i]);
-            Vector3 next = transform.TransformPoint(_waypoints[(i + 1) % count]);
+            // Vector3 prev = transform.TransformPoint(_waypoints[(i - 1 + count) % count]);
+            // Vector3 current = transform.TransformPoint(_waypoints[i]);
+            // Vector3 next = transform.TransformPoint(_waypoints[(i + 1) % count]);
+            // local space
+            Vector3 prev = _waypoints[(i - 1 + count) % count];
+            Vector3 current = _waypoints[i];
+            Vector3 next = _waypoints[(i + 1) % count];
 
             Vector3 dirToPrev = (prev - current).normalized;
             Vector3 dirToNext = (next - current).normalized;
@@ -297,6 +314,11 @@ public class Conveyor : MonoBehaviourGizmos
         }
 
         return _segments[0].Evaluate(0f);
+    }
+
+    public Vector3 EvaluateDistanceWorld(float distance)
+    {
+        return transform.TransformPoint(EvaluateDistance(distance));
     }
 
     public float Advance(float currentDistance, float speed)
@@ -434,4 +456,5 @@ public class Conveyor : MonoBehaviourGizmos
         _bottlesOnConveyor.Remove(slot.bottle);
         slot.RemoveBottle();
     }
+
 }

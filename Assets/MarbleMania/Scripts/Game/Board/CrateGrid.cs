@@ -63,10 +63,10 @@ namespace MarbleMania
         // [SerializeField] private float _rowWidth;
         [SerializeField] private float _spacing;
         [SerializeField] private float _cellSize;
+        [SerializeField] private Vector2 _maxSize = new Vector2(100, 100);
+        
         private Crate[,] _crates;
-
         // [SerializeField] private CrateRow _rowPrefab;
-
         [SerializeField, ReadOnly]private float _width;
         [SerializeField, ReadOnly]private float _height;
 
@@ -84,6 +84,11 @@ namespace MarbleMania
             GameObjectPool.ClearManagedChild(_rowContainer.gameObject);
             _height = _rowCount * _cellSize + (_rowCount - 1) * _spacing;
             _width = _colCount * _cellSize + (_colCount - 1) * _spacing;
+            float scaleX = _maxSize.x / _width;
+            float scaleY = _maxSize.y / _height;
+            float scale = Mathf.Min(scaleX, scaleY);
+            scale = Mathf.Min(scale, 1f);
+            transform.localScale = Vector3.one * scale;
 
             for (var i = 0; i < gridData._gridData.Count; i++)
             {
@@ -96,6 +101,7 @@ namespace MarbleMania
                 crate.col = data.col;
                 crate.row = data.row;
                 crate.Init(this, data.crate.colorData);
+                Debug.Log($"init {data.row}-{data.col}");
                 crate.transform.localPosition = GetCellLocalPosition(data.row, data.col);
             }
         }
@@ -178,9 +184,16 @@ namespace MarbleMania
             {
                 for (int j = 0; j < _colCount; j++)
                 {
-                    Draw.WireRectangleXZ(transform.TransformPoint(GetCellLocalPosition(i, j)), Vector2.one * _cellSize, Color.white);
+                    Draw.WireRectangleXZ(transform.TransformPoint(GetCellLocalPosition(i, j)), Vector2.one * _cellSize * transform.lossyScale.x, Color.white);
                 }
             }
+
+            float x = transform.position.x;
+            float  z = transform.position.z;
+            Vector3 topLeftMax = new Vector3(x - _maxSize.x/2, 0, z);
+            Vector3 bottomRightMax  = new Vector3(x + _maxSize.x/2, 0, z - _maxSize.y);
+            Draw.SolidBox(topLeftMax, Vector3.one * 0.2f, Color.red);
+            Draw.SolidBox(bottomRightMax, Vector3.one * 0.2f, Color.red);
         }
 
     }

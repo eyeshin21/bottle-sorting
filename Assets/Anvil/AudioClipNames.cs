@@ -15,5 +15,6 @@ namespace Anvil
         block_impact_long,
         block_impact_short,
         wood_impact_bassy_quiet,
+        button_click,
     }
 }

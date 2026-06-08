@@ -6,6 +6,7 @@ namespace Anvil
         public static readonly string Show = "Show";
         public static readonly string Hide = "Hide";
         public static readonly string Active = "Active";
+        public static readonly string InActive = "InActive";
         public static readonly string ShowActive = "ShowActive";
         public static readonly string Spawn = "Spawn";
         public static readonly string Spawn2 = "Spawn2";
@@ -43,8 +44,12 @@ namespace Anvil
         
         public static readonly string Select = "Select";
         public static readonly string Deselect = "Deselect";
+        public static readonly string Hidden = "Hidden";
+        public static readonly string Complete = "Complete";
+        public static readonly string ButtonPress = "Press";
+
     }
-    public static partial class ExtensionMethods
+    public static partial class RectTransformExtension
     {
         public static string AddPrefix(this string name, string prefix)
         {
