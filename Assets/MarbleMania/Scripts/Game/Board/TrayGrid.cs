@@ -94,12 +94,16 @@ public class TrayGrid : MonoBehaviourGizmos
     
     public void Init(TrayGridData data, MainBoard board)
     {
-        _board = board;
-        _rowCount = data.row;
-        _columnCount = data.col;
-        Construct(GameConfig.SlotWidth);
-
+        Init(data.row, data.col, board);
         Generate(data);
+    }
+
+    public void Init(int row, int col, MainBoard board)
+    {
+        _board = board;
+        _rowCount = row;
+        _columnCount = col;
+        Construct(GameConfig.SlotWidth);
     }
 
     private void Construct(float cellSize)

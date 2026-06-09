@@ -2,7 +2,7 @@
 using Anvil.Legacy;
 using UnityEngine;
 
-namespace ree
+namespace Anvil
 {
     public interface IAnimated
     {
@@ -11,7 +11,7 @@ namespace ree
     }
     public class AnimatedObject : MonoBehaviour, IAnimated
     {
-        private IAnimationController _animationController;
+        private Legacy.IAnimationController _animationController;
 
         protected virtual void Awake()
         {

@@ -24,7 +24,10 @@ public class MainBoard : MonoBehaviourGizmos
     {
         MainGameEventType.TrayFillComplete.AddListener<Tray>(OnTrayFilled);
     }
-
+    private void Update()
+    {
+        OnUpdate();
+    }
     private void OnTrayFilled(Tray tray)
     {
         _currentGrid.Remove(tray);
@@ -69,10 +72,12 @@ public class MainBoard : MonoBehaviourGizmos
         _currentGrid = _grids[_grids.Count - 1];
         _currentGrid.drawDebug = true;
     }
-    private void Update()
+
+    public void Generate()
     {
-        OnUpdate();
+        
     }
+
 
     private void OnUpdate()
     {
@@ -127,5 +132,17 @@ public class MainBoard : MonoBehaviourGizmos
             _currentGrid = _grids[index - 1];
             _currentGrid.drawDebug = true;
             GameObjectPool.RemoveObject(trayGrid.gameObject);
+    }
+
+    public TrayGrid GenerateLayer(int layerIndex, int row, int col)
+    {
+        TrayGrid grid = _grids.TryGet(layerIndex);
+        if (grid == null)
+        {
+            grid = GameObjectPool.CreateObject<TrayGrid>(transform, _trayGridPrefab.gameObject);
+            _grids.Add(grid);
+        }
+        grid.Init(row, col, this);
+        return grid;
     }
 }

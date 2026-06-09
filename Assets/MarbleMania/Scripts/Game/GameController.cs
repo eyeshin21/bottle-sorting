@@ -35,7 +35,7 @@ namespace MarbleMania.Scripts.Game
         protected override void Awake()
         {
             base.Awake();
-            GenerateGame(_testLevelData);
+            // GenerateGame(_testLevelData);
         }
 
         public void GenerateGame(LevelData levelData)
