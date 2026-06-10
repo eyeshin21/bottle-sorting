@@ -32,11 +32,10 @@ public class Tray : MonoBehaviourGizmos
 
     private void Start()
     {
-        CacheOffset();
     }
     private void CacheOffset()
     {
-        _centerOffset = transform.InverseTransformDirection(_localCenter).normalized;
+        _centerOffset = transform.InverseTransformDirection(_slots[0].localPosition - _localCenter);
     }
     public void Init(TrayPositionData data)
     {
@@ -56,18 +55,19 @@ public class Tray : MonoBehaviourGizmos
         float right = 0f;
         float bottom = 0f;
         float left = 0f;
+        float halfSize = GameConfig.SlotWidth / 2f;
         foreach (var slot in _slots)
         {
             Vector3 localPos = slot.transform.localPosition;
-            if (localPos.x < left) left = localPos.x;
-            if (localPos.x > right) right = localPos.x;
-            if (localPos.z < bottom) bottom = localPos.z;
-            if (localPos.z > top) top = localPos.z;
+            if (localPos.x - halfSize < left) left = localPos.x - halfSize;
+            if (localPos.x + halfSize > right) right = localPos.x + halfSize;
+            if (localPos.z - halfSize < bottom) bottom = localPos.z  - halfSize;
+            if (localPos.z + halfSize > top) top = localPos.z  + halfSize;
         }
 
         Debug.Log($"left {left} , right {right}, top {top}, bottom {bottom}");
-        _boundingBox = new Rect(left, bottom, (right - left) + GameConfig.SlotWidth, (top - bottom) + GameConfig.SlotHeight);
-        _localCenter = new Vector3(_boundingBox.center.x, _boundingBox.center.y, 0f);
+        _boundingBox = new Rect(left, bottom, (right - left), (top - bottom));
+        _localCenter = new Vector3(_boundingBox.center.x, 0, _boundingBox.center.y);
         CacheOffset();
     }
 

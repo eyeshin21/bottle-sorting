@@ -5,8 +5,8 @@ using UnityEngine;
 
 public enum TrayType
 {
-    ThreeByThreeH,
-    ThreeByThreeV,
+    ThreeByTwo,
+    TwoByThree,
     TwoByTwo,
 }
 public class GameConfig : SingletonScriptableObject<GameConfig>
@@ -32,4 +32,5 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     
     public static float SlotWidth => Instance._slotWidth;
     public static float SlotHeight => Instance._slotHeight;
+    public static List<Tray> TrayPrefabs => Instance._trayByType;
 }

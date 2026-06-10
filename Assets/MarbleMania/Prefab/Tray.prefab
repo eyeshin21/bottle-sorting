@@ -185,8 +185,8 @@ MonoBehaviour:
   - {x: 0, y: -1}
   - {x: 1, y: -1}
   - {x: 2, y: -1}
-  _localCenter: {x: 0.15, y: 0.15, z: 0}
-  _centerOffset: {x: 0, y: 0, z: 0}
+  _localCenter: {x: 0.15, y: 0, z: 0.15}
+  _centerOffset: {x: 0.7071068, y: 0, z: 0.7071068}
   _bottleParent: {fileID: 6223355185784805341}
   _renderer: {fileID: 2755623062345825067}
   _colorMaterials:

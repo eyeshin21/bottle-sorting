@@ -178,7 +178,14 @@ public class TrayGrid : MonoBehaviourGizmos
     {
         return GetCell(cell.Row - offset.y, cell.Column + offset.x);
     }
-    private bool RegisterTray(Tray tray, int row, int column)
+
+    public bool IsValid(Tray tray, TrayGridCell cell, out List<TrayGridCell> cells)
+    {
+        cells = null;
+        if (tray == null || cell == null) return false;
+        return CheckAvailableSpace(tray, cell as TrayGridCell, out cells);
+    }
+    public bool RegisterTray(Tray tray, int row, int column)
     {
         var cell = GetCell(row, column);
         if (cell == null) return false;
@@ -187,10 +194,11 @@ public class TrayGrid : MonoBehaviourGizmos
         {
             cell2.AddTray(tray);
         }
+        tray.transform.SetParent(transform, true);
         return true;
     }
 
-    private bool RegisterTray(Tray tray, List<TrayGridCell> cells)
+    public bool RegisterTray(Tray tray, List<TrayGridCell> cells)
     {
         foreach (var cell in cells)
         {
@@ -371,4 +379,10 @@ public class TrayGrid : MonoBehaviourGizmos
     }
     // public void 
 
+    public bool IsPointInside(Vector3 worldPoint)
+    {
+        Vector3 localPoint = ConvertToLocalSpace(worldPoint);
+        return localPoint.x.IsInRange(-_unscaledWidth / 2, _unscaledWidth / 2) &&
+               localPoint.z.IsInRange(-_unscaledHeight / 2, _unscaledHeight / 2);
+    }
 }
