@@ -24,6 +24,7 @@ public class Tray : MonoBehaviourGizmos
     private Vector3 _center => transform.TransformPoint(_localCenter);
 
     public List<Vector2Int> ShapeProfile => _gridShape;
+    public ColorType ColorType => _colorType;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class Tray : MonoBehaviourGizmos
         InitColor(data.trayColor);
     }
 
-    private void InitColor(ColorType color)
+    public void InitColor(ColorType color)
     {
         _colorType = color;
         _renderer.material = _colorMaterials.TryGet((int)color);

@@ -20,8 +20,11 @@ MonoBehaviour:
   - {fileID: 1739037428947074684, guid: 51d0c8ab8ceacde4aa63e088429d725a, type: 3}
   _crateByType:
   - {fileID: 6803848509304014117, guid: 51dfd737a21426e4fa37a9ec8710d6b8, type: 3}
-  - {fileID: 6803848509304014117, guid: 51dfd737a21426e4fa37a9ec8710d6b8, type: 3}
   _trayByType:
   - {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
   - {fileID: 0}
   - {fileID: 0}
+  _colorByType:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.09301448, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0.07363939, b: 1, a: 1}

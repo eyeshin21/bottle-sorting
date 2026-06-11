@@ -49,7 +49,6 @@ namespace Anvil
                 return false;
             }
             _clickCoolDown = _doubleClickBlockDuration;
-            Debug.Log($"state {state}");
             SetIsOn(!state);
             return true;
         }

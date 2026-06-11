@@ -26,7 +26,10 @@ namespace MarbleMania.Scripts.Game
         TouchController _touchController;
         private void Update()
         {
-            _touchController.Update();   
+            _touchController.Update();
+            var scrollDelta = Input.mouseScrollDelta;
+            if (scrollDelta.y == 0) return;
+            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize - scrollDelta.y * 0.15f, 2, 20);
         }
         [SerializeField] LayerMask _raycastLayerMask;
         public bool OnTouchPressed(Vector2 pos)

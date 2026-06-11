@@ -124,8 +124,8 @@ public class MainBoard : MonoBehaviourGizmos
 
         Vector3 topLeftMax = new Vector3(-_maxSize.x / 2, 0, _maxSize.y / 2);
         Vector3 bottomRightMax = new Vector3(_maxSize.x / 2, 0, -_maxSize.y / 2);
-        Draw.SolidBox(topLeftMax, Vector3.one * 0.2f, Color.red);
-        Draw.SolidBox(bottomRightMax, Vector3.one * 0.2f, Color.red);
+        // Draw.SolidBox(topLeftMax, Vector3.one * 0.2f, Color.red);
+        // Draw.SolidBox(bottomRightMax, Vector3.one * 0.2f, Color.red);
     }
 
     public void OnTrayGridEmpty(TrayGrid trayGrid)

@@ -27,6 +27,9 @@ namespace MarbleMania
         public CrateType Type => _type;
         private List<Bottle> _bottles = new List<Bottle>();
         private Vector3 _throwVector;
+        
+        public int SlotCount => _slots.Count;
+        
         private void Awake()
         {
             _throwVector = Vector3.forward;
@@ -40,8 +43,13 @@ namespace MarbleMania
             _grid = grid;
             Generate(data);
         }
-        private void Generate(List<ColorType> colorData)
+        public void Generate(List<ColorType> colorData)
         {
+            foreach (Bottle bottle in _bottles)
+            {
+                GameObjectPool.RemoveObject(bottle.gameObject);
+            }
+            _bottles.Clear();
             for (var i = 0; i < _slots.Count; i++)
             {
                 if (i >= colorData.Count) break;

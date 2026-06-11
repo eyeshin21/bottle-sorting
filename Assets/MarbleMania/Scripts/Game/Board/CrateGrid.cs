@@ -77,10 +77,25 @@ namespace MarbleMania
 
         public void Init(CrateGridData gridData)
         {
-            _rowCount = gridData.row;
-            _colCount = gridData.col;
-            _crates = new Crate[_rowCount, _colCount];
+            Init(gridData.row, gridData.col);
+            for (var i = 0; i < gridData._gridData.Count; i++)
+            {
+                var data = gridData._gridData[i];
+                if (!IsValid(data.row, data.col) || GetCrate(data.row, data.col) != null) continue;
+                var prefab = GameConfig.GetCratePrefab(data.crate.type);
+                var crate = GameObjectPool.CreateObject<Crate>(transform, prefab.gameObject, resetScale: false);
+                if (crate == null) continue;
+                RegisterCrate(crate, data.row, data.col);
+                crate.Init(this, data.crate.colorData);
+                
+            }
+        }
 
+        public void Init(int row, int col)
+        {
+            _rowCount = row;
+            _colCount = col;
+            _crates = new Crate[_rowCount, _colCount];
             GameObjectPool.ClearManagedChild(_rowContainer.gameObject);
             _height = _rowCount * _cellSize + (_rowCount - 1) * _spacing;
             _width = _colCount * _cellSize + (_colCount - 1) * _spacing;
@@ -89,23 +104,19 @@ namespace MarbleMania
             float scale = Mathf.Min(scaleX, scaleY);
             scale = Mathf.Min(scale, 1f);
             transform.localScale = Vector3.one * scale;
-
-            for (var i = 0; i < gridData._gridData.Count; i++)
-            {
-                var data = gridData._gridData[i];
-                if (!IsValid(data.row, data.col) || GetCrate(data.row, data.col) != null) continue;
-                var prefab = GameConfig.GetCratePrefab(data.crate.type);
-                var crate = GameObjectPool.CreateObject<Crate>(transform, prefab.gameObject, resetScale: false);
-                if (crate == null) continue;
-                _crates[data.row, data.col] = crate;
-                crate.col = data.col;
-                crate.row = data.row;
-                crate.Init(this, data.crate.colorData);
-                Debug.Log($"init {data.row}-{data.col}");
-                crate.transform.localPosition = GetCellLocalPosition(data.row, data.col);
-            }
         }
 
+        public void RegisterCrate(Crate crate, int row, int col)
+        {
+            _crates[row, col] = crate;
+            crate.col = col;
+            crate.row = row;
+            if (crate.transform.parent != transform)
+            {
+                crate.transform.SetParent(transform, true);
+            }
+            crate.transform.localPosition = GetCellLocalPosition(row, col);
+        }
         private bool IsValid(int row, int col)
         {
             if (row >= _rowCount || col >= _colCount || row < 0 || col < 0)
@@ -138,7 +149,7 @@ namespace MarbleMania
             return null;
         }
 
-        private Vector3 GetCellLocalPosition(int row, int col)
+        public Vector3 GetCellLocalPosition(int row, int col)
         {
             float x = -_width / 2 + _cellSize / 2 + col * (_cellSize + _spacing);
             float z = 0 - _cellSize / 2 - row * (_cellSize + _spacing);
@@ -177,6 +188,32 @@ namespace MarbleMania
         }
         
         
+        public bool IsPointInside(Vector3 worldPoint)
+        {
+            Vector3 localPoint = ConvertToLocalSpace(worldPoint);
+            return localPoint.x.IsInRange(-_width / 2, _width / 2) 
+                   && localPoint.z.IsInRange(0, -_height)
+                   ;
+        }
+
+        private Vector3 ConvertToLocalSpace(Vector3 worldPoint)
+        {
+            return transform.InverseTransformPoint(worldPoint);
+        }
+        public Vector2Int ConvertToGridCoordinates(Vector3 worldPoint)
+        {
+            Vector3 localPoint = ConvertToLocalSpace(worldPoint);
+            int col = Mathf.FloorToInt((localPoint.x + _width / 2) / (_cellSize + _spacing));
+            int row = Mathf.FloorToInt((-localPoint.z) / (_cellSize + _spacing));
+            return new Vector2Int(row, col);
+        }
+        public bool IsValidForNewCrate(Vector2Int coord)
+        {
+            if (!IsValid(coord.x, coord.y)) return false;
+            if (GetCrate(coord.x, coord.y) != null) return false;
+            return true;
+        }
+        
         public override void DrawGizmos()
         {
             // draw grid
@@ -192,9 +229,10 @@ namespace MarbleMania
             float  z = transform.position.z;
             Vector3 topLeftMax = new Vector3(x - _maxSize.x/2, 0, z);
             Vector3 bottomRightMax  = new Vector3(x + _maxSize.x/2, 0, z - _maxSize.y);
-            Draw.SolidBox(topLeftMax, Vector3.one * 0.2f, Color.red);
-            Draw.SolidBox(bottomRightMax, Vector3.one * 0.2f, Color.red);
+            // Draw.SolidBox(topLeftMax, Vector3.one * 0.2f, Color.red);
+            // Draw.SolidBox(bottomRightMax, Vector3.one * 0.2f, Color.red);
         }
+
 
     }
 }

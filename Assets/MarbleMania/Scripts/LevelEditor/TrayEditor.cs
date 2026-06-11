@@ -22,8 +22,7 @@ namespace MarbleMania.LevelEditor
         [SerializeField] private UIButton _generateButton;
         [SerializeField] private UIButton _addButton;
 
-        [SerializeField, ElementName(typeof(TrayType))]
-        private List<string> _trayTypeNameDictionary;
+        [SerializeField, ElementName(typeof(TrayType))] private List<string> _trayTypeNameDictionary;
 
         [SerializeField] private GameObject _trayButtonPrefab;
         [SerializeField] private GameObject _togglePrefab;
@@ -31,8 +30,8 @@ namespace MarbleMania.LevelEditor
         [SerializeField] private Transform _layerToggleContainer;
 
         private List<TrayGrid> _grids = new List<TrayGrid>();
-        private List<ToggleLabledIconButton> _layerToggles = new();
-        private List<ToggleLabledIconButton> _trayButtons = new ();
+        private List<IndicatedLabledToggle> _layerToggles = new();
+        private List<IndicatedLabledToggle> _trayButtons = new ();
         private TrayGrid _currentGrid;
         public int layerIndex = 0;
         private MainBoard _Board => LevelEditor.Instance.Board;
@@ -56,7 +55,7 @@ namespace MarbleMania.LevelEditor
                 var tray = prefab.GetComponent<Tray>();
                 var type = (TrayType)i;
                 
-                ToggleLabledIconButton button = GameObjectPool.CreateObject<ToggleLabledIconButton>(_buttonContainer, _trayButtonPrefab);
+                IndicatedLabledToggle button = GameObjectPool.CreateObject<IndicatedLabledToggle>(_buttonContainer, _trayButtonPrefab);
                 button.SetLabel(_trayTypeNameDictionary[i]);
                 button.RegisterOnToggleAction((state) =>
                 {
@@ -126,7 +125,7 @@ namespace MarbleMania.LevelEditor
                 layerIndex++;
             }
             var toggle = GameObjectPool.CreateObject(_layerToggleContainer, _togglePrefab)
-                .GetComponent<ToggleLabledIconButton>();
+                .GetComponent<IndicatedLabledToggle>();
             _layerToggles.Add(toggle);
             toggle.RegisterOnToggleAction((state) => { OnLayerToggle(toggle); });
             toggle.SetIsOn(true);
@@ -137,12 +136,12 @@ namespace MarbleMania.LevelEditor
             SetActiveLayer(layerIndex);
         }
 
-        private void OnLayerToggle(ToggleLabledIconButton toggle)
+        private void OnLayerToggle(IndicatedLabledToggle indicatedLabledToggle)
         {
             for (var i = 0; i < _layerToggles.Count; i++)
             {
                 var layerToggle = _layerToggles[i];
-                if (toggle == layerToggle)
+                if (indicatedLabledToggle == layerToggle)
                 {
                     layerIndex = i;
                     SetActiveLayer(layerIndex);
@@ -166,6 +165,11 @@ namespace MarbleMania.LevelEditor
                     trayColor = ColorType.Blue,
                 });
                 preview.gameObject.SetActive(false);
+            }
+
+            if (preview.ColorType != ColorManager.activeColor)
+            {
+                preview.InitColor(ColorManager.activeColor);
             }
             var worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldPoint.y = 0;

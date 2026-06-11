@@ -243,7 +243,6 @@ public class TrayGrid : MonoBehaviourGizmos
             var targetCell =OffSetCellInverseCoord(cell, offset);
             if (targetCell == null || !targetCell.IsEmpty)
             {
-                Debug.LogError($"cannot register tray at {cell.Row}-{cell.Column}");
                 return false;
             }
             cells.Add(targetCell);
