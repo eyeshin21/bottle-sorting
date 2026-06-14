@@ -53,7 +53,6 @@ namespace MarbleMania
     {
         [SerializeField] private CrateGridData _testData;
 
-        [SerializeField] private Transform _rowContainer;
         [SerializeField] private bool drawCoord = false;
         [SerializeField] private float textSize = 0.3f;
         [SerializeField] private int _rowCount;
@@ -64,12 +63,17 @@ namespace MarbleMania
         [SerializeField] private float _spacing;
         [SerializeField] private float _cellSize;
         [SerializeField] private Vector2 _maxSize = new Vector2(100, 100);
-        
+
+        public int RowCount => _rowCount;
+        public int ColCount => _colCount;
+
+
         private Crate[,] _crates;
         // [SerializeField] private CrateRow _rowPrefab;
-        [SerializeField, ReadOnly]private float _width;
-        [SerializeField, ReadOnly]private float _height;
+        [SerializeField, ReadOnly] private float _width;
+        [SerializeField, ReadOnly] private float _height;
 
+        public Crate[,] Crates => _crates;
         // [Button]
         private void Awake()
         {
@@ -87,7 +91,6 @@ namespace MarbleMania
                 if (crate == null) continue;
                 RegisterCrate(crate, data.row, data.col);
                 crate.Init(this, data.crate.colorData);
-                
             }
         }
 
@@ -96,7 +99,6 @@ namespace MarbleMania
             _rowCount = row;
             _colCount = col;
             _crates = new Crate[_rowCount, _colCount];
-            GameObjectPool.ClearManagedChild(_rowContainer.gameObject);
             _height = _rowCount * _cellSize + (_rowCount - 1) * _spacing;
             _width = _colCount * _cellSize + (_colCount - 1) * _spacing;
             float scaleX = _maxSize.x / _width;
@@ -115,8 +117,10 @@ namespace MarbleMania
             {
                 crate.transform.SetParent(transform, true);
             }
+
             crate.transform.localPosition = GetCellLocalPosition(row, col);
         }
+
         private bool IsValid(int row, int col)
         {
             if (row >= _rowCount || col >= _colCount || row < 0 || col < 0)
@@ -131,6 +135,7 @@ namespace MarbleMania
         {
             _crates[crate.row, crate.col] = null;
         }
+
         private Crate GetCrate(int row, int col)
         {
             if (!IsValid(row, col)) return null;
@@ -186,20 +191,21 @@ namespace MarbleMania
         {
             return true;
         }
-        
-        
+
+
         public bool IsPointInside(Vector3 worldPoint)
         {
             Vector3 localPoint = ConvertToLocalSpace(worldPoint);
-            return localPoint.x.IsInRange(-_width / 2, _width / 2) 
+            return localPoint.x.IsInRange(-_width / 2, _width / 2)
                    && localPoint.z.IsInRange(0, -_height)
-                   ;
+                ;
         }
 
         private Vector3 ConvertToLocalSpace(Vector3 worldPoint)
         {
             return transform.InverseTransformPoint(worldPoint);
         }
+
         public Vector2Int ConvertToGridCoordinates(Vector3 worldPoint)
         {
             Vector3 localPoint = ConvertToLocalSpace(worldPoint);
@@ -207,13 +213,14 @@ namespace MarbleMania
             int row = Mathf.FloorToInt((-localPoint.z) / (_cellSize + _spacing));
             return new Vector2Int(row, col);
         }
+
         public bool IsValidForNewCrate(Vector2Int coord)
         {
             if (!IsValid(coord.x, coord.y)) return false;
             if (GetCrate(coord.x, coord.y) != null) return false;
             return true;
         }
-        
+
         public override void DrawGizmos()
         {
             // draw grid
@@ -221,18 +228,46 @@ namespace MarbleMania
             {
                 for (int j = 0; j < _colCount; j++)
                 {
-                    Draw.WireRectangleXZ(transform.TransformPoint(GetCellLocalPosition(i, j)), Vector2.one * _cellSize * transform.lossyScale.x, Color.white);
+                    Draw.WireRectangleXZ(transform.TransformPoint(GetCellLocalPosition(i, j)),
+                        Vector2.one * _cellSize * transform.lossyScale.x, Color.white);
                 }
             }
 
             float x = transform.position.x;
-            float  z = transform.position.z;
-            Vector3 topLeftMax = new Vector3(x - _maxSize.x/2, 0, z);
-            Vector3 bottomRightMax  = new Vector3(x + _maxSize.x/2, 0, z - _maxSize.y);
+            float z = transform.position.z;
+            Vector3 topLeftMax = new Vector3(x - _maxSize.x / 2, 0, z);
+            Vector3 bottomRightMax = new Vector3(x + _maxSize.x / 2, 0, z - _maxSize.y);
             // Draw.SolidBox(topLeftMax, Vector3.one * 0.2f, Color.red);
             // Draw.SolidBox(bottomRightMax, Vector3.one * 0.2f, Color.red);
         }
 
+        public CrateGridData CreateData()
+        {
+            CrateGridData data = new CrateGridData();
+            data.row = _rowCount;
+            data.col = _colCount;
+            data._gridData = new List<CrateCellData>();
+            for (int i = 0; i < _rowCount; i++)
+            {
+                for (int j = 0; j < _colCount; j++)
+                {
+                    var crate = GetCrate(i, j);
+                    if (crate == null) continue;
+                    CrateCellData cellData = new CrateCellData();
+                    cellData.row = i;
+                    cellData.col = j;
+                    cellData.crate = crate.CreateData();
+                    data._gridData.Add(cellData);
+                }
+            }
 
+            return data;
+        }
+
+        public void Clear()
+        {
+            GameObjectPool.ClearManagedChild(gameObject);
+            _crates = new Crate[_rowCount, _colCount];
+        }
     }
 }

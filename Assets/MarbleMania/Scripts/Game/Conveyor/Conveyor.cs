@@ -188,7 +188,10 @@ public class Conveyor : MonoBehaviourGizmos
     
     public void Init(Rect boardSize, int slotCount)
     {
-        _slotCount = slotCount;
+        if (slotCount > 0)
+        {
+            _slotCount = slotCount;
+        }
         _waypoints.Clear();
         _waypoints.Add(new Vector3(boardSize.xMin - _paddingH, 0, boardSize.yMin  - _paddingV));
         _waypoints.Add(new Vector3(boardSize.xMax + _paddingH, 0, boardSize.yMin - _paddingV));

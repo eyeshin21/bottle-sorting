@@ -9,6 +9,9 @@ namespace MarbleMania.Scripts.Game
     {
         private static CameraController _instance;
         public static CameraController Instance => _instance;
+        
+        
+        [SerializeField] private bool _zoomEnabled = true;
         private Camera _camera;
 
         private void Awake()
@@ -26,6 +29,7 @@ namespace MarbleMania.Scripts.Game
         TouchController _touchController;
         private void Update()
         {
+            if (!_zoomEnabled) return;
             _touchController.Update();
             var scrollDelta = Input.mouseScrollDelta;
             if (scrollDelta.y == 0) return;

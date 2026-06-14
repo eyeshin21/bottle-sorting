@@ -29,7 +29,7 @@ namespace MarbleMania
         private Vector3 _throwVector;
         
         public int SlotCount => _slots.Count;
-        
+        public List<Bottle> Bottles => _bottles;
         private void Awake()
         {
             _throwVector = Vector3.forward;
@@ -92,6 +92,19 @@ namespace MarbleMania
             {
                 _slots.Add(child);
             }
+        }
+
+        public CrateData CreateData()
+        {
+            List<ColorType> colorData = new List<ColorType>();
+            foreach (Bottle bottle in _bottles)
+            {
+                colorData.Add(bottle.ColorType);
+            }
+            CrateData data = new  CrateData();
+            data.type = _type;
+            data.colorData = colorData;
+            return data;
         }
     }
 }

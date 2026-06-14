@@ -19,7 +19,7 @@ public class MainBoard : MonoBehaviourGizmos
     [SerializeField, ReadOnly] private Rect _sizeRect;
 
     public Rect Size => _sizeRect;
-
+    public List<TrayGrid> Grids  => _grids;
     private void Awake()
     {
         MainGameEventType.TrayFillComplete.AddListener<Tray>(OnTrayFilled);
@@ -34,6 +34,18 @@ public class MainBoard : MonoBehaviourGizmos
     {
         _currentGrid.Remove(tray);
         tray.Complete();
+        if (_currentGrid.Trays.Count == 0)
+        {
+            _grids.Remove(_currentGrid);
+            Destroy(_currentGrid.gameObject);
+            if (_grids.Count > 0)
+            {
+                SetActiveGrid(0);
+            }
+        }
+        {
+            
+        }
     }
 
     private void Construct()
@@ -47,7 +59,7 @@ public class MainBoard : MonoBehaviourGizmos
         if (trayGridDatas.Count == 0) return;
         float y = 0;
         _sizeRect = new Rect(0, 0, 0, 0);
-        for (var index = 0; index < trayGridDatas.Count; index++)
+        for (var index = trayGridDatas.Count - 1; index >= 0; index--)
         {
             var trayGridData = trayGridDatas[index];
             var grid = GameObjectPool.CreateObject<TrayGrid>(transform, _trayGridPrefab.gameObject);
@@ -55,7 +67,7 @@ public class MainBoard : MonoBehaviourGizmos
             grid.transform.localPosition = new Vector3(0, y, 0);
             y += _gridOffsetY;
             grid.drawDebug = false;
-            _grids.Add(grid);
+            _grids.Insert(0,grid);
 
             Rect size = grid.Size;
             if (size.width > _sizeRect.width) _sizeRect.width = size.width;
@@ -71,8 +83,7 @@ public class MainBoard : MonoBehaviourGizmos
         transform.localScale = Vector3.one * scale;
 
         _sizeRect.center = new Vector2(0, 0);
-        _currentGrid = _grids[_grids.Count - 1];
-        _currentGrid.drawDebug = true;
+        SetActiveGrid(0);
     }
 
     public void Generate()
@@ -138,6 +149,19 @@ public class MainBoard : MonoBehaviourGizmos
         GameObjectPool.RemoveObject(trayGrid.gameObject);
     }
 
+    public void SetActiveGrid(int index)
+    {
+        _currentGrid = _grids[index];
+        _currentGrid.drawDebug = true;
+        _currentGrid.gameObject.SetActive(true);
+        foreach (TrayGrid trayGrid in _grids)
+        {
+            if (trayGrid == _currentGrid) continue;
+            trayGrid.gameObject.SetActive(false);
+            trayGrid.drawDebug = false;
+        }
+    }
+
     public TrayGrid GenerateLayer(int layerIndex, int row, int col)
     {
         TrayGrid grid = _grids.TryGet(layerIndex);
@@ -167,5 +191,14 @@ public class MainBoard : MonoBehaviourGizmos
 
         scale = Mathf.Min(scale, 1f);
         transform.localScale = Vector3.one * scale;
+    }
+
+    public void Clear()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        _grids.Clear();
     }
 }

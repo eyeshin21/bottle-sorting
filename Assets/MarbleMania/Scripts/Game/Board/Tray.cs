@@ -22,9 +22,10 @@ public class Tray : MonoBehaviourGizmos
     private IAnimationController _animationController;
     private HashSet<Bottle> _bottles = new HashSet<Bottle>();
     private Vector3 _center => transform.TransformPoint(_localCenter);
-
     public List<Vector2Int> ShapeProfile => _gridShape;
     public ColorType ColorType => _colorType;
+    public Vector2Int CellPosition { get; set; }
+    public int SlotCount => _slots.Length;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class Tray : MonoBehaviourGizmos
     }
     public void Init(TrayPositionData data)
     {
+        CellPosition = new Vector2Int(data.column, data.row);
         InitColor(data.trayColor);
     }
 

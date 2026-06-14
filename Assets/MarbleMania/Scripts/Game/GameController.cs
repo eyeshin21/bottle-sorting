@@ -1,27 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Anvil;
-using Anvil.Legacy;
+﻿using Anvil.Legacy;
 using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace MarbleMania.Scripts.Game
 {
-    [Serializable]
-    public class LevelData : ISerializable, IDeserializable
-    {
-        public List<TrayGridData> trayGridDatas = new List<TrayGridData>();
-        public CrateGridData crateGridData;
-        public int conveyorSlot;
-        public string Serialize()
-        {
-            return string.Empty;
-        }
-
-        public void Deserialize(string data)
-        {
-        }
-    }
     public class GameController : DestroyableSingletonBehaviour<GameController>
     {
         [SerializeField] private MainBoard _board;
@@ -32,14 +17,31 @@ namespace MarbleMania.Scripts.Game
         [SerializeField] private ConveyorInlet _conveyorInlet;
         [SerializeField] private Transform _lowerMeshContainer;
         [SerializeField] private float crateGridDistance = 0.7f;
+
+        private LevelData  _levelData;
+        
+        public LevelData LevelData => _levelData;
         protected override void Awake()
         {
             base.Awake();
-            // GenerateGame(_testLevelData);
-        }
 
-        public void GenerateGame(LevelData levelData)
+            if (SceneManager.GetActiveScene().name == nameof(SceneName.LevelEditor))
+            {
+                return;
+            }
+            
+            if (GameContext.LevelToLoad != null)
+            {
+                LoadGame(GameContext.LevelToLoad);
+                return;
+            }
+            LoadGame(LevelData.LoadLevel("1"));
+        }
+       
+        public void LoadGame(LevelData levelData)
         {
+            _levelData = levelData;
+            
             _board.Init(levelData.trayGridDatas);
             _conveyor.Init(_board.Size, levelData.conveyorSlot);
 
@@ -53,10 +55,17 @@ namespace MarbleMania.Scripts.Game
             _crateGrid.Init(levelData.crateGridData);
         }
 
+        // seperate so null check doesnt need to be in runtime
+        public void LoadAsEditor(LevelData levelData)
+        {
+            _board.Init(levelData.trayGridDatas);
+            _crateGrid.Init(levelData.crateGridData);
+        }
+
         [Button]
         public void GenerateTestLevel()
         {
-            GenerateGame(_testLevelData);
+            LoadGame(_testLevelData);
         }
     }
 }

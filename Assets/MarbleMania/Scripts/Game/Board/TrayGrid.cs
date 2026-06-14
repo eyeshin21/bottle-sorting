@@ -55,11 +55,24 @@ public class TrayGridCell : GridCell
 }
 
 [Serializable]
-public class TrayGridData
+public class BoardData
+{
+    public List<TrayGridData> trayGridDatas;
+}
+[Serializable]
+public class TrayGridData 
+    // : ISerializable, IDeserializable
 {
     public int row;
     public int col;
     public List<TrayPositionData> _gridData;
+    // public string Serialize()
+    // {
+    // }
+    //
+    // public void Deserialize(string data)
+    // {
+    // }
 }
 [Serializable]
 public class TrayPositionData
@@ -79,7 +92,6 @@ public class TrayGrid : MonoBehaviourGizmos
     [SerializeField] private GameObject _trayPrefab;
     [SerializeField] private List<Tray> _trays;
     [SerializeField] private Tray[,] _trayMap;
-    [SerializeField] private int _row;
 
     private float _cellSize;
     private float _unscaledWidth;
@@ -91,7 +103,7 @@ public class TrayGrid : MonoBehaviourGizmos
     private Rect _size;
 
     public Rect Size => _size;
-    
+    public List<Tray> Trays => _trays;
     public void Init(TrayGridData data, MainBoard board)
     {
         Init(data.row, data.col, board);
@@ -140,12 +152,12 @@ public class TrayGrid : MonoBehaviourGizmos
             Tray tray = GameObjectPool.CreateObject<Tray>(transform, prefabTray.gameObject);
             tray.Init(positionData);
             RegisterTray(tray, cells);
-            Vector3 centerPosition = Vector3.zero;
-            foreach (TrayGridCell gridCell in cells)
-            {
-                centerPosition += gridCell.localPosition;
-            }
-            centerPosition /= cells.Count;
+            Vector3 centerPosition = cell.localPosition;
+            // foreach (TrayGridCell gridCell in cells)
+            // {
+                // centerPosition += gridCell.localPosition;
+            // }
+            // centerPosition /= cells.Count;
             tray.SetPositionToCenter(ConvertToWorldSpace(centerPosition));
         }
     }
@@ -195,6 +207,8 @@ public class TrayGrid : MonoBehaviourGizmos
             cell2.AddTray(tray);
         }
         tray.transform.SetParent(transform, true);
+        tray.CellPosition = new Vector2Int(cell.Column, cell.Row);
+        _trays.Add(tray);
         return true;
     }
 
@@ -383,5 +397,24 @@ public class TrayGrid : MonoBehaviourGizmos
         Vector3 localPoint = ConvertToLocalSpace(worldPoint);
         return localPoint.x.IsInRange(-_unscaledWidth / 2, _unscaledWidth / 2) &&
                localPoint.z.IsInRange(-_unscaledHeight / 2, _unscaledHeight / 2);
+    }
+
+    public TrayGridData CreateData()
+    {
+        TrayGridData data = new TrayGridData();
+        data.row = _rowCount;
+        data.col = _columnCount;
+        List<TrayPositionData> trayPositions = new List<TrayPositionData>();
+        foreach (var tray in _trays)
+        {
+            trayPositions.Add(new TrayPositionData()
+            {
+                trayColor = tray.ColorType,
+                row = tray.CellPosition.y,
+                column = tray.CellPosition.x,
+            });
+        }
+        data._gridData = trayPositions;
+        return data;
     }
 }

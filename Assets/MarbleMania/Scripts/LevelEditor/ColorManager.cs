@@ -16,7 +16,7 @@ namespace MarbleMania.LevelEditor
         public static ColorType activeColor;
         private List<IndicatedLabledToggle> _colorToggles = new List<IndicatedLabledToggle>();
         
-        private void Awake()
+        private void Start()
         {
             if (Instance != null)
             {
