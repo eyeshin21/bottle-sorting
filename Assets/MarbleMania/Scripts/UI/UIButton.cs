@@ -1,5 +1,5 @@
 using System;
-using Anvil.Legacy;
+using Anvil;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,7 +57,7 @@ namespace Anvil
             }
             _clickCoolDown = _doubleClickBlockDuration;
             
-            AudioClipName.button_click.PlaySound();
+            AudioClipName.ui_menu_button_confirm_05.PlaySound();
             _onClickAction?.Invoke();
             return true;
         }
@@ -108,7 +108,7 @@ namespace Anvil
     public class FaceButton : UIButton
     {
         [SerializeField]protected GameObject _displayImageObject;
-        protected ISpriteAdapter _buttonImageAdapter = null;
+        protected SpriteAdapter _buttonImageAdapter = null;
         protected override void Awake()
         {
             base.Awake();
@@ -195,7 +195,7 @@ namespace Anvil
 
             if (button is IAnimatedUIButton animatedButton)
             {
-                animatedButton.PlayAnimation(AnimationNames.ButtonPress);
+                animatedButton.PlayAnimation(AnimationNames.Press);
             }
         }
     }

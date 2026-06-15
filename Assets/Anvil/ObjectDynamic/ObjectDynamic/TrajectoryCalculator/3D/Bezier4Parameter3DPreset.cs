@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public class Bezier4Parameter3DPreset : TrajectoryParameterPreset
     {

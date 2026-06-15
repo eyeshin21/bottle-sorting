@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public interface ISpeedController
     {

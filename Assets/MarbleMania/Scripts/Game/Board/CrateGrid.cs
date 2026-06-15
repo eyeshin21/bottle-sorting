@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Anvil;
-using Anvil.Legacy;
+using Anvil.Extension;
 using Drawing;
 using NaughtyAttributes;
 using UnityEngine;
@@ -136,7 +136,16 @@ namespace MarbleMania
             _crates[crate.row, crate.col] = null;
         }
 
-        private Crate GetCrate(int row, int col)
+        public void RemoveCrate(int row, int col)
+        {
+            if (IsValid(row, col) && _crates[row, col] != null)
+            {
+                GameObjectPool.RemoveObject(_crates[row, col].gameObject);
+                _crates[row, col] = null;
+            }
+        }
+
+        public Crate GetCrate(int row, int col)
         {
             if (!IsValid(row, col)) return null;
             return _crates[row, col];
@@ -197,7 +206,7 @@ namespace MarbleMania
         {
             Vector3 localPoint = ConvertToLocalSpace(worldPoint);
             return localPoint.x.IsInRange(-_width / 2, _width / 2)
-                   && localPoint.z.IsInRange(0, -_height)
+                   && localPoint.z.IsInRange(-_height, 0)
                 ;
         }
 
@@ -206,6 +215,9 @@ namespace MarbleMania
             return transform.InverseTransformPoint(worldPoint);
         }
 
+        /// <summary>
+        /// Row,Col
+        /// </summary>
         public Vector2Int ConvertToGridCoordinates(Vector3 worldPoint)
         {
             Vector3 localPoint = ConvertToLocalSpace(worldPoint);

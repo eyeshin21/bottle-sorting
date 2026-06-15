@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92caab19a5fab904eb18ba18b8444c1b, type: 3}
+  m_Name: RewardFx
+  m_EditorClassIdentifier: Assembly-CSharp::Anvil.PrebuiltEffects.RewardFx
+  assetDefinitions:
+  - ID: 1
+    asset: {fileID: 6814005914170560361, guid: 21c6364324be7a54b9d39f5f6c663574, type: 3}
+    preload: 0
+  - ID: 2
+    asset: {fileID: 6897072162097207500, guid: cf11b2dc6d8a8eb48bd48a1a369b1546, type: 3}
+    preload: 0
+  _fxTrajectoryPresets: []
+  _maxParticle: 20
+  _defaultDelaySpawn:
+    duration: 0
+    delayInBetween: 0.05
+    delayMinDecrement: 0.399
+    delayCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _defaultDelayMove:
+    duration: 0
+    delayInBetween: 0.04
+    delayMinDecrement: 0.394
+    delayCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  _defaultSpawnBox:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 2.5
+    height: 2

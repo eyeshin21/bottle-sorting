@@ -28,3 +28,4 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0.09301448, g: 1, b: 0, a: 1}
   - {r: 0, g: 0.07363939, b: 1, a: 1}
+  _mainGameUIAsset: {fileID: 11400000, guid: 251cd8cbef0dc6044b5787b647e88a1b, type: 2}

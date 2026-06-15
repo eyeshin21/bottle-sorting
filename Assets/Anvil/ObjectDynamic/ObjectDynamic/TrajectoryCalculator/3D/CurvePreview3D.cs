@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
 #if UNITY_EDITOR
 

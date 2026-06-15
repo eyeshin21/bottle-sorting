@@ -6,7 +6,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Vector3 = UnityEngine.Vector3;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public enum speedCalculationType
     {
@@ -167,9 +167,7 @@ namespace Anvil.Legacy
             {
                 return;
             }
-            if (_targetDesignator == null 
-                // || !_targetDesignator.IsActive 
-                || _trajectoryCalculator == null)
+            if (_targetDesignator == null || !_targetDesignator.IsActive || _trajectoryCalculator == null)
             {
                 return;
             }

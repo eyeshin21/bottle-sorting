@@ -1,15 +1,14 @@
-﻿#if Addressables_ENABLED
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+#if ADDRESSABLE_ENABLED
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-    public class AddressablePrefabTable<T> : PrefabTable<T> where T : Enum
+    public class AddressableAssetTable<T> : AssetTable
     {
         [Serializable]
-        protected struct PrefabID<U> where U : Enum
+        protected struct PrefabID<U>
         {
             public U ID;
             public AssetReference PrefabRef;
@@ -21,7 +20,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
         //     // string label = _labelMap.TryGet(id);
         //     
         // }
-        public override void LoadPrefab(T id, Action<GameObject> resultCallback)
+        public virtual void LoadPrefab(T id, Action<GameObject> resultCallback)
         {
             var assetRef = _labelMap.Find(x => x.ID.Equals(id)).PrefabRef;
             if (assetRef == null)
@@ -45,7 +44,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
             
         }
 
-        public override void LoadPrefab(string id,Action<GameObject> resultCallback)
+        public override void LoadGameObject(string id,Action<GameObject> resultCallback)
         {
             var assetRef = _labelMap.Find(x => x.ID.ToString().Equals(id)).PrefabRef;
             if (assetRef == null)

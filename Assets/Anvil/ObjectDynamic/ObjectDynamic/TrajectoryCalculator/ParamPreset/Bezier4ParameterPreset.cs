@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     [CreateAssetMenu(fileName = "Bezier4Preset", menuName = "ScriptableObjects/Bezier4ParameterPreset", order = 1)]
     public class Bezier4ParameterPreset : TrajectoryParameterPreset

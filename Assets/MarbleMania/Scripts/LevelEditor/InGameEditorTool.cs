@@ -8,6 +8,7 @@ namespace MarbleMania.LevelEditor
     public class InGameEditorTool : MonoBehaviour
     {
         [SerializeField] private UIButton _editorButton;
+        [SerializeField] private UIButton _restartButton;
 
         private void Awake()
         {
@@ -17,6 +18,12 @@ namespace MarbleMania.LevelEditor
                 return;
             }
             _editorButton.AddListener(BackToEditor);
+            _restartButton.AddListener(RestartLevel);
+        }
+
+        private void RestartLevel()
+        {
+            GameController.Instance.Restart();
         }
 
         private void BackToEditor()

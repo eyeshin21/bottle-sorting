@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     /// <summary>
     /// Receive infomation about a state of movevent and return the progress of that movement. does not contain context or additional data for any specific movement like a component based speed calculator does.

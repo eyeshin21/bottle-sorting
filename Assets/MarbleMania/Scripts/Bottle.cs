@@ -1,5 +1,5 @@
 ﻿using System;
-using Anvil.Legacy;
+using Anvil;
 using UnityEngine;
 
 public class Bottle : MonoBehaviour

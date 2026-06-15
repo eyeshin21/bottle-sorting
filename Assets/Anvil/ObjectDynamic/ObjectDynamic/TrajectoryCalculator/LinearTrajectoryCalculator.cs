@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
 
     public class LinearTrajectoryCalculator : ITrajectoryCalculator

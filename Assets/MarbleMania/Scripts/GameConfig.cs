@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Anvil.Legacy;
+using Anvil;
 using MarbleMania;
 using UnityEngine;
 
@@ -17,7 +17,9 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     [ElementName(typeof(CrateType))] [SerializeField] private List<Crate> _crateByType;
     [ElementName(typeof(TrayType))] [SerializeField] private List<Tray> _trayByType;
     [ElementName(typeof(ColorType))] [SerializeField] private List<Color> _colorByType;
-    
+    [SerializeField] private MainGameUIAsset _mainGameUIAsset;
+    public static MainGameUIAsset MainGameUIAsset => Instance._mainGameUIAsset;
+
     public static Color GetColor(ColorType color)
     {
         return Instance._colorByType.TryGet((int)color);

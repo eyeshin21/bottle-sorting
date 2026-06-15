@@ -1,6 +1,5 @@
 ﻿using System;
 using Anvil;
-using Anvil.Legacy;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ namespace Anvil
         [SerializeField] private Color _disabledColor;
         [SerializeField] private Image _coloredImage;
         
-        [SerializeField] protected Legacy.IAnimationController _animationController;
+        [SerializeField] protected Anvil.IAnimationController _animationController;
         private Action<bool> _onToggleAction;
         public bool state = false;
 
@@ -106,9 +105,9 @@ namespace Anvil
         public void SetIsOn(bool isOn)
         {
             state = isOn;
-            AudioClipName.button_click.PlaySound();
+            AudioClipName.ui_menu_button_confirm_05.PlaySound();
             UpdateStateRender();
-            PlayAnimation(AnimationNames.ButtonPress);
+            PlayAnimation(AnimationNames.Press);
             _onClickAction?.Invoke();
             _onToggleAction?.Invoke(state);
         }

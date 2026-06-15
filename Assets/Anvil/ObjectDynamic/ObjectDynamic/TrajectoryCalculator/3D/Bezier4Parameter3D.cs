@@ -1,7 +1,7 @@
-using Anvil.Legacy;
+using Anvil;
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public enum AnchorCalculationMode
     {

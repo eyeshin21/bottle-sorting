@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &469680966416313412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 738300092330883333}
+  - component: {fileID: 1585519478204467352}
+  m_Layer: 0
+  m_Name: CurvePreviewwHandle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &738300092330883333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469680966416313412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.78, y: -7.28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1585519478204467352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469680966416313412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b282d579da466184782d1122f62d3110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Anvil.CurvePreview
+  quadBezierParameter:
+    anchorType: 2
+    _controlAnchorType: 0
+    _controlAnchor: {x: 3.9384825, y: -5.4463415}
+    _controlAnchor2: {x: 0, y: 0}
+    _control2AnchorType: 0
+    _control2Anchor: {x: 4.533803, y: -3.7034693}
+    _control2Anchor2: {x: 0, y: 0}
+    _controlOffsetType: 0
+    _controlOffset: {x: 0, y: 0}
+    _controlOffset2: {x: 0, y: 0}
+    _debugEnabled: 1
+  enablePreview: 1
+  previewWithoutControls: 0
+  anchorType: 2
+  _startPos: {x: -2.0061748, y: 7.9266577, z: 0}
+  _endPos: {x: -0.031202793, y: -5.04685, z: 0}
+  _c1: {x: 1.9323077, y: 2.4803162, z: 0}
+  _c2: {x: 4.5026, y: -8.7503195, z: 0}

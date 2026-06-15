@@ -1,40 +1,74 @@
 ﻿using System;
+using Anvil;
 
-namespace MarbleMania.Scripts.Game
+namespace MarbleMania
 {
-    public enum MainGameEventType
+    public enum MainGameEventID
     {
-        None,
-        TrayFillComplete,
+        TrayFillComplete
     }
-    public static class MainGameEvent
+
+    public static partial class MainGameEventExtension
     {
-        private static Anvil.Legacy.EventHandler<MainGameEventType> _eventHandler = new Anvil.Legacy.EventHandler<MainGameEventType>();
+        static EventManager<MainGameEventID> _maingameEventManager = new EventManager<MainGameEventID>();
 
-        public static void AddListener(this MainGameEventType eventType, Action callback)
+        public static void ClearAll()
         {
-            _eventHandler.AddListener(eventType, callback);
+            _maingameEventManager.Clear();
         }
-        public static void AddListener<T>(this MainGameEventType eventType, Action<T> callback)
+        public static void AddEventListener(this MainGameEventID eventID, Callback listener)
         {
-            _eventHandler.AddListener(eventType, callback);
+            _maingameEventManager.AddListener(eventID, listener);
         }
 
-        public static void RemoveListener(this MainGameEventType eventType, Action callback)
+        public static void AddEventListener<T>(this MainGameEventID eventID, Callback<T> listener)
         {
-            _eventHandler.RemoveListener(eventType, callback);
+            _maingameEventManager.AddListener(eventID, listener);
         }
-        public static void RemoveListener<T>(this MainGameEventType eventType, Action<T> callback)
+        public static void AddEventListener<T1, T2>(this MainGameEventID eventID, Callback<T1, T2> listener)
         {
-            _eventHandler.RemoveListener(eventType, callback);
+            _maingameEventManager.AddListener(eventID, listener);
         }
-        public static void Broadcast(this MainGameEventType eventType)
+        public static void AddEventListener<T1, T2, T3>(this MainGameEventID eventID, Callback<T1, T2, T3> listener)
         {
-            _eventHandler.Broadcast(eventType);
+            _maingameEventManager.AddListener(eventID, listener);
         }
-        public static void Broadcast<T>(this MainGameEventType eventType, T arg1)
+
+        public static void BroadcastEvent(this MainGameEventID eventID)
         {
-            _eventHandler.Broadcast(eventType, arg1);
+            _maingameEventManager.Broadcast(eventID);
+        }
+
+        public static void BroadcastEvent<T>(this MainGameEventID eventID, T value)
+        {
+            _maingameEventManager.Broadcast(eventID, value);
+        }
+
+        public static void BroadcastEvent<T1, T2>(this MainGameEventID eventID, T1 value1, T2 value2)
+        {
+            _maingameEventManager.Broadcast(eventID, value1, value2);
+        }
+        public static void BroadcastEvent<T1, T2, T3>(this MainGameEventID eventID, T1 value1, T2 value2, T3 value3)
+        {
+            _maingameEventManager.Broadcast(eventID, value1, value2, value3);
+        }
+        
+        public static void RemoveEventListener(this MainGameEventID eventID, Callback callback)
+        {
+            _maingameEventManager.RemoveListener(eventID, callback);
+        }
+
+        public static void RemoveEventListener<T>(this MainGameEventID eventID, Callback<T> callback)
+        {
+            _maingameEventManager.RemoveListener(eventID, callback);
+        }
+        public static void RemoveEventListener<T1, T2>(this MainGameEventID eventID, Callback<T1, T2> callback)
+        {
+            _maingameEventManager.RemoveListener(eventID, callback);
+        }
+        public static void RemoveEventListener<T1, T2, T3>(this MainGameEventID eventID, Callback<T1, T2, T3> callback)
+        {
+            _maingameEventManager.RemoveListener(eventID, callback);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public class StaticPositionReference : ITargetDesignator
     {
@@ -21,6 +21,11 @@ namespace Anvil.Legacy
         {
             get => true;
             set{}
+        }
+
+        public bool Validate()
+        {
+            return true;
         }
 
         public void SetTarget(GameObject targetObj)
@@ -56,7 +61,11 @@ namespace Anvil.Legacy
     {
         private bool _isActive = true;
         public bool IsActive { get => _isActive; set => _isActive = value; }
-        
+
+        public bool Validate()
+        {
+            return true;
+        }
         StaticPositionReference _positionReference;
 
         public StaticPositionDesignator()

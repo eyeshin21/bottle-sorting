@@ -1,4 +1,4 @@
-using Anvil.Legacy;
+using Anvil;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -11,7 +11,7 @@ namespace Anvil
     public class UILabledIconButton : FaceButton, ILabeledUIButton, IIconedUIButton
     {
         
-        Legacy.IAnimationController _animationController;
+        Anvil.IAnimationController _animationController;
         private Animator _animator;
         TextAdapter _textAdapter = null;
         [SerializeField] private GameObject _textObject;
@@ -28,7 +28,7 @@ namespace Anvil
             set { _allowInput = value; }
         }
 
-        protected string pressAnimation = AnimationNames.ButtonPress;
+        protected string pressAnimation = AnimationNames.Press;
 
         List<Action> callbacks = new List<Action>();
 
@@ -81,7 +81,7 @@ namespace Anvil
             }
 
             // AudioManager.Instance.PlayEffect(AudioClipName.ElementClick);
-            AudioClipName.button_click.PlaySound();
+            AudioClipName.ui_menu_button_confirm_05.PlaySound();
             if (callbacks.Count == 0)
             {
                 return false;

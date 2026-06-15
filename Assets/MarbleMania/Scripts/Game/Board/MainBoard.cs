@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Anvil.Legacy;
+using Anvil;
 using Drawing;
+using MarbleMania;
 using MarbleMania.Scripts.Game;
 using NaughtyAttributes;
 using UnityEngine;
@@ -22,12 +23,12 @@ public class MainBoard : MonoBehaviourGizmos
     public List<TrayGrid> Grids  => _grids;
     private void Awake()
     {
-        MainGameEventType.TrayFillComplete.AddListener<Tray>(OnTrayFilled);
+        MainGameEventID.TrayFillComplete.AddEventListener<Tray>(OnTrayFilled);
     }
 
     private void OnDestroy()
     {
-        MainGameEventType.TrayFillComplete.RemoveListener<Tray>(OnTrayFilled);
+        MainGameEventID.TrayFillComplete.RemoveEventListener<Tray>(OnTrayFilled);
     }
 
     private void Update()
@@ -46,6 +47,10 @@ public class MainBoard : MonoBehaviourGizmos
             if (_grids.Count > 0)
             {
                 SetActiveGrid(0);
+            }
+            else
+            {
+                GameController.Instance.OnLevelComplete();
             }
         }
     }

@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Anvil;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
+    public enum Random3
+    {
+        Random1,
+        Random2,
+        Random3,
+    }
     public static partial class Helper
     {
         static List<int> _indices = new();
@@ -70,111 +77,6 @@ namespace Anvil.Legacy
         {
             int rnd = GetRandomRange(1, 3);
             return rnd == 1 ? value1 : (rnd == 2 ? value2 : value3);
-        }
-
-        public static List<int> GetRandomIndices(int count)
-        {
-            _indices.SetRandomIndices(count);
-            return _indices;
-        }
-
-        public static List<int> GetRandomIndices2(int count)
-        {
-            _indices2.SetRandomIndices(count);
-            return _indices2;
-        }
-
-        public static List<int> GetRandomIndices3(int count)
-        {
-            _indices3.SetRandomIndices(count);
-            return _indices3;
-        }
-
-        public static void GetRandomIndices(ref List<int> indices, int count)
-        {
-            if (count > 0)
-            {
-                int missing;
-                if (indices == null)
-                {
-                    indices = new List<int>();
-                    missing = count;
-                }
-                else
-                {
-                    missing = count - indices.Count;
-                }
-
-                if (missing > 0)
-                {
-                    for (int i = 0; i < missing; i++)
-                    {
-                        indices.Add(0);
-                    }
-                }
-
-                for (int i = 0; i < count; i++)
-                {
-                    indices[i] = i;
-                }
-
-                indices.Swap(count);
-            }
-            else
-            {
-                LegacyLog.Warning($"Invalid count: {count}");
-            }
-        }
-
-        public static void GetRandomIndices(int count, Random3 random, out List<int> indices1, out List<int> indices2, out List<int> indices3)
-        {
-            _indices.SetIndices(count);
-            _indices2.SetIndices(count);
-            _indices3.SetMinCount(count);
-            if (random == Random3.Random1)
-            {
-                _indices.SwapDiff();
-            }
-            else if (random == Random3.Random2)
-            {
-                _indices2.SwapDiff();
-            }
-            else
-            {
-                Assert.IsEquals(random, Random3.Random3);
-                _indices.SwapDiff();
-                _indices2.SwapDiff();
-            }
-
-            // Set target indices
-            for (int i = 0; i < count; i++)
-            {
-                int index = _indices[i];
-#if DEBUG_MODE
-                bool found = false;
-#endif
-                for (int j = 0; j < count; j++)
-                {
-                    if (_indices2[j] == index)
-                    {
-                        _indices3[i] = j;
-#if DEBUG_MODE
-                        found = true;
-#endif
-                        break;
-                    }
-                }
-#if DEBUG_MODE
-                if (!found)
-                {
-                   LegacyLog.Error($"Not found target for index {index}!");
-                }
-#endif
-            }
-
-            indices1 = _indices;
-            indices2 = _indices2;
-            indices3 = _indices3;
         }
     }
 }

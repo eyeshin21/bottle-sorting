@@ -1,8 +1,9 @@
-﻿using Anvil.Legacy;
+﻿using Anvil;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace MarbleMania.Scripts.Game
@@ -66,6 +67,31 @@ namespace MarbleMania.Scripts.Game
         public void GenerateTestLevel()
         {
             LoadGame(_testLevelData);
+        }
+
+        public void OnLevelComplete()
+        {
+            UILoader.ShowConfirmPopup((popup) =>
+            {
+                popup.SetCancelButtonText("Replay");
+                popup.SetConfirmButtonText("Level Edtor");
+                popup.SetMessage("Level Completed");
+            }, confirm =>
+            {
+                if (confirm)
+                {
+                    TransitionManager.LoadScene(SceneName.LevelEditor);
+                }
+                else
+                {
+                    LoadGame(GameContext.LevelToLoad);
+                }
+            });
+        }
+
+        public void Restart()
+        { 
+            LoadGame(GameContext.LevelToLoad);
         }
     }
 }

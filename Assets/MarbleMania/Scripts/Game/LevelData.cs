@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MarbleMania.Scripts.Game
 {
     [Serializable]
-    public class LevelData : ISerializable, IDeserializable
+    public class LevelData : ISerialize, IDeserialize
     {
 
         public static LevelData LoadLevel(string levelID)

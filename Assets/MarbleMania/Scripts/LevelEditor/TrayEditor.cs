@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Anvil;
-using Anvil.Legacy;
 using Drawing;
 using TMPro;
 using Unity.Mathematics;
@@ -158,6 +157,11 @@ namespace MarbleMania.LevelEditor
 
         private void OnTrayPresetActive(Tray tray, TrayType type)
         {
+            if (preview != null)
+            {
+                Destroy(preview.gameObject);
+                preview = null;
+            }
             _activeTray = tray;
             for (var i = 0; i < _trayButtons.Count; i++)
             {
@@ -178,6 +182,7 @@ namespace MarbleMania.LevelEditor
                 _currentGrid.drawDebug = false;
                 _currentGrid.gameObject.SetActive(false);
             }
+
             TrayGrid grid = _grids.TryGet(index);
             if (grid == null)
             {
@@ -191,7 +196,7 @@ namespace MarbleMania.LevelEditor
             _layerToggles.TryGet(index)?.ForceSwitchOn();
             foreach (TrayGrid trayGrid in _grids)
             {
-                if(trayGrid == _currentGrid) continue;
+                if (trayGrid == _currentGrid) continue;
                 trayGrid.drawDebug = false;
                 trayGrid.gameObject.SetActive(false);
             }
@@ -205,6 +210,7 @@ namespace MarbleMania.LevelEditor
             }
 
             var grid = _Board.GenerateLayer(layerIndex, _rowInput.text.ToInt(), _colInput.text.ToInt());
+            RebuildColorIndicator();
         }
 
         private void OnBoardAdd()
@@ -278,6 +284,15 @@ namespace MarbleMania.LevelEditor
             }
 
             var cell = _currentGrid.GetCellNear(worldPoint, out var _);
+            
+            if (Input.GetMouseButtonDown(1))
+            {
+                var tray = _currentGrid.RemoveTray(cell.Row, cell.Column);
+                RebuildColorIndicator();
+                Destroy(tray.gameObject);
+                return;
+            }
+            
             bool isvalid = _currentGrid.IsValid(preview, cell, out List<TrayGridCell> cells);
             if (!isvalid)
             {
@@ -302,6 +317,7 @@ namespace MarbleMania.LevelEditor
                 preview = null;
                 RebuildColorIndicator();
             }
+            
         }
     }
 }

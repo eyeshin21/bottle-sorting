@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Anvil;
-using Anvil.Legacy;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
@@ -123,6 +122,7 @@ namespace MarbleMania.LevelEditor
 
         private void OnBoardGenerate()
         {
+            _grid.Clear();
             _grid.Init(_rowInput.text.ToInt(), _colInput.text.ToInt());
             if (preview!= null)
             {
@@ -142,7 +142,7 @@ namespace MarbleMania.LevelEditor
                 UpdateContentColor();
                 preview.gameObject.SetActive(false);
             }
-
+            
             if (_currentColorType != ColorManager.activeColor)
             {
                 UpdateContentColor();
@@ -156,8 +156,17 @@ namespace MarbleMania.LevelEditor
                 preview.gameObject.SetActive(false);
                 return;
             }
-
+            
             var coord = _grid.ConvertToGridCoordinates(worldPoint);
+
+            if (Input.GetMouseButton(1))
+            {
+                var crate = _grid.GetCrate(coord.x, coord.y);
+                _grid.RemoveCrate(coord.x, coord.y);
+                // Destroy(crate?.gameObject);
+                RebuildColorIndicator();
+            }
+            
             bool isvalid = _grid.IsValidForNewCrate(coord);
             if (!isvalid)
             {
@@ -190,7 +199,6 @@ namespace MarbleMania.LevelEditor
 
             preview.Generate(colorTypes);
             _currentColorType = type;
-            Debug.Log($"actice {type}");
         }
     }
 }

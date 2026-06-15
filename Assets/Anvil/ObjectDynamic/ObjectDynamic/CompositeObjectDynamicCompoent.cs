@@ -1,4 +1,4 @@
-﻿namespace Anvil.Legacy
+﻿namespace Anvil
 {
     public class CompositeObjectDynamicCompoent
     {

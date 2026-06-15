@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Anvil.Legacy;
+using Anvil;
 using Drawing;
 using NaughtyAttributes;
 using UnityEngine;
@@ -10,6 +10,20 @@ public class ConveyorSlot : BottleSlot, ITargetDesignator
 {
     public float DistanceAlongConveyor;
     public Transform masterTransform;
+
+    public bool IsActive { get; set; }
+    public bool Validate()
+    {
+        return true;
+    }
+
+    public void SetTarget(GameObject targetObj)
+    {
+    }
+
+    public void SetTarget(Vector3 position)
+    {
+    }
 
     public GameObject GetTargetObject()
     {
@@ -188,6 +202,11 @@ public class Conveyor : MonoBehaviourGizmos
     
     public void Init(Rect boardSize, int slotCount)
     {
+        foreach (var bottle in _bottlesOnConveyor)
+        {
+            Destroy(bottle.gameObject);
+        }
+        _bottlesOnConveyor.Clear();
         if (slotCount > 0)
         {
             _slotCount = slotCount;

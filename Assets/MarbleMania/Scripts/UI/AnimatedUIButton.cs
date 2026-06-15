@@ -1,10 +1,10 @@
-﻿using Anvil.Legacy;
+﻿using Anvil;
 
 namespace Anvil
 {
     public class AnimatedUIButton : UIButton, IAnimatedUIButton
     {
-        private Legacy.IAnimationController _animationController;
+        private Anvil.IAnimationController _animationController;
 
         protected override void Awake()
         {
@@ -14,7 +14,7 @@ namespace Anvil
 
         protected override bool OnClick()
         {
-            PlayAnimation(AnimationNames.ButtonPress);
+            PlayAnimation(AnimationNames.Press);
             return base.OnClick();
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Anvil.Legacy;
+using Anvil;
 using UnityEngine;
 
 public class ConveyorInlet : MonoBehaviour

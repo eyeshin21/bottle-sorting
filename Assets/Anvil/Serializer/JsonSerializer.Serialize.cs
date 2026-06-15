@@ -3,10 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
-using Anvil.Legacy;
+using Anvil;
 
 namespace Anvil
 {
+    public interface ISerialize
+    {
+        string Serialize();
+    }
+
+    public interface IDeserialize
+    {
+        void Deserialize(string json);
+    }
     public static partial class JsonSerializer
     {
         #region Pool
@@ -16,7 +25,6 @@ namespace Anvil
             if (_intLists.Count > 0)
             {
                 var list = _intLists.Pop();
-                Assert.IsEmpty(list);
                 return list;
             }
 
@@ -25,7 +33,6 @@ namespace Anvil
 
         static void ReturnPool(List<int> list)
         {
-            Assert.NotContains(_intLists, list);
             list.Clear();
             _intLists.Push(list);
         }
@@ -36,7 +43,6 @@ namespace Anvil
             if (_stringLists.Count > 0)
             {
                 var list = _stringLists.Pop();
-                Assert.IsEmpty(list);
                 return list;
             }
 
@@ -45,7 +51,6 @@ namespace Anvil
 
         static void ReturnPool(List<string> list)
         {
-            Assert.NotContains(_stringLists, list);
             list.Clear();
             _stringLists.Push(list);
         }
@@ -57,7 +62,6 @@ namespace Anvil
             if (_stringBuilders.Count > 0)
             {
                 sb = _stringBuilders.Pop();
-                Assert.IsZero(sb.Length);
             }
             else
             {
@@ -466,19 +470,16 @@ namespace Anvil
             if (count == 1)
             {
                 var s = a[0].Serialize();
-                Assert.NotContains(s, separator);
                 return s;
             }
 
             return CreateString(sb =>
             {
                 var s = a[0].Serialize();
-                Assert.NotContains(s, separator);
                 sb.Append(s);
                 for (int i = 1; i < count; i++)
                 {
                     s = a[i].Serialize();
-                    Assert.NotContains(s, separator);
                     sb.Append($"{separator}{s}");
                 }
             });
@@ -726,19 +727,16 @@ namespace Anvil
             if (count == 1)
             {
                 var s = items[0];
-                Assert.NotContains(s, separator);
                 return s;
             }
 
             return CreateString(sb =>
             {
                 var s = items[0];
-                Assert.NotContains(s, separator);
                 sb.Append(s);
                 for (int i = 1; i < count; i++)
                 {
                     s = items[i];
-                    Assert.NotContains(s, separator);
                     sb.Append($"{separator}{s}");
                 }
             });
@@ -754,19 +752,16 @@ namespace Anvil
             if (count == 1)
             {
                 var s = list[0].Serialize();
-                Assert.NotContains(s, separator);
                 return s;
             }
 
             var json = CreateString(sb =>
             {
                 var s = list[0].Serialize();
-                Assert.NotContains(s, separator);
                 sb.Append(s);
                 for (int i = 1; i < count; i++)
                 {
                     s = list[i].Serialize();
-                    Assert.NotContains(s, separator);
                     sb.Append($"{separator}{s}");
                 }
             });
@@ -791,7 +786,6 @@ namespace Anvil
         public static string AddSerialize<T>(string json, T item, char separator = ItemSeparator) where T : ISerialize
         {
             var itemJson = item.Serialize();
-            Assert.NotContains(itemJson, separator);
             int length = json.GetLength();
             if (length == 0)
             {

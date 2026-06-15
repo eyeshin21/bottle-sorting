@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public class StaticTargetDesignator : MonoBehaviour , ITargetDesignator
     {
@@ -18,6 +18,11 @@ namespace Anvil.Legacy
         private void OnDestroy()
         {
             _isActive = false;
+        }
+
+        public bool Validate()
+        {
+            return _targetObj != null;
         }
 
         public void SetTarget(GameObject targetObj)
@@ -57,6 +62,7 @@ namespace Anvil.Legacy
     {
         private GameObject _targetObj;
         private Vector3 _initialPos;
+        private Vector3 _offset;
         public bool IsActive
         {
             get => _targetObj != null;
@@ -71,6 +77,17 @@ namespace Anvil.Legacy
         {
             _targetObj = targetObj;
             _initialPos = targetObj.transform.position;
+        }
+        public StaticTargetReference(GameObject targetObj, Vector3 offset)
+        {
+            _targetObj = targetObj;
+            _initialPos = targetObj.transform.position;
+            _offset = offset;
+        }
+
+        public bool Validate()
+        {
+            return _targetObj != null && _targetObj.activeInHierarchy;
         }
 
         public void SetTarget(GameObject targetObj)
@@ -98,7 +115,7 @@ namespace Anvil.Legacy
             {
                 return _initialPos;
             }
-            return _targetObj.transform.position;
+            return _targetObj.transform.position + _offset;
         }
 
         public Vector3 GetTargetPosition()

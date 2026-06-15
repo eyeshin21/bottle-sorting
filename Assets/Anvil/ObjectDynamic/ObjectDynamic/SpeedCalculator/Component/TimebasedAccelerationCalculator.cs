@@ -3,7 +3,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public class TimebasedAccelerationCalculator : MonoBehaviour,ISpeedController
     {

@@ -1,4 +1,4 @@
-﻿using Anvil.Legacy;
+﻿using Anvil;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
@@ -19,13 +19,13 @@ namespace MarbleMania
 
 
         [MenuItem("Drunk/Load MainGame")]
-        public static void LoadMainGame()
+        private static void LoadMainGame()
         {
             EditorSceneManager.OpenScene($"Assets/Scenes/{nameof(SceneName.MainGame)}.unity");
         }
 
         [MenuItem("Drunk/Load LevelEditor")]
-        public static void LoadLevelEditor()
+        private static void LoadLevelEditor()
         {
             EditorSceneManager.OpenScene($"Assets/Scenes/{nameof(SceneName.LevelEditor)}.unity");
         }

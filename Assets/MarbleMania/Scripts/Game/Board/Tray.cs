@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Anvil;
-using Anvil.Legacy;
+using Anvil.Extension;
 using Drawing;
+using MarbleMania;
 using MarbleMania.Scripts.Game;
 using NaughtyAttributes;
 using UnityEngine;
@@ -163,7 +164,7 @@ public class Tray : MonoBehaviourGizmos
         bottle.MoveTo(GetSlotPosition(slot));
         if (GetEmptySlotCount() <= 0)
         {
-            MainGameEventType.TrayFillComplete.Broadcast(this);
+            MainGameEventID.TrayFillComplete.BroadcastEvent(this);
         }
         return true;
     }

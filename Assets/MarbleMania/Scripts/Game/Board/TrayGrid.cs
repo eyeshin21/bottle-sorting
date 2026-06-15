@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Anvil;
-using Anvil.Legacy;
 using Drawing;
 using NaughtyAttributes;
 using UnityEngine;
@@ -120,7 +119,10 @@ public class TrayGrid : MonoBehaviourGizmos
 
     private void Construct(float cellSize)
     {
+        GameObjectPool.ClearManagedChild(gameObject);
+        
         _cellSize = cellSize;
+        _trays.Clear();
         _trayMap = new Tray[_rowCount, _columnCount];
         _gridCells = new TrayGridCell[_rowCount, _columnCount];
         _unscaledHeight = _rowCount * _cellSize;
@@ -416,5 +418,14 @@ public class TrayGrid : MonoBehaviourGizmos
         }
         data._gridData = trayPositions;
         return data;
+    }
+
+    public Tray RemoveTray(int cellRow, int cellColumn)
+    {
+        var cell = GetCell(cellRow, cellColumn);
+        if (cell == null || cell.IsEmpty) return null;
+        Tray ret = cell.Tray;
+        Remove(cell.Tray);
+        return ret;
     }
 }

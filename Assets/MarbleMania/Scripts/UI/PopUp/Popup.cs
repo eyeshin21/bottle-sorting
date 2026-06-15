@@ -1,5 +1,5 @@
 using System;
-using Anvil.Legacy;
+using Anvil;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -48,7 +48,7 @@ namespace Anvil
         public virtual void Show(Action onShow = null)
         {
             // AudioManager.Instance.PlayEffect(AudioClipName.None);
-            AudioClipName.button_click.PlaySound();
+            AudioClipName.ui_menu_button_confirm_05.PlaySound();
             _hideFunc = null;
             if (!gameObject.activeInHierarchy)
             {
@@ -71,7 +71,7 @@ namespace Anvil
             });
             //_confirmButton.RemoveAllListener();
             // AudioManager.Instance.PlayEffect(AudioClipName.None);
-            AudioClipName.button_click.PlaySound();
+            AudioClipName.ui_menu_button_confirm_05.PlaySound();
         }
 
         private System.Func<bool> _hideFunc;

@@ -1,7 +1,8 @@
-﻿using Anvil.Legacy;
+﻿using Anvil;
+using MarbleMania;
 using UnityEngine;
 
-namespace MarbleMania
+namespace Anvil
 {
     public class CameraController : MonoBehaviour, ITouchHandler
     {
@@ -34,7 +35,7 @@ namespace MarbleMania
             _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize - scrollDelta.y * 0.15f, 2, 20);
         }
         [SerializeField] LayerMask _raycastLayerMask;
-        public bool OnTouchPressed(Vector2 pos)
+        public bool OnTouchPressed(Vector3 pos)
         {
             Ray ray = _camera.ScreenPointToRay(pos);
             Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
@@ -49,13 +50,15 @@ namespace MarbleMania
             return false;
         }
 
-        public bool OnTouchMoved(Vector2 pos)
+        public bool OnTouchMoved(Vector3 pos)
         {
             return false;
         }
 
-        public void OnTouchReleased(Vector2 pos)
+        public void OnTouchReleased(Vector3 pos)
         {
         }
+
+        public string DebugName { get; }
     }
 }

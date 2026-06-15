@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public abstract class TrajectoryParameter : ITrajectoryParameter<ITrajectoryCalculator>
     {

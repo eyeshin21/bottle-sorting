@@ -2,7 +2,8 @@
 using System;
 using System.Globalization;
 using System.Net;
-using Anvil.Legacy;
+using Anvil;
+using MatchThree;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -72,7 +73,7 @@ public static class TimeHelper
             try
             {
                 var request = WebRequest.Create("http://www.google.com");
-                request.Timeout = 1000; // Miliseconds
+                request.Timeout = 2000; // Miliseconds
                 using (var response = request.GetResponse())
                 {
                     return DateTime.ParseExact(response.Headers["date"], "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.AssumeUniversal);
@@ -288,9 +289,11 @@ public static class TimeHelper
         if (_isInited) return;
         _isInited = true;
 
-        _hackSeconds = LocalPrefs.GetInt(LocalKeys._HackSeconds);
+        // _hackSeconds = UserDataSerializer.GetInt(HackSecondKey);
+        _hackSeconds = 0;
     }
 
+    static readonly string HackSecondKey = "HackSeconds";
     static int HackSeconds
     {
         get
@@ -301,11 +304,11 @@ public static class TimeHelper
         set
         {
             _hackSeconds = value;
-            LocalPrefs.SetInt(LocalKeys._HackSeconds, value);
+            // UserDataSerializer.SaveValue(HackSecondKey, value);
         }
     }
 
-    public static event Listener onTimeChanged;
+    public static event Action onTimeChanged;
 
     static string _addSecondsText;
     public static void OnGUIDebug()
@@ -314,7 +317,7 @@ public static class TimeHelper
         {
             bool guiEnabled = GUI.enabled;
             int hackSeconds = HackSeconds;
-            GUILayout.Label($"Hack time: {hackSeconds.ToHMSString()}");
+            GUILayout.Label($"Hack time: {PrettyTimeFormater.FormatTime(hackSeconds, TimeFormat.HHMMSS)}");
 
             _addSecondsText = GUILayout.TextField(_addSecondsText, GUILayout.Width(200));
             int addSeconds = _addSecondsText.ToSeconds();
@@ -324,7 +327,7 @@ public static class TimeHelper
                 HackSeconds = hackSeconds + addSeconds;
                 onTimeChanged?.Invoke();
                 _addSecondsText = "";
-                Helper.ReloadScene();
+                Anvil.Helper.ReloadScene();
             }
 
             GUI.enabled = guiEnabled && hackSeconds != 0;
@@ -339,8 +342,8 @@ public static class TimeHelper
 
             if (GUILayout.Button("Log Time"))
             {
-               LegacyLog.Debug($"Local current time: <b>{LocalDateTime}</b>");
-               LegacyLog.Debug($"Global current time: <b>{GlobalDateTime}</b>");
+                Debug.Log($"Local current time: <b>{LocalDateTime}</b>");
+                Debug.Log($"Global current time: <b>{GlobalDateTime}</b>");
             }
 
             //GUILayout.Label($"({CurrentDateTime.ToString2()})");

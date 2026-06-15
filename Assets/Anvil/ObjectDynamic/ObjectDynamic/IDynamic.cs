@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public interface IDynamic
     {

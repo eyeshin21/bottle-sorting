@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public class AnimationCurveSpeedCalculator : MonoBehaviour,ISpeedController
 

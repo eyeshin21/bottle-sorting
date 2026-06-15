@@ -1,5 +1,5 @@
 ﻿using System;
-using Anvil.Legacy;
+using Anvil;
 using UnityEngine;
 
 namespace Anvil
@@ -11,7 +11,7 @@ namespace Anvil
     }
     public class AnimatedObject : MonoBehaviour, IAnimated
     {
-        private Legacy.IAnimationController _animationController;
+        private Anvil.IAnimationController _animationController;
 
         protected virtual void Awake()
         {

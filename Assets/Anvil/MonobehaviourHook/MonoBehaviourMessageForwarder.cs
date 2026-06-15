@@ -14,6 +14,8 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
         public Action onEnable;
         public Action onDisable;
         public Action<bool> onApplicationPause;
+        public Action onInputAny;
+        public Action onInputAnyOnce;
         private float lastUpdateSpan = 0;
 
         public void OnAwake()
@@ -42,6 +44,8 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
                     lastUpdateSpan = 0;
                 }
             }
+
+            CheckForInput();
             // // if (lastUpdateSpan >= 1)
             // {
             //     if (lastUpdateSpan >= 2)
@@ -55,6 +59,17 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
             //     }
             //
             // }
+        }
+
+        private void CheckForInput()
+        {
+            if (Input.GetMouseButton(0) ||
+                Input.touchCount > 0)
+            {
+                onInputAny?.Invoke();                
+                onInputAnyOnce?.Invoke();
+                onInputAnyOnce = null;
+            }
         }
 
         public void OnDestroy()
@@ -79,8 +94,9 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
     }
 
     private static CommonMessageInstace _commonMessageInstace;
+    private static MonoBehaviourMessageForwarder _commonMessageForwarder;
 
-    public static CommonMessageInstace CommonForwarder
+    public static CommonMessageInstace CommonMessageInstance
     {
         get
         {
@@ -89,35 +105,48 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
                 _commonMessageInstace = new CommonMessageInstace();
                 var commonMessageForwarder = Create(_commonMessageInstace);
                 DontDestroyOnLoad(commonMessageForwarder.gameObject);
+                _commonMessageForwarder = commonMessageForwarder;
                 // _commonMessageInstace.onDestroy += ()=>{ _commonMessageInstace = null; };
             }
 
             return _commonMessageInstace;
         }
     }
+    public static MonoBehaviourMessageForwarder CommonMessageForwarder
+    {
+        get
+        {
+            if (_commonMessageForwarder == null)
+            {
+                var _ = CommonMessageInstance;
+            }
+
+            return _commonMessageForwarder;
+        }
+    }
 
     public static void RegisterCommonDestroy(Action onDestroy)
     {
-        CommonForwarder.onDestroy += onDestroy;
+        CommonMessageInstance.onDestroy += onDestroy;
     }
 
     public static void RegisterCommonAwake(Action onAwake)
     {
-        CommonForwarder.onAwake += onAwake;
+        CommonMessageInstance.onAwake += onAwake;
     }
 
     public static void RegisterCommonStart(Action onStart)
     {
-        CommonForwarder.onStart += onStart;
+        CommonMessageInstance.onStart += onStart;
     }
 
     public static void RegisterCommonUpdate(Action onUpdate)
     {
-        CommonForwarder.onUpdate += onUpdate;
+        CommonMessageInstance.onUpdate += onUpdate;
     }
     public static void UnRegisterCommonUpdate(Action onUpdate)
     {
-        CommonForwarder.onUpdate -= onUpdate;
+        CommonMessageInstance.onUpdate -= onUpdate;
     }
 
     /// <summary>
@@ -126,17 +155,17 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
     /// </summary>
     public static void RegisterCommonClockUpdate(Action onClockUpdate)
     {
-        CommonForwarder.clockUpdate += onClockUpdate;
+        CommonMessageInstance.clockUpdate += onClockUpdate;
     }
 
     public static void UnRegisterCommonClockUpdate(Action onClockUpdate)
     {
-        CommonForwarder.clockUpdate -= onClockUpdate;
+        CommonMessageInstance.clockUpdate -= onClockUpdate;
     }
     
     public static void RegisterCommonPauseEvent(Action<bool> onPause)
     {
-        CommonForwarder.onApplicationPause += onPause;
+        CommonMessageInstance.onApplicationPause += onPause;
     }
 #endregion
 
@@ -144,9 +173,15 @@ public class MonoBehaviourMessageForwarder : MonoBehaviour
 
     public static MonoBehaviourMessageForwarder Create(IMonoBevhaviourMessageHandler target)
     {
-        GameObject go = new GameObject($"{target.GetType().Name}_Forwarder");
-        MonoBehaviourMessageForwarder forwarder = go.AddComponent<MonoBehaviourMessageForwarder>();
+        var forwarder = Create(target.GetType().Name);
         forwarder._targetListener = target;
+        return forwarder;
+    }
+
+    public static MonoBehaviourMessageForwarder Create(string name = "")
+    {
+        GameObject go = new GameObject($"{name}_Forwarder");
+        MonoBehaviourMessageForwarder forwarder = go.AddComponent<MonoBehaviourMessageForwarder>();
         return forwarder;
     }
 

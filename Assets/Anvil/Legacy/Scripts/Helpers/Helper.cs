@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
-namespace Anvil.Legacy
+namespace Anvil
 {
     public static partial class Helper
     {
