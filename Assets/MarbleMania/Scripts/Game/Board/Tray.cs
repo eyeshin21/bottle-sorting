@@ -6,7 +6,6 @@ using Drawing;
 using MarbleMania.Scripts.Game;
 using NaughtyAttributes;
 using UnityEngine;
-using IAnimationController = Anvil.IAnimationController;
 
 public class Tray : MonoBehaviourGizmos
 {

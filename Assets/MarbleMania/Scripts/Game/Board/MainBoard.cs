@@ -25,6 +25,11 @@ public class MainBoard : MonoBehaviourGizmos
         MainGameEventType.TrayFillComplete.AddListener<Tray>(OnTrayFilled);
     }
 
+    private void OnDestroy()
+    {
+        MainGameEventType.TrayFillComplete.RemoveListener<Tray>(OnTrayFilled);
+    }
+
     private void Update()
     {
         OnUpdate();
@@ -43,9 +48,6 @@ public class MainBoard : MonoBehaviourGizmos
                 SetActiveGrid(0);
             }
         }
-        {
-            
-        }
     }
 
     private void Construct()
@@ -55,6 +57,7 @@ public class MainBoard : MonoBehaviourGizmos
     public void Init(List<TrayGridData> trayGridDatas)
     {
         _grids.Clear();
+        _currentGrid = null;
         GameObjectPool.ClearManagedChild(gameObject);
         if (trayGridDatas.Count == 0) return;
         float y = 0;
@@ -93,6 +96,7 @@ public class MainBoard : MonoBehaviourGizmos
 
     private void OnUpdate()
     {
+        if (_currentGrid == null) return;
         for (var i = 0; i < _conveyor.Slots.Length; i++)
         {
             var slot = _conveyor.Slots[i];
@@ -108,6 +112,7 @@ public class MainBoard : MonoBehaviourGizmos
 
     public bool TryIntakeBottle(Bottle bottle)
     {
+        if (_currentGrid == null) return false;
         TrayGrid grid = _currentGrid;
         var cell = grid.GetCellNear(bottle.transform.position, out Directions direction);
         contactCells.Add(cell);
@@ -126,6 +131,7 @@ public class MainBoard : MonoBehaviourGizmos
 
     public override void DrawGizmos()
     {
+        if (_currentGrid == null) return;
         foreach (GridCell cell in contactCells)
         {
             Draw.SolidBox(_currentGrid.transform.TransformPoint(cell.localPosition), Vector3.one * 0.1f, Color.blue);

@@ -24,6 +24,10 @@ namespace MarbleMania.Scripts.Game
         {
             _eventHandler.RemoveListener(eventType, callback);
         }
+        public static void RemoveListener<T>(this MainGameEventType eventType, Action<T> callback)
+        {
+            _eventHandler.RemoveListener(eventType, callback);
+        }
         public static void Broadcast(this MainGameEventType eventType)
         {
             _eventHandler.Broadcast(eventType);

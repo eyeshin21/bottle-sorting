@@ -1,9 +1,7 @@
-﻿using System;
-using Anvil.Legacy;
-using Drawing;
+﻿using Anvil.Legacy;
 using UnityEngine;
 
-namespace MarbleMania.Scripts.Game
+namespace MarbleMania
 {
     public class CameraController : MonoBehaviour, ITouchHandler
     {
@@ -13,7 +11,7 @@ namespace MarbleMania.Scripts.Game
         
         [SerializeField] private bool _zoomEnabled = true;
         private Camera _camera;
-
+        public static Camera Camera => Instance._camera;
         private void Awake()
         {
             if (_instance != null)
