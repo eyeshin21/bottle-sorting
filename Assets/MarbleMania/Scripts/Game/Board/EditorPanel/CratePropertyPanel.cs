@@ -37,6 +37,7 @@ namespace MarbleMania.EditorPanel
         {
             _activeCrate.SetBottleColorAt(i, ColorManager.activeColor);
             button.SetDisplayButtonColor(ColorManager.activeColor.ToColor());
+            BoxEditor.Instance.RebuildColorIndicator();
         }
     }
 }

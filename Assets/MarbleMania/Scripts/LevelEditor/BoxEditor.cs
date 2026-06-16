@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 namespace MarbleMania.LevelEditor
 {
-    public class BoxEditor : MonoBehaviour
+    public class BoxEditor : DestroyableSingletonBehaviour<BoxEditor>
     {
         [SerializeField] private TMP_InputField _rowInput;
         [SerializeField] private TMP_InputField _colInput;
@@ -61,7 +61,7 @@ namespace MarbleMania.LevelEditor
             }
         }
 
-        private void RebuildColorIndicator()
+        public void RebuildColorIndicator()
         {
             GameObjectPool.ClearManagedChild(_colorCounterContainer.gameObject);
             Dictionary<ColorType, int> colorCount = new Dictionary<ColorType, int>();
