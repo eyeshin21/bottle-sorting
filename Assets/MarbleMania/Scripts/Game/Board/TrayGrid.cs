@@ -149,6 +149,7 @@ public class TrayGrid : MonoBehaviourGizmos
             TrayGridCell cell = GetCell(positionData.row, positionData.column);
             if (cell == null || !cell.IsEmpty) continue;
             var prefabTray = GameConfig.GetTrayPrefab(positionData.type);
+            Debug.Log($"type {positionData.type}");
             if (!CheckAvailableSpace(prefabTray, cell, out List<TrayGridCell> cells)) continue;
             cells.Add(cell);
             Tray tray = GameObjectPool.CreateObject<Tray>(transform, prefabTray.gameObject);
@@ -411,6 +412,7 @@ public class TrayGrid : MonoBehaviourGizmos
         {
             trayPositions.Add(new TrayPositionData()
             {
+                type = tray.Type,
                 trayColor = tray.ColorType,
                 row = tray.CellPosition.y,
                 column = tray.CellPosition.x,
@@ -427,5 +429,34 @@ public class TrayGrid : MonoBehaviourGizmos
         Tray ret = cell.Tray;
         Remove(cell.Tray);
         return ret;
+    }
+
+    public void GetActiveIntakeType(ref List<ColorType> ret)
+    {
+        //Check the outerEdge
+        for (int r = 0; r < _rowCount; r++)
+        {
+            for (int c = 0; c < _columnCount; c++)
+            {
+                Directions direction = default;
+                if (r == 0)
+                    direction = Directions.Down;
+                else if (r == _rowCount - 1)
+                    direction = Directions.Up;
+                else if (c == 0)
+                    direction = Directions.Right;
+                else if (c == _columnCount - 1)
+                    direction = Directions.Left;
+                if (direction == default)
+                {
+                    continue;
+                }
+                Tray tray = GetTrayAlong(GetCell(r, c), direction);
+                if (tray != null && !ret.Contains(tray.ColorType))
+                {
+                    ret.Add(tray.ColorType);
+                }
+            }
+        }
     }
 }

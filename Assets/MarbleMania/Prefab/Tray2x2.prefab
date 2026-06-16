@@ -238,26 +238,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20db3a60d924c38b3a59178396816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tray
+  _type: 2
   _colorType: 0
   _slots:
   - colorType: 0
-    localPosition: {x: -0.3, y: 0, z: 0.15}
-    directions: 9
+    localPosition: {x: -0.15, y: 0, z: 0.15}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 6719532791240029712}
   - colorType: 0
-    localPosition: {x: 0, y: 0, z: 0.15}
-    directions: 3
+    localPosition: {x: 0.15, y: 0, z: 0.15}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 999522215371284597}
   - colorType: 0
-    localPosition: {x: 0.3, y: 0, z: 0.15}
-    directions: 12
+    localPosition: {x: -0.15, y: 0, z: -0.15}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 8705800666461434483}
   - colorType: 0
-    localPosition: {x: -0.3, y: 0, z: -0.15}
-    directions: 6
+    localPosition: {x: 0.15, y: 0, z: -0.15}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 8500929516896941053}
   _boundingBox:
@@ -271,9 +272,9 @@ MonoBehaviour:
   - {x: 0, y: -1}
   - {x: 1, y: -1}
   _localCenter: {x: 0, y: 0, z: 0}
-  _centerOffset: {x: -0.3, y: 0, z: 0.15}
+  _centerOffset: {x: -0.15, y: 0, z: 0.15}
   _bottleParent: {fileID: 8716761735027058148}
-  _renderer: {fileID: 0}
+  _renderer: {fileID: 1297858472228042278}
   _colorMaterials:
   - {fileID: 2100000, guid: 9ab763990591cd24eb195fedd2310275, type: 2}
   - {fileID: 2100000, guid: 3780329f5fc7b0248b72969fca98f131, type: 2}
@@ -361,5 +362,10 @@ PrefabInstance:
 --- !u!4 &164882471005834569 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 62cdd94d692abe14c8b76cf658d42e29, type: 3}
+  m_PrefabInstance: {fileID: 415314982322875042}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1297858472228042278 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 62cdd94d692abe14c8b76cf658d42e29, type: 3}
   m_PrefabInstance: {fileID: 415314982322875042}
   m_PrefabAsset: {fileID: 0}

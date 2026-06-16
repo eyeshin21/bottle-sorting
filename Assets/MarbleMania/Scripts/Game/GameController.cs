@@ -93,5 +93,45 @@ namespace MarbleMania.Scripts.Game
         { 
             LoadGame(GameContext.LevelToLoad);
         }
+
+        public static void OnConveyorFull()
+        {
+            var validType = Instance._board.GetActiveIntakeType();
+            if (validType == null)
+            {
+                Debug.Log("conveyor full, but no valid type");
+                return;
+            }
+
+            foreach (Bottle bottle in Instance._conveyor.BottlesOnConveyor)
+            {
+                if(validType.Contains(bottle.ColorType))
+                {
+                    return;
+                }
+            }
+
+            OnGameFailed();
+        }
+
+        private static void OnGameFailed()
+        {
+            UILoader.ShowConfirmPopup((popup) =>
+            {
+                popup.SetCancelButtonText("Replay");
+                popup.SetConfirmButtonText("Level Edtor");
+                popup.SetMessage("Level Failed");
+            }, confirm =>
+            {
+                if (confirm)
+                {
+                    TransitionManager.LoadScene(SceneName.LevelEditor);
+                }
+                else
+                {
+                    Instance.LoadGame(GameContext.LevelToLoad);
+                }
+            });
+        }
     }
 }

@@ -131,6 +131,28 @@ public class MainBoard : MonoBehaviourGizmos
         return tray.IntakeBottle(bottle);
     }
 
+    [Button]
+    public List<ColorType> GetActiveIntakeType()
+    {
+        List<ColorType> ret = new List<ColorType>();
+        foreach (var grid in _grids)
+        {
+            grid.GetActiveIntakeType(ref ret);
+        }
+
+
+        var log = Helper.CreateString(sb =>
+        {
+            sb.AppendLine("Active Intake Color");
+            // sb.Append("\n");
+            foreach (var colorType in ret)
+            {
+                sb.Append($".{colorType.ToString()}");
+            }
+        });
+        Debug.Log(log);
+        return ret;
+    }
 
     private List<GridCell> contactCells = new List<GridCell>();
 

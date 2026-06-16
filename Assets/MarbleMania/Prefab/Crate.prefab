@@ -243,6 +243,7 @@ MonoBehaviour:
   _throwAngle: 80
   row: 3
   col: 3
+  _propertyPanelPrefab: {fileID: 5961602288963549523, guid: aaf102ebcc0b10145bd0ce3031481e81, type: 3}
 --- !u!65 &7790095994563033743
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Anvil;
 using MarbleMania;
+using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
 
 public enum TrayType
@@ -34,9 +37,23 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     }
     public static Tray GetTrayPrefab(TrayType positionDataType)
     {
-        return Instance._trayByType.TryGet((int)positionDataType);
+        var ret = Instance._trayByType.TryGet((int)positionDataType);
+        return ret;
     }
-    
+
+    [Button]
+    private void Validate()
+    {
+        for (var i = 0; i < _trayByType.Count; i++)
+        {
+            var item = _trayByType[i];
+            if (item == null) continue;
+            item.Type = (TrayType)i;
+            EditorUtility.SetDirty(item);
+        }
+        AssetDatabase.SaveAssets();
+    }
+
     public static float SlotWidth => Instance._slotWidth;
     public static float SlotHeight => Instance._slotHeight;
     public static List<Tray> TrayPrefabs => Instance._trayByType;

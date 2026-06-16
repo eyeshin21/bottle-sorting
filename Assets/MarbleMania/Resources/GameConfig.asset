@@ -22,8 +22,8 @@ MonoBehaviour:
   - {fileID: 6803848509304014117, guid: 51dfd737a21426e4fa37a9ec8710d6b8, type: 3}
   _trayByType:
   - {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 5046156815751745329, guid: a1b252701d9e8864f830dbd088e455b5, type: 3}
+  - {fileID: 5557028569628872646, guid: 9dbcd1257e6616e4c9da29aca9d7e00c, type: 3}
   _colorByType:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0.09301448, g: 1, b: 0, a: 1}

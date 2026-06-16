@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Anvil;
 using Drawing;
+using MarbleMania.EditorPanel;
+using MarbleMania.LevelEditor;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -13,7 +15,7 @@ namespace MarbleMania
         TwoByTwo,
     }
 
-    public class Crate : MonoBehaviourGizmos
+    public class Crate : MonoBehaviourGizmos, IEditorProperty
     {
         [SerializeField] private CrateType _type;
         [SerializeField] private List<Transform> _slots;
@@ -105,6 +107,29 @@ namespace MarbleMania
             data.type = _type;
             data.colorData = colorData;
             return data;
+        }
+
+#region EditorProperty
+        [SerializeField] private GameObject _propertyPanelPrefab;
+
+        public void CreatePropertyPanel(Transform parent)
+        {
+            var panel = GameObjectPool.CreateObject<CratePropertyPanel>(parent, _propertyPanelPrefab);
+            panel.Load(this);
+            // return panel;
+        }
+
+#endregion
+
+        public void SetBottleColorAt(int i, ColorType colorType)
+        {
+            if (i < 0 || i >= _bottles.Count) return;
+            var slot = _slots[i];
+            var prefab = GameConfig.GetBottlePrefab(colorType);
+            var bottle = _bottles[i];
+            GameObjectPool.RemoveObject(bottle.gameObject);
+            bottle = GameObjectPool.CreateObject<Bottle>(slot, prefab.gameObject);
+            _bottles[i] = bottle;
         }
     }
 }

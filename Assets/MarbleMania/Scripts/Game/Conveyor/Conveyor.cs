@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using Anvil;
 using Drawing;
+using MarbleMania.Scripts.Game;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.LightTransport;
 
 [Serializable]
 public class ConveyorSlot : BottleSlot, ITargetDesignator
@@ -149,7 +151,7 @@ public class Conveyor : MonoBehaviourGizmos
     
     public float TotalLength => _totalLength;
     public ConveyorSlot[] Slots => _slots;
-
+    public HashSet<Bottle> BottlesOnConveyor => _bottlesOnConveyor;
     private void Start()
     {
     }
@@ -399,7 +401,18 @@ public class Conveyor : MonoBehaviourGizmos
         if (!slot.IsEmpty) return false;
         if (!_bottlesOnConveyor.Add(bottle)) return false;
         slot.RegisterBottle(bottle);
+        OnBottleAdded(bottle);
         return true;
+    }
+
+    private void OnBottleAdded(Bottle bottle)
+    {
+        int count = _bottlesOnConveyor.Count;
+        if (count >= _slotCount)
+        {
+            Debug.Log("out of space");
+            GameController.OnConveyorFull();
+        }
     }
 
     //=================================================  DEBUG  ==================================================================

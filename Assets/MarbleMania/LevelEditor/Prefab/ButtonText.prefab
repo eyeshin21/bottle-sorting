@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1407041662386721292}
   - component: {fileID: 6227255575644391864}
   - component: {fileID: 8826627578922429045}
-  - component: {fileID: 2611255112654721991}
+  - component: {fileID: 8469316465560358515}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2611255112654721991
+--- !u!114 &8469316465560358515
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,12 +131,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3061495345544806220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8309d06a07e4890878a16943fd1dd24, type: 3}
+  m_Script: {fileID: 11500000, guid: f34f9d6171ed4b46af20ba7a2810d630, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Anvil.FaceButton
+  m_EditorClassIdentifier: Assembly-CSharp::Anvil.UIButton
   _button: {fileID: 8826627578922429045}
   _doubleClickBlockDuration: 0.2
-  _displayImageObject: {fileID: 3061495345544806220}
 --- !u!1 &8446620598816253374
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &412042280029105302
 RectTransform:
   m_ObjectHideFlags: 0

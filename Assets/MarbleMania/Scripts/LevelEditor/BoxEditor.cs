@@ -159,12 +159,13 @@ namespace MarbleMania.LevelEditor
             
             var coord = _grid.ConvertToGridCoordinates(worldPoint);
 
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftControl))
             {
                 var crate = _grid.GetCrate(coord.x, coord.y);
                 _grid.RemoveCrate(coord.x, coord.y);
                 // Destroy(crate?.gameObject);
                 RebuildColorIndicator();
+                return;
             }
             
             bool isvalid = _grid.IsValidForNewCrate(coord);

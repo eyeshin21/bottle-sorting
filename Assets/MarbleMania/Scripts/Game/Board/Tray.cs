@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class Tray : MonoBehaviourGizmos
 {
+    [SerializeField] private TrayType _type;
     [SerializeField] private ColorType _colorType;
     [SerializeField] private TraySlot[] _slots;
     [SerializeField] private Rect _boundingBox;
@@ -26,6 +27,12 @@ public class Tray : MonoBehaviourGizmos
     public ColorType ColorType => _colorType;
     public Vector2Int CellPosition { get; set; }
     public int SlotCount => _slots.Length;
+
+    public TrayType Type
+    {
+        get => _type;
+        set => _type = value;
+    }
 
     private void Awake()
     {

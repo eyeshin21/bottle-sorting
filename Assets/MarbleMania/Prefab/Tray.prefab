@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20db3a60d924c38b3a59178396816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tray
+  _type: 0
   _colorType: 0
   _slots:
   - colorType: 0

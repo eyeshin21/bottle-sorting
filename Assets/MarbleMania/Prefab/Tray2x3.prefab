@@ -271,36 +271,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20db3a60d924c38b3a59178396816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tray
+  _type: 1
   _colorType: 0
   _slots:
   - colorType: 0
-    localPosition: {x: -0.3, y: 0, z: 0.15}
-    directions: 9
+    localPosition: {x: -0.15, y: 0, z: 0.3}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 8900971294362986056}
   - colorType: 0
-    localPosition: {x: 0, y: 0, z: 0.15}
-    directions: 3
+    localPosition: {x: 0.15, y: 0, z: 0.3}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 4412194182807041266}
   - colorType: 0
-    localPosition: {x: 0.3, y: 0, z: 0.15}
-    directions: 8
+    localPosition: {x: -0.15, y: 0, z: 0}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 5732789386810539317}
   - colorType: 0
-    localPosition: {x: -0.3, y: 0, z: -0.15}
-    directions: 2
+    localPosition: {x: 0.15, y: 0, z: 0}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 6107669196748538494}
   - colorType: 0
-    localPosition: {x: 0, y: 0, z: -0.15}
-    directions: 12
+    localPosition: {x: -0.15, y: 0, z: -0.3}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 8767832699545021723}
   - colorType: 0
-    localPosition: {x: 0.3, y: 0, z: -0.15}
-    directions: 6
+    localPosition: {x: 0.15, y: 0, z: -0.3}
+    directions: 0
     bottle: {fileID: 0}
     transform: {fileID: 8543573488509547182}
   _boundingBox:
@@ -316,7 +317,7 @@ MonoBehaviour:
   - {x: 0, y: -2}
   - {x: 1, y: -2}
   _localCenter: {x: 0, y: 0, z: 0}
-  _centerOffset: {x: -0.3, y: 0, z: 0.15}
+  _centerOffset: {x: -0.15, y: 0, z: 0.3}
   _bottleParent: {fileID: 556852719520698306}
   _renderer: {fileID: 8807315918509379760}
   _colorMaterials:

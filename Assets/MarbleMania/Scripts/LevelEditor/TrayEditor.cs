@@ -285,7 +285,7 @@ namespace MarbleMania.LevelEditor
 
             var cell = _currentGrid.GetCellNear(worldPoint, out var _);
             
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftControl))
             {
                 var tray = _currentGrid.RemoveTray(cell.Row, cell.Column);
                 RebuildColorIndicator();
