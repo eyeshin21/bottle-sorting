@@ -9,15 +9,16 @@ using UnityEngine;
 
 namespace MarbleMania
 {
-    public enum CrateType
+    public enum BoxType
     {
         ThreeByThree,
         TwoByTwo,
+        Mystery3x3,
     }
 
     public class Box : MonoBehaviourGizmos, IEditorProperty
     {
-        [SerializeField] private CrateType _type;
+        [SerializeField] private BoxType _type;
         [SerializeField] private List<Transform> _slots;
         [SerializeField] private float _throwForce;
         [SerializeField] private float _throwAngle;
@@ -26,7 +27,7 @@ namespace MarbleMania
         public int col;
         
         private CrateGrid _grid;
-        public CrateType Type => _type;
+        public BoxType Type => _type;
         private List<Bottle> _bottles = new List<Bottle>();
         private Vector3 _throwVector;
         
@@ -40,10 +41,10 @@ namespace MarbleMania
             _throwVector = _throwVector.normalized * _throwForce;
         }
 
-        public void Init(CrateGrid grid, List<ColorType> data)
+        public void Init(CrateGrid grid, BoxData data)
         {
             _grid = grid;
-            Init(data);
+            Init(data.colorData);
         }
         public virtual void Init(List<ColorType> colorData)
         {
@@ -56,8 +57,9 @@ namespace MarbleMania
             {
                 if (i >= colorData.Count) break;
                 var slot = _slots[i];
-                var prefab = GameConfig.GetBottlePrefab(colorData[i]);
+                var prefab = GameConfig.BottlePrefab;
                 var bottle = GameObjectPool.CreateObject<Bottle>(slot, prefab.gameObject);
+                bottle.SetColor(colorData[i]);
                 _bottles.Add(bottle);
             }
         }
@@ -66,7 +68,7 @@ namespace MarbleMania
         {
             
         }
-        public void OnSelected()
+        public virtual void OnSelected()
         {
             foreach (Bottle bottle in _bottles)
             {
@@ -100,14 +102,14 @@ namespace MarbleMania
             }
         }
 
-        public CrateData CreateData()
+        public BoxData CreateData()
         {
             List<ColorType> colorData = new List<ColorType>();
             foreach (Bottle bottle in _bottles)
             {
                 colorData.Add(bottle.ColorType);
             }
-            CrateData data = new  CrateData();
+            BoxData data = new();
             data.type = _type;
             data.colorData = colorData;
             return data;
@@ -129,10 +131,11 @@ namespace MarbleMania
         {
             if (i < 0 || i >= _bottles.Count) return;
             var slot = _slots[i];
-            var prefab = GameConfig.GetBottlePrefab(colorType);
+            var prefab = GameConfig.BottlePrefab;
             var bottle = _bottles[i];
             GameObjectPool.RemoveObject(bottle.gameObject);
             bottle = GameObjectPool.CreateObject<Bottle>(slot, prefab.gameObject);
+            bottle.SetColor(colorType);
             _bottles[i] = bottle;
         }
     }

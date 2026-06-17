@@ -38,13 +38,13 @@ namespace MarbleMania
     {
         public int row;
         public int col;
-        public CrateData crate;
+        public BoxData crate;
     }
 
     [Serializable]
-    public class CrateData
+    public class BoxData
     {
-        public CrateType type;
+        public BoxType type;
         public List<ColorType> colorData;
     }
 
@@ -90,7 +90,7 @@ namespace MarbleMania
                 var crate = GameObjectPool.CreateObject<Box>(transform, prefab.gameObject, resetScale: false);
                 if (crate == null) continue;
                 RegisterCrate(crate, data.row, data.col);
-                crate.Init(this, data.crate.colorData);
+                crate.Init(this, data.crate);
             }
         }
 
@@ -190,9 +190,13 @@ namespace MarbleMania
             if (box == null) return;
             if (box != FirstCrateOfCol(box.col)) return;
             if (!CanRemoveCrate(box)) return;
+            int col = box.col;
+            Debug.Log($"col {col}");
             box.OnSelected();
             RemoveCrate(box);
             GameObjectPool.RemoveObject(box.gameObject);
+            var next = FirstCrateOfCol(col);
+            next.OnGridActive();
             // gameObject.DelayCall(0.7f, () => { UpdateCratePosition(); });
         }
 

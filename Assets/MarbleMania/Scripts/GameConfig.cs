@@ -5,6 +5,7 @@ using MarbleMania;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum TrayType
 {
@@ -21,22 +22,24 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
 {
     [SerializeField] private float _slotWidth;
     [SerializeField] private float _slotHeight;
-    [ElementName(typeof(ColorType))] [SerializeField] private List<Bottle> _bottleByColor;
-    [ElementName(typeof(CrateType))] [SerializeField] private List<Box> _crateByType;
+    // [FormerlySerializedAs("_bottleByColor")] 
+    // [ElementName(typeof(BottleType))] [SerializeField] private List<Bottle> _bottleByType;
+    [SerializeField] private GameObject _bottlePrefab;
+    [ElementName(typeof(BoxType))] [SerializeField] private List<Box> _crateByType;
     [ElementName(typeof(TrayType))] [SerializeField] private List<Tray> _trayByType;
     [ElementName(typeof(ColorType))] [SerializeField] private List<Color> _colorByType;
     [SerializeField] private MainGameUIAsset _mainGameUIAsset;
     public static MainGameUIAsset MainGameUIAsset => Instance._mainGameUIAsset;
-
+    public static GameObject BottlePrefab => Instance._bottlePrefab;
     public static Color GetColor(ColorType color)
     {
         return Instance._colorByType.TryGet((int)color);
     }
-    public static Bottle GetBottlePrefab(ColorType color)
-    {
-        return Instance._bottleByColor.TryGet((int)color);
-    }
-    public static Box GetCratePrefab(CrateType type)
+    // public static Bottle GetBottlePrefab(ColorType color)
+    // {
+        // return Instance._bottleByType.TryGet((int)color);
+    // }
+    public static Box GetCratePrefab(BoxType type)
     {
         return Instance._crateByType.TryGet((int)type);
     }

@@ -14,7 +14,7 @@ namespace MarbleMania.LevelEditor
         [SerializeField] private TMP_InputField _colInput;
         [SerializeField] private UIButton _generateButton;
 
-        [SerializeField, ElementName(typeof(CrateType))]
+        [SerializeField, ElementName(typeof(BoxType))]
         private List<string> _crateTypeNameDictionary;
 
         [SerializeField] private GameObject _textIndicatedColorPrefab;
@@ -39,7 +39,7 @@ namespace MarbleMania.LevelEditor
                 var prefab = GameConfig.CratePrefabs[i];
                 if (prefab == null) continue;
                 var crate = prefab.GetComponent<Box>();
-                var type = (CrateType)i;
+                var type = (BoxType)i;
 
                 IndicatedLabledToggle button =
                     GameObjectPool.CreateObject<IndicatedLabledToggle>(_buttonContainer, _crateButtonPrefab);
@@ -106,7 +106,7 @@ namespace MarbleMania.LevelEditor
             Editor.EditingData.crateGridData = _grid.CreateData();
         }
 
-        private void OnCratePresetActive(Box box, CrateType type)
+        private void OnCratePresetActive(Box box, BoxType type)
         {
             _activeBox = box;
             for (var i = 0; i < _crateButtons.Count; i++)
