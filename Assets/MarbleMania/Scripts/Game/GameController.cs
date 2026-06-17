@@ -56,6 +56,17 @@ namespace MarbleMania.Scripts.Game
             _crateGrid.Init(levelData.crateGridData);
         }
 
+        private void ClearScene()
+        {
+            Debug.Log("clear scene");
+            var gos = FindObjectsByType<Bottle>(FindObjectsSortMode.None);
+            for (var i = gos.Length - 1; i >= 0; i--)
+            {
+                var go = gos[i];
+                    Destroy(go);
+            }
+        }
+
         // seperate so null check doesnt need to be in runtime
         public void LoadAsEditor(LevelData levelData)
         {
@@ -91,7 +102,7 @@ namespace MarbleMania.Scripts.Game
 
         public void Restart()
         { 
-            LoadGame(GameContext.LevelToLoad);
+            TransitionManager.LoadScene(SceneName.MainGame);
         }
 
         public static void OnConveyorFull()

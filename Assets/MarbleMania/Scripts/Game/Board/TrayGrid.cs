@@ -149,7 +149,6 @@ public class TrayGrid : MonoBehaviourGizmos
             TrayGridCell cell = GetCell(positionData.row, positionData.column);
             if (cell == null || !cell.IsEmpty) continue;
             var prefabTray = GameConfig.GetTrayPrefab(positionData.type);
-            Debug.Log($"type {positionData.type}");
             if (!CheckAvailableSpace(prefabTray, cell, out List<TrayGridCell> cells)) continue;
             cells.Add(cell);
             Tray tray = GameObjectPool.CreateObject<Tray>(transform, prefabTray.gameObject);
