@@ -15,7 +15,7 @@ namespace MarbleMania
         TwoByTwo,
     }
 
-    public class Crate : MonoBehaviourGizmos, IEditorProperty
+    public class Box : MonoBehaviourGizmos, IEditorProperty
     {
         [SerializeField] private CrateType _type;
         [SerializeField] private List<Transform> _slots;
@@ -43,9 +43,9 @@ namespace MarbleMania
         public void Init(CrateGrid grid, List<ColorType> data)
         {
             _grid = grid;
-            Generate(data);
+            Init(data);
         }
-        public void Generate(List<ColorType> colorData)
+        public virtual void Init(List<ColorType> colorData)
         {
             foreach (Bottle bottle in _bottles)
             {
@@ -62,6 +62,10 @@ namespace MarbleMania
             }
         }
 
+        public virtual void OnGridActive()
+        {
+            
+        }
         public void OnSelected()
         {
             foreach (Bottle bottle in _bottles)

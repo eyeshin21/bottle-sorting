@@ -68,12 +68,12 @@ namespace MarbleMania
         public int ColCount => _colCount;
 
 
-        private Crate[,] _crates;
+        private Box[,] _crates;
         // [SerializeField] private CrateRow _rowPrefab;
         [SerializeField, ReadOnly] private float _width;
         [SerializeField, ReadOnly] private float _height;
 
-        public Crate[,] Crates => _crates;
+        public Box[,] Crates => _crates;
         // [Button]
         private void Awake()
         {
@@ -87,7 +87,7 @@ namespace MarbleMania
                 var data = gridData._gridData[i];
                 if (!IsValid(data.row, data.col) || GetCrate(data.row, data.col) != null) continue;
                 var prefab = GameConfig.GetCratePrefab(data.crate.type);
-                var crate = GameObjectPool.CreateObject<Crate>(transform, prefab.gameObject, resetScale: false);
+                var crate = GameObjectPool.CreateObject<Box>(transform, prefab.gameObject, resetScale: false);
                 if (crate == null) continue;
                 RegisterCrate(crate, data.row, data.col);
                 crate.Init(this, data.crate.colorData);
@@ -98,7 +98,7 @@ namespace MarbleMania
         {
             _rowCount = row;
             _colCount = col;
-            _crates = new Crate[_rowCount, _colCount];
+            _crates = new Box[_rowCount, _colCount];
             _height = _rowCount * _cellSize + (_rowCount - 1) * _spacing;
             _width = _colCount * _cellSize + (_colCount - 1) * _spacing;
             float scaleX = _maxSize.x / _width;
@@ -108,17 +108,17 @@ namespace MarbleMania
             transform.localScale = Vector3.one * scale;
         }
 
-        public void RegisterCrate(Crate crate, int row, int col)
+        public void RegisterCrate(Box box, int row, int col)
         {
-            _crates[row, col] = crate;
-            crate.col = col;
-            crate.row = row;
-            if (crate.transform.parent != transform)
+            _crates[row, col] = box;
+            box.col = col;
+            box.row = row;
+            if (box.transform.parent != transform)
             {
-                crate.transform.SetParent(transform, true);
+                box.transform.SetParent(transform, true);
             }
 
-            crate.transform.localPosition = GetCellLocalPosition(row, col);
+            box.transform.localPosition = GetCellLocalPosition(row, col);
         }
 
         private bool IsValid(int row, int col)
@@ -131,9 +131,9 @@ namespace MarbleMania
             return true;
         }
 
-        private void RemoveCrate(Crate crate)
+        private void RemoveCrate(Box box)
         {
-            _crates[crate.row, crate.col] = null;
+            _crates[box.row, box.col] = null;
         }
 
         public void RemoveCrate(int row, int col)
@@ -145,13 +145,13 @@ namespace MarbleMania
             }
         }
 
-        public Crate GetCrate(int row, int col)
+        public Box GetCrate(int row, int col)
         {
             if (!IsValid(row, col)) return null;
             return _crates[row, col];
         }
 
-        private Crate FirstCrateOfCol(int col)
+        private Box FirstCrateOfCol(int col)
         {
             if (col >= _colCount || col < 0) return null;
             for (int i = 0; i < _rowCount; i++)
@@ -180,23 +180,23 @@ namespace MarbleMania
         /// <summary>
         /// Unsafe. check for null first
         /// </summary>
-        public int GetCrateColIndex(Crate crate)
+        public int GetCrateColIndex(Box box)
         {
-            return crate.col;
+            return box.col;
         }
 
-        public void OnCrateSelected(Crate crate)
+        public void OnCrateSelected(Box box)
         {
-            if (crate == null) return;
-            if (crate != FirstCrateOfCol(crate.col)) return;
-            if (!CanRemoveCrate(crate)) return;
-            crate.OnSelected();
-            RemoveCrate(crate);
-            GameObjectPool.RemoveObject(crate.gameObject);
+            if (box == null) return;
+            if (box != FirstCrateOfCol(box.col)) return;
+            if (!CanRemoveCrate(box)) return;
+            box.OnSelected();
+            RemoveCrate(box);
+            GameObjectPool.RemoveObject(box.gameObject);
             // gameObject.DelayCall(0.7f, () => { UpdateCratePosition(); });
         }
 
-        public bool CanRemoveCrate(Crate crate)
+        public bool CanRemoveCrate(Box box)
         {
             return true;
         }
@@ -279,7 +279,7 @@ namespace MarbleMania
         public void Clear()
         {
             GameObjectPool.ClearManagedChild(gameObject);
-            _crates = new Crate[_rowCount, _colCount];
+            _crates = new Box[_rowCount, _colCount];
         }
     }
 }

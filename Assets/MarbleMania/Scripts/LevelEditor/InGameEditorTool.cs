@@ -12,7 +12,7 @@ namespace MarbleMania.LevelEditor
 
         private void Awake()
         {
-            if (!LevelEditor.IsPlayedFromEditor)
+            if (!Editor.IsPlayedFromEditor)
             {
                 gameObject.SetActive(false);
                 return;
@@ -28,7 +28,7 @@ namespace MarbleMania.LevelEditor
 
         private void BackToEditor()
         {
-            LevelEditor.CurrentLevelID = GameController.Instance.LevelData.levelID;
+            Editor.CurrentLevelID = GameController.Instance.LevelData.levelID;
             TransitionManager.LoadScene(SceneName.LevelEditor);
         }
     }

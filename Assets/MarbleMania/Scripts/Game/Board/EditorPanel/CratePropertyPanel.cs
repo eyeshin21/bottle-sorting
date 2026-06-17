@@ -12,13 +12,13 @@ namespace MarbleMania.EditorPanel
         [SerializeField] private Transform _buttonContainer;
         [SerializeField] private GameObject _slotButtonPrefab;
         private List<FaceButton> _slotButtons = new(); 
-        private Crate _activeCrate;
-        public void Load(Crate crate)
+        private Box _activeBox;
+        public void Load(Box box)
         {
-            _activeCrate = crate;
+            _activeBox = box;
             GridLayoutGroup gridLayoutGroup = _buttonContainer.GetComponent<GridLayoutGroup>();
             gridLayoutGroup.constraintCount = 3;
-            for (int i = 0; i< crate.SlotCount; i++)
+            for (int i = 0; i< box.SlotCount; i++)
             {
                 int index = i;
                 FaceButton button = GameObjectPool.CreateObject<FaceButton>(_buttonContainer, _slotButtonPrefab);
@@ -27,7 +27,7 @@ namespace MarbleMania.EditorPanel
                 {
                     OnSlotClick(button, index);
                 });
-                Bottle bottle = crate.Bottles[i];
+                Bottle bottle = box.Bottles[i];
                 button.SetDisplayButtonColor(bottle.ColorType.ToColor());
                 Debug.Log("added");
             }
@@ -35,7 +35,7 @@ namespace MarbleMania.EditorPanel
 
         private void OnSlotClick(FaceButton button, int i)
         {
-            _activeCrate.SetBottleColorAt(i, ColorManager.activeColor);
+            _activeBox.SetBottleColorAt(i, ColorManager.activeColor);
             button.SetDisplayButtonColor(ColorManager.activeColor.ToColor());
             BoxEditor.Instance.RebuildColorIndicator();
         }

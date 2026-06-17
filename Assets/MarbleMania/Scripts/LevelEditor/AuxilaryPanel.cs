@@ -12,7 +12,7 @@ namespace MarbleMania.LevelEditor
         protected override void Awake()
         {
             base.Awake();
-            LevelEditor.ReloadSignal += Reload;
+            Editor.ReloadSignal += Reload;
         }
 
         private void Reload()

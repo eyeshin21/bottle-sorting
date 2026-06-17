@@ -8,11 +8,12 @@ using Object = UnityEngine.Object;
 
 namespace MarbleMania.LevelEditor
 {
-    public class LevelEditor : MonoBehaviour
+    public class Editor : MonoBehaviour
     {
-        private static LevelEditor _instance;
-        public static LevelEditor Instance => _instance;
+        private static Editor _instance;
+        public static Editor Instance => _instance;
         public static bool IsPlayedFromEditor;
+        public static bool IsActive => _instance != null;
         
         [SerializeField] GameController _gameController;
         [SerializeField] private MainBoard _board;

@@ -11,13 +11,18 @@ public enum TrayType
     ThreeByTwo,
     TwoByThree,
     TwoByTwo,
+    OneByOne,
+    TwoByOne,
+    ThreeByOne,
+    FourByOne,
+    FourByTwo,
 }
 public class GameConfig : SingletonScriptableObject<GameConfig>
 {
     [SerializeField] private float _slotWidth;
     [SerializeField] private float _slotHeight;
     [ElementName(typeof(ColorType))] [SerializeField] private List<Bottle> _bottleByColor;
-    [ElementName(typeof(CrateType))] [SerializeField] private List<Crate> _crateByType;
+    [ElementName(typeof(CrateType))] [SerializeField] private List<Box> _crateByType;
     [ElementName(typeof(TrayType))] [SerializeField] private List<Tray> _trayByType;
     [ElementName(typeof(ColorType))] [SerializeField] private List<Color> _colorByType;
     [SerializeField] private MainGameUIAsset _mainGameUIAsset;
@@ -31,7 +36,7 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     {
         return Instance._bottleByColor.TryGet((int)color);
     }
-    public static Crate GetCratePrefab(CrateType type)
+    public static Box GetCratePrefab(CrateType type)
     {
         return Instance._crateByType.TryGet((int)type);
     }
@@ -57,5 +62,5 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     public static float SlotWidth => Instance._slotWidth;
     public static float SlotHeight => Instance._slotHeight;
     public static List<Tray> TrayPrefabs => Instance._trayByType;
-    public static List<Crate> CratePrefabs => Instance._crateByType;
+    public static List<Box> CratePrefabs => Instance._crateByType;
 }

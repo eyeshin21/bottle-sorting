@@ -21,24 +21,24 @@ namespace MarbleMania.LevelEditor
         [SerializeField] private Transform _colorCounterContainer;
         [SerializeField] private GameObject _crateButtonPrefab;
         [SerializeField] private Transform _buttonContainer;
-        private CrateGrid _grid => LevelEditor.CrateGrid;
+        private CrateGrid _grid => Editor.CrateGrid;
         private List<IndicatedLabledToggle> _crateButtons = new();
-        private Crate _activeCrate;
-        private Crate preview;
+        private Box _activeBox;
+        private Box preview;
         private ColorType _currentColorType;
 
         private void Start()
         {
-            LevelEditor.RebuildSignal += BuildData;
-            LevelEditor.ReloadSignal += Reload;
-            LevelEditor.ClearSignal += Clear;
+            Editor.RebuildSignal += BuildData;
+            Editor.ReloadSignal += Reload;
+            Editor.ClearSignal += Clear;
             _generateButton.AddListener(OnBoardGenerate);
 
             for (var i = 0; i < GameConfig.CratePrefabs.Count; i++)
             {
                 var prefab = GameConfig.CratePrefabs[i];
                 if (prefab == null) continue;
-                var crate = prefab.GetComponent<Crate>();
+                var crate = prefab.GetComponent<Box>();
                 var type = (CrateType)i;
 
                 IndicatedLabledToggle button =
@@ -52,9 +52,9 @@ namespace MarbleMania.LevelEditor
                     }
                     else
                     {
-                        Destroy(preview);
-                        _activeCrate = null;
+                        
                     }
+
                 });
                 button.SetIsOn(false);
                 _crateButtons.Add(button);
@@ -75,7 +75,7 @@ namespace MarbleMania.LevelEditor
                     {
                         colorCount[colorType] = 0;
                     }
-                    
+
                     colorCount[colorType] += 1;
                 }
             }
@@ -103,12 +103,12 @@ namespace MarbleMania.LevelEditor
 
         private void BuildData()
         {
-            LevelEditor.EditingData.crateGridData = _grid.CreateData();
+            Editor.EditingData.crateGridData = _grid.CreateData();
         }
 
-        private void OnCratePresetActive(Crate crate, CrateType type)
+        private void OnCratePresetActive(Box box, CrateType type)
         {
-            _activeCrate = crate;
+            _activeBox = box;
             for (var i = 0; i < _crateButtons.Count; i++)
             {
                 if (i == (int)type)
@@ -118,13 +118,15 @@ namespace MarbleMania.LevelEditor
 
                 _crateButtons[i].ForceSwitchOff();
             }
+            Destroy(preview.gameObject);
+            preview = null;
         }
 
         private void OnBoardGenerate()
         {
             _grid.Clear();
             _grid.Init(_rowInput.text.ToInt(), _colInput.text.ToInt());
-            if (preview!= null)
+            if (preview != null)
             {
                 Destroy(preview.gameObject);
                 preview = null;
@@ -133,16 +135,16 @@ namespace MarbleMania.LevelEditor
 
         private void Update()
         {
-            if (_activeCrate == null)
+            if (_activeBox == null)
                 return;
             if (preview == null)
             {
-                preview = GameObjectPool.CreateObject<Crate>(null, _activeCrate.gameObject, resetScale: false);
+                preview = GameObjectPool.CreateObject<Box>(null, _activeBox.gameObject, resetScale: false);
                 preview.transform.localScale *= _grid.transform.localScale.x;
                 UpdateContentColor();
                 preview.gameObject.SetActive(false);
             }
-            
+
             if (_currentColorType != ColorManager.activeColor)
             {
                 UpdateContentColor();
@@ -156,7 +158,7 @@ namespace MarbleMania.LevelEditor
                 preview.gameObject.SetActive(false);
                 return;
             }
-            
+
             var coord = _grid.ConvertToGridCoordinates(worldPoint);
 
             if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftControl))
@@ -167,7 +169,7 @@ namespace MarbleMania.LevelEditor
                 RebuildColorIndicator();
                 return;
             }
-            
+
             bool isvalid = _grid.IsValidForNewCrate(coord);
             if (!isvalid)
             {
@@ -193,12 +195,12 @@ namespace MarbleMania.LevelEditor
         {
             ColorType type = ColorManager.activeColor;
             List<ColorType> colorTypes = new List<ColorType>();
-            for (int i = 0; i < _activeCrate.SlotCount; i++)
+            for (int i = 0; i < _activeBox.SlotCount; i++)
             {
                 colorTypes.Add(type);
             }
 
-            preview.Generate(colorTypes);
+            preview.Init(colorTypes);
             _currentColorType = type;
         }
     }

@@ -37,15 +37,15 @@ namespace MarbleMania.LevelEditor
         private List<IndicatedLabledToggle> _trayButtons = new();
         private TrayGrid _currentGrid;
         public int layerIndex = 0;
-        private MainBoard _Board => LevelEditor.Instance.Board;
+        private MainBoard _Board => Editor.Instance.Board;
 
         private Tray _activeTray;
 
         public void Start()
         {
-            LevelEditor.RebuildSignal += BuildData;
-            LevelEditor.ReloadSignal += Reload;
-            LevelEditor.ClearSignal += ClearAll;
+            Editor.RebuildSignal += BuildData;
+            Editor.ReloadSignal += Reload;
+            Editor.ClearSignal += ClearAll;
             _generateButton.AddListener(OnBoardGenerate);
             _addButton.AddListener(OnBoardAdd);
 
@@ -95,7 +95,7 @@ namespace MarbleMania.LevelEditor
                 data.Add(grid.CreateData());
             }
 
-            LevelEditor.EditingData.trayGridDatas = data;
+            Editor.EditingData.trayGridDatas = data;
         }
 
         private void RebuildColorIndicator()

@@ -43,9 +43,9 @@ namespace Anvil
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _raycastLayerMask, QueryTriggerInteraction.Collide))
             {
                 GameObject hitObject = hit.collider.gameObject;
-                Crate  crate = hitObject.GetComponent<Crate>();
-                if (crate == null) return false;
-                crate.OnSelect();
+                Box  box = hitObject.GetComponent<Box>();
+                if (box == null) return false;
+                box.OnSelect();
             }
             return false;
         }
