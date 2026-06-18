@@ -45,6 +45,7 @@ namespace MarbleMania
     public class BoxData
     {
         public BoxType type;
+        public Directions direction;
         public List<ColorType> colorData;
     }
 
@@ -72,9 +73,19 @@ namespace MarbleMania
         // [SerializeField] private CrateRow _rowPrefab;
         [SerializeField, ReadOnly] private float _width;
         [SerializeField, ReadOnly] private float _height;
-
+        private Action<int,int> _onBoxRemove;
         public Box[,] Crates => _crates;
         // [Button]
+        
+        public void AddOnBoxRemoved(Action<int, int> onBoxRemove)
+        {
+            _onBoxRemove += onBoxRemove;
+        }
+
+        public void RemoveOnBoxRemoved(Action<int, int> onBoxRemove)
+        {
+            _onBoxRemove -= onBoxRemove;
+        }
         private void Awake()
         {
         }
@@ -110,12 +121,13 @@ namespace MarbleMania
 
         public void RegisterCrate(Box box, int row, int col)
         {
+            Debug.Log($"registered {row}-{col}");
             _crates[row, col] = box;
             box.col = col;
             box.row = row;
             if (box.transform.parent != transform)
             {
-                box.transform.SetParent(transform, true);
+                box.transform.SetParent(transform, false);
             }
 
             box.transform.localPosition = GetCellLocalPosition(row, col);
@@ -131,18 +143,17 @@ namespace MarbleMania
             return true;
         }
 
-        private void RemoveCrate(Box box)
+        public void RemoveCrate(Box box)
         {
-            _crates[box.row, box.col] = null;
+            RemoveCrate(box.row, box.col);
         }
 
         public void RemoveCrate(int row, int col)
         {
-            if (IsValid(row, col) && _crates[row, col] != null)
-            {
-                GameObjectPool.RemoveObject(_crates[row, col].gameObject);
-                _crates[row, col] = null;
-            }
+            if (!IsValid(row, col) || _crates[row, col] == null) return;
+            GameObjectPool.RemoveObject(_crates[row, col].gameObject);
+            _crates[row, col] = null;
+            _onBoxRemove?.Invoke(row, col);
         }
 
         public Box GetCrate(int row, int col)
@@ -196,7 +207,7 @@ namespace MarbleMania
             RemoveCrate(box);
             GameObjectPool.RemoveObject(box.gameObject);
             var next = FirstCrateOfCol(col);
-            next.OnGridActive();
+            next?.OnGridActive();
             // gameObject.DelayCall(0.7f, () => { UpdateCratePosition(); });
         }
 
@@ -285,5 +296,6 @@ namespace MarbleMania
             GameObjectPool.ClearManagedChild(gameObject);
             _crates = new Box[_rowCount, _colCount];
         }
+
     }
 }

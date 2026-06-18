@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Anvil
 {
-    public class LabledButton : FaceButton, ILabeledUIButton
+    public class LabledFaceButton : FaceButton, ILabeledUIButton
     {
         [SerializeField] protected TMP_Text _label;
         public void SetLabel(string label)

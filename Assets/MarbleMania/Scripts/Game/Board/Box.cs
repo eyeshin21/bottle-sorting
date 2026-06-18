@@ -14,6 +14,7 @@ namespace MarbleMania
         ThreeByThree,
         TwoByTwo,
         Mystery3x3,
+        Container,
     }
 
     public class Box : MonoBehaviourGizmos, IEditorProperty
@@ -26,14 +27,20 @@ namespace MarbleMania
         public int row;
         public int col;
         
-        private CrateGrid _grid;
+        protected CrateGrid _grid;
         public BoxType Type => _type;
-        private List<Bottle> _bottles = new List<Bottle>();
-        private Vector3 _throwVector;
+        protected List<Bottle> _bottles = new List<Bottle>();
+        protected Vector3 _throwVector;
         
         public int SlotCount => _slots.Count;
         public List<Bottle> Bottles => _bottles;
-        private void Awake()
+
+        public CrateGrid Grid
+        {
+            get => _grid;
+            set => _grid = value;
+        }
+        protected virtual void Awake()
         {
             _throwVector = Vector3.forward;
             // rotate
@@ -44,9 +51,9 @@ namespace MarbleMania
         public void Init(CrateGrid grid, BoxData data)
         {
             _grid = grid;
-            Init(data.colorData);
+            Init(data);
         }
-        public virtual void Init(List<ColorType> colorData)
+        public virtual void Init(BoxData boxData)
         {
             foreach (Bottle bottle in _bottles)
             {
@@ -55,11 +62,11 @@ namespace MarbleMania
             _bottles.Clear();
             for (var i = 0; i < _slots.Count; i++)
             {
-                if (i >= colorData.Count) break;
+                if (i >= boxData.colorData.Count) break;
                 var slot = _slots[i];
                 var prefab = GameConfig.BottlePrefab;
                 var bottle = GameObjectPool.CreateObject<Bottle>(slot, prefab.gameObject);
-                bottle.SetColor(colorData[i]);
+                bottle.SetColor(boxData.colorData[i]);
                 _bottles.Add(bottle);
             }
         }
@@ -102,7 +109,7 @@ namespace MarbleMania
             }
         }
 
-        public BoxData CreateData()
+        public virtual BoxData CreateData()
         {
             List<ColorType> colorData = new List<ColorType>();
             foreach (Bottle bottle in _bottles)
@@ -120,7 +127,7 @@ namespace MarbleMania
 
         public void CreatePropertyPanel(Transform parent)
         {
-            var panel = GameObjectPool.CreateObject<CratePropertyPanel>(parent, _propertyPanelPrefab);
+            var panel = GameObjectPool.CreateObject(parent, _propertyPanelPrefab).GetComponent<IBoxPropertyPanel>();
             panel.Load(this);
             // return panel;
         }
@@ -137,6 +144,23 @@ namespace MarbleMania
             bottle = GameObjectPool.CreateObject<Bottle>(slot, prefab.gameObject);
             bottle.SetColor(colorType);
             _bottles[i] = bottle;
+        }
+
+        public virtual void Init(ColorType activeColor)
+        {
+            foreach (Bottle bottle in _bottles)
+            {
+                GameObjectPool.RemoveObject(bottle.gameObject);
+            }
+            _bottles.Clear();
+            for (var i = 0; i < _slots.Count; i++)
+            {
+                var slot = _slots[i];
+                var prefab = GameConfig.BottlePrefab;
+                var bottle = GameObjectPool.CreateObject<Bottle>(slot, prefab.gameObject);
+                bottle.SetColor(activeColor);
+                _bottles.Add(bottle);
+            }
         }
     }
 }

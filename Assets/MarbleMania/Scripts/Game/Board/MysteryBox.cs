@@ -10,16 +10,27 @@ namespace MarbleMania
         [SerializeField] private GameObject _mysteryIndicatorLE;
         [SerializeField] private SpriteRenderer _colorIndicator;
         private bool _isHidden;
-        public override void Init(List<ColorType> colorData)
+        public override void Init(BoxData data)
         {
-            base.Init(colorData);
+            base.Init(data);
             _isHidden = true;
             SetHidden(true);
-
+            List<ColorType> colorData = data.colorData;
             if (Editor.IsActive)
             {
-                DisplayAsEditor(colorData);
+                ColorType  colorType = colorData[0];
+                DisplayAsEditor(colorType);
             }
+        }
+
+        public override void Init(ColorType activeColor)
+        {
+            base.Init(activeColor);
+            if (Editor.IsActive)
+            {
+                DisplayAsEditor(activeColor);
+            }else
+                SetHidden(true);
         }
 
         public override void OnGridActive()
@@ -44,11 +55,11 @@ namespace MarbleMania
             }
         }
 
-        public void DisplayAsEditor(List<ColorType> colorData)
+        public void DisplayAsEditor(ColorType type)
         {
             _mysteryIndicatorLE.SetActive(true);
             _mysteryIndicator.SetActive(false);
-            ColorType colorType = colorData[0];
+            ColorType colorType = type;
             _colorIndicator.color = colorType.ToColor();
         }
 

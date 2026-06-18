@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using Anvil;
 using MarbleMania.LevelEditor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Editor = MarbleMania.LevelEditor.Editor;
 
 namespace MarbleMania.EditorPanel
 {
-    public class CratePropertyPanel : MonoBehaviour
+    public interface IBoxPropertyPanel
+    {
+        public void Load(Box box);
+    }
+    public class NormalBoxPropertyPanel : MonoBehaviour , IBoxPropertyPanel
     {
         [SerializeField] private Transform _buttonContainer;
         [SerializeField] private GameObject _slotButtonPrefab;
@@ -34,15 +40,16 @@ namespace MarbleMania.EditorPanel
                 button.SetDisplayButtonColor(bottle.ColorType.ToColor());
             }
 
+            _convertButton.ClearListeners();
             if (box is MysteryBox)
             {
                 _convertButton.SetLabel("Convert to Normal");
-                _convertButton.AddListener(ConvertToMystery);
+                _convertButton.AddListener(ConvertToNormal);
             }
             else
             {
                 _convertButton.SetLabel("Convert to Mystery");
-                _convertButton.AddListener(ConvertToNormal);
+                _convertButton.AddListener(ConvertToMystery);
             }
         }
 
@@ -50,6 +57,7 @@ namespace MarbleMania.EditorPanel
         {
             CrateGrid grid = Editor.CrateGrid;
             Box box = GameObjectPool.CreateObject<Box>(null, GameConfig.GetCratePrefab(BoxType.ThreeByThree).gameObject);
+            box.Init(ColorManager.activeColor);
             grid.RegisterCrate(box, _activeBox.row, _activeBox.col);
             GameObjectPool.RemoveObject(_activeBox.gameObject);
             Load(box);
@@ -58,8 +66,11 @@ namespace MarbleMania.EditorPanel
         private void ConvertToMystery()
         {
             CrateGrid grid = Editor.CrateGrid;
-            MysteryBox box = GameObjectPool.CreateObject<MysteryBox>(null, GameConfig.GetCratePrefab(BoxType.Mystery3x3).gameObject);
+            var prefab = GameConfig.GetCratePrefab(BoxType.Mystery3x3);
+            MysteryBox box = GameObjectPool.CreateObject<MysteryBox>(null, prefab.gameObject, resetScale: false);
+            box.Init(ColorManager.activeColor);
             grid.RegisterCrate(box, _activeBox.row, _activeBox.col);
+            EditorGUIUtility.PingObject(box.gameObject);
             GameObjectPool.RemoveObject(_activeBox.gameObject);
             Load(box);
         }
