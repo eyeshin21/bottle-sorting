@@ -35,7 +35,7 @@ namespace MarbleMania
             }
         }
 
-        private void OnBoxRemove(int row, int col)
+        private void OnBoxRemove(Box box)
         {
             if (row == _targetCellCoord.y && col == _targetCellCoord.x)
             {
@@ -58,7 +58,7 @@ namespace MarbleMania
                 _datas.RemoveAt(0);
                 var box = GameObjectPool.CreateObject<Box>(transform.parent,
                     GameConfig.GetCratePrefab(BoxType.ThreeByThree).gameObject, resetScale: false);
-                box.Init(colorType);
+                box.SetColor(colorType);
                 box.Grid = _grid;
                 _grid.RegisterCrate(box, _targetCellCoord.y, _targetCellCoord.x);
             }

@@ -47,6 +47,8 @@ namespace MarbleMania
         public BoxType type;
         public Directions direction;
         public List<ColorType> colorData;
+        public ColorType colorType;
+        public string customData;
     }
 
     // public class CrateGridCell
@@ -73,16 +75,16 @@ namespace MarbleMania
         // [SerializeField] private CrateRow _rowPrefab;
         [SerializeField, ReadOnly] private float _width;
         [SerializeField, ReadOnly] private float _height;
-        private Action<int,int> _onBoxRemove;
+        private Action<Box> _onBoxRemove;
         public Box[,] Crates => _crates;
         // [Button]
         
-        public void AddOnBoxRemoved(Action<int, int> onBoxRemove)
+        public void AddOnBoxRemoved(Action<Box> onBoxRemove)
         {
             _onBoxRemove += onBoxRemove;
         }
 
-        public void RemoveOnBoxRemoved(Action<int, int> onBoxRemove)
+        public void RemoveOnBoxRemoved(Action<Box> onBoxRemove)
         {
             _onBoxRemove -= onBoxRemove;
         }
@@ -150,10 +152,12 @@ namespace MarbleMania
 
         public void RemoveCrate(int row, int col)
         {
+            Debug.Log("remove");
             if (!IsValid(row, col) || _crates[row, col] == null) return;
-            GameObjectPool.RemoveObject(_crates[row, col].gameObject);
+            var box = _crates[row, col];
             _crates[row, col] = null;
-            _onBoxRemove?.Invoke(row, col);
+            _onBoxRemove?.Invoke(box);
+            GameObjectPool.RemoveObject(box.gameObject);
         }
 
         public Box GetCrate(int row, int col)
@@ -202,7 +206,6 @@ namespace MarbleMania
             if (box != FirstCrateOfCol(box.col)) return;
             if (!CanRemoveCrate(box)) return;
             int col = box.col;
-            Debug.Log($"col {col}");
             box.OnSelected();
             RemoveCrate(box);
             GameObjectPool.RemoveObject(box.gameObject);

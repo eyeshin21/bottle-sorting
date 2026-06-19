@@ -202,7 +202,8 @@ namespace MarbleMania.LevelEditor
             BoxData data = new BoxData()
             {
                 type = _activeBox.Type,
-                colorData = colorTypes
+                colorData = colorTypes,
+                colorType = type
             };
             preview.Init(data);
             _currentColorType = type;

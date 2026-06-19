@@ -15,13 +15,13 @@ namespace MarbleMania.EditorPanel
     }
     public class NormalBoxPropertyPanel : MonoBehaviour , IBoxPropertyPanel
     {
-        [SerializeField] private Transform _buttonContainer;
-        [SerializeField] private GameObject _slotButtonPrefab;
-        [SerializeField] private LabeledUIButton _convertButton;
+        [SerializeField] protected Transform _buttonContainer;
+        [SerializeField] protected GameObject _slotButtonPrefab;
+        [SerializeField] protected LabeledUIButton _convertButton;
         
         private List<FaceButton> _slotButtons = new(); 
         private Box _activeBox;
-        public void Load(Box box)
+        public virtual void Load(Box box)
         {
             GameObjectPool.ClearManagedChild(_buttonContainer.gameObject);
             _activeBox = box;
@@ -40,6 +40,7 @@ namespace MarbleMania.EditorPanel
                 button.SetDisplayButtonColor(bottle.ColorType.ToColor());
             }
 
+            if (_convertButton == null) return;
             _convertButton.ClearListeners();
             if (box is MysteryBox)
             {
@@ -57,7 +58,7 @@ namespace MarbleMania.EditorPanel
         {
             CrateGrid grid = Editor.CrateGrid;
             Box box = GameObjectPool.CreateObject<Box>(null, GameConfig.GetCratePrefab(BoxType.ThreeByThree).gameObject);
-            box.Init(ColorManager.activeColor);
+            box.SetColor(ColorManager.activeColor);
             grid.RegisterCrate(box, _activeBox.row, _activeBox.col);
             GameObjectPool.RemoveObject(_activeBox.gameObject);
             Load(box);
@@ -68,7 +69,7 @@ namespace MarbleMania.EditorPanel
             CrateGrid grid = Editor.CrateGrid;
             var prefab = GameConfig.GetCratePrefab(BoxType.Mystery3x3);
             MysteryBox box = GameObjectPool.CreateObject<MysteryBox>(null, prefab.gameObject, resetScale: false);
-            box.Init(ColorManager.activeColor);
+            box.SetColor(ColorManager.activeColor);
             grid.RegisterCrate(box, _activeBox.row, _activeBox.col);
             EditorGUIUtility.PingObject(box.gameObject);
             GameObjectPool.RemoveObject(_activeBox.gameObject);

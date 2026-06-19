@@ -28,12 +28,18 @@ public class GameConfig : SingletonScriptableObject<GameConfig>
     [ElementName(typeof(BoxType))] [SerializeField] private List<Box> _crateByType;
     [ElementName(typeof(TrayType))] [SerializeField] private List<Tray> _trayByType;
     [ElementName(typeof(ColorType))] [SerializeField] private List<Color> _colorByType;
+    [ElementName(typeof(ColorType))] [SerializeField] private List<Material> _commonMaterials;
     [SerializeField] private MainGameUIAsset _mainGameUIAsset;
     public static MainGameUIAsset MainGameUIAsset => Instance._mainGameUIAsset;
     public static GameObject BottlePrefab => Instance._bottlePrefab;
     public static Color GetColor(ColorType color)
     {
         return Instance._colorByType.TryGet((int)color);
+    }
+
+    public static Material GetMaterial(ColorType color)
+    {        
+        return Instance._commonMaterials.TryGet((int)color);
     }
     // public static Bottle GetBottlePrefab(ColorType color)
     // {

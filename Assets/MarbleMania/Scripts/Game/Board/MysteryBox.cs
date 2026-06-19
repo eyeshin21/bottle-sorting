@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using MarbleMania.LevelEditor;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Editor = MarbleMania.LevelEditor.Editor;
 
 namespace MarbleMania
 {
@@ -21,11 +23,45 @@ namespace MarbleMania
                 ColorType  colorType = colorData[0];
                 DisplayAsEditor(colorType);
             }
+            _grid.AddOnBoxRemoved(OnBoxRemove);
         }
 
-        public override void Init(ColorType activeColor)
+        private void OnDestroy()
         {
-            base.Init(activeColor);
+            _grid.RemoveOnBoxRemoved(OnBoxRemove);
+        }
+
+        private void OnBoxRemove(Box box)
+        {
+            int r = box.row;
+            int c = box.col;
+            if (((r == row + 1 || r == row - 1) && c == col)
+                || ((c == col + 1 || c == col - 1) && r == row))
+            {
+                EditorGUIUtility.PingObject(gameObject);
+                Debug.Log($"unlock at {row}.{col}");
+                SetHidden(false);
+                foreach (var bottle in Bottles)
+                {
+                    bottle.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        public override void SetColor(ColorType activeColor)
+        {
+            base.SetColor(activeColor);
+            
+            foreach (var bottle in Bottles)
+            {
+                bottle.SetColor(activeColor);
+            }
+
+            if (Editor.IsActive)
+            {
+                _colorIndicator.color = activeColor.ToColor();
+            }
+            
             if (Editor.IsActive)
             {
                 DisplayAsEditor(activeColor);
@@ -33,15 +69,6 @@ namespace MarbleMania
                 SetHidden(true);
         }
 
-        public override void OnGridActive()
-        {
-            base.OnGridActive();
-            SetHidden(false);
-            foreach (var bottle in Bottles)
-            {
-                bottle.gameObject.SetActive(true);
-            }
-        }
         public void SetHidden(bool isHidden)
         {
             _isHidden = isHidden;
@@ -63,17 +90,6 @@ namespace MarbleMania
             _colorIndicator.color = colorType.ToColor();
         }
 
-        public void SetColor(ColorType activeColor)
-        {
-            foreach (var bottle in Bottles)
-            {
-                bottle.SetColor(activeColor);
-            }
-
-            if (Editor.IsActive)
-            {
-                _colorIndicator.color = activeColor.ToColor();
-            }
-        }
+       
     }
 }

@@ -15,6 +15,9 @@ namespace MarbleMania
         TwoByTwo,
         Mystery3x3,
         Container,
+        Ice,
+        Lock,
+        Key,
     }
 
     public class Box : MonoBehaviourGizmos, IEditorProperty
@@ -86,7 +89,7 @@ namespace MarbleMania
         }
 
         [Button]
-        public void OnSelect()
+        public virtual void OnSelect()
         {
             _grid.OnCrateSelected(this);
         }
@@ -146,7 +149,7 @@ namespace MarbleMania
             _bottles[i] = bottle;
         }
 
-        public virtual void Init(ColorType activeColor)
+        public virtual void SetColor(ColorType activeColor)
         {
             foreach (Bottle bottle in _bottles)
             {

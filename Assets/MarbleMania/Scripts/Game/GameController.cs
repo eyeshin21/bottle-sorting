@@ -19,7 +19,7 @@ namespace MarbleMania.Scripts.Game
         [SerializeField] private Transform _lowerMeshContainer;
         [SerializeField] private float crateGridDistance = 0.7f;
 
-        private LevelData  _levelData;
+        [SerializeField]private LevelData  _levelData;
         
         public LevelData LevelData => _levelData;
         protected override void Awake()
@@ -33,7 +33,7 @@ namespace MarbleMania.Scripts.Game
             
             if (GameContext.LevelToLoad != null)
             {
-                LoadGame(GameContext.LevelToLoad);
+                LoadGame(GameContext.LevelToLoad.Copy());
                 return;
             }
             LoadGame(LevelData.LoadLevel("1"));

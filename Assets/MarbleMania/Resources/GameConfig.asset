@@ -20,6 +20,9 @@ MonoBehaviour:
   - {fileID: 8491238079971944374, guid: b9a66dcdf9abc2c4c99b3b035fdba448, type: 3}
   - {fileID: 6534474198174609522, guid: 49e461b9750a65a4e90cfc415fd170f8, type: 3}
   - {fileID: 6561527223390555550, guid: e68fcf2a7a0867c47b7756824a03049f, type: 3}
+  - {fileID: 3981461213844615311, guid: 7c033b0de62f0604aa64ddb98610887d, type: 3}
+  - {fileID: 4143098607238723733, guid: 8a103814cdc513a43ab618ba4ccb46af, type: 3}
+  - {fileID: 8150350939425196510, guid: 6a63b93fb3619f249880695bac157e81, type: 3}
   _trayByType:
   - {fileID: 2480687684049000062, guid: 64cefaa9f280a8144b3872879f649b49, type: 3}
   - {fileID: 5046156815751745329, guid: a1b252701d9e8864f830dbd088e455b5, type: 3}
@@ -33,4 +36,5 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0.09301448, g: 1, b: 0, a: 1}
   - {r: 0, g: 0.07363939, b: 1, a: 1}
+  _commonMaterials: []
   _mainGameUIAsset: {fileID: 11400000, guid: 251cd8cbef0dc6044b5787b647e88a1b, type: 2}

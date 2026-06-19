@@ -36,5 +36,13 @@ namespace MarbleMania.Scripts.Game
         {
             JsonUtility.FromJsonOverwrite(data, this);
         }
+
+        public LevelData Copy()
+        {
+            var copy = new LevelData();
+            copy.Deserialize(Serialize());
+            copy.levelID = levelID;
+            return copy;
+        }
     }
 }
