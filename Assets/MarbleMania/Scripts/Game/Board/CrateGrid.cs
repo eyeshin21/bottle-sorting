@@ -186,6 +186,11 @@ namespace MarbleMania
             var box = _crates[row, col];
             _crates[row, col] = null;
             _onBoxRemove?.Invoke(box);
+            foreach (IBoxCollector collector in _boxCollectors)
+            {
+                if (collector.TryCollect(box))
+                    return;
+            }
             GameObjectPool.RemoveObject(box.gameObject);
         }
 

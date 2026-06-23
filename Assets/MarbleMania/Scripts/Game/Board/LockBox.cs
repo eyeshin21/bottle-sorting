@@ -1,9 +1,10 @@
 ﻿using System;
+using Anvil;
 using UnityEngine;
 
 namespace MarbleMania
 {
-    public class LockBox : Box
+    public class LockBox : Box, IBoxCollector
     {
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private GameObject _lockObject;
@@ -28,6 +29,7 @@ namespace MarbleMania
             SetLocked(true);
             _grid?.AddOnBoxRemoved(OnBoxRemove);
             // Color = Enum.Parse<ColorType>(boxData.customData);
+            _grid.RegisterBoxCollector(this);
             SetColor(boxData.colorType);
         }
 
@@ -56,6 +58,18 @@ namespace MarbleMania
             var data = base.CreateData();
             data.colorType = Color;
             return data;
+        }
+
+        public bool TryCollect(Box box)
+        {
+            if (box is not Key key) return false;
+            if (key.Color == Color)
+            {
+                SetLocked(false);
+                return true;
+            }
+            GameObjectPool.RemoveObject(key.gameObject);
+            return false;
         }
     }
 }
