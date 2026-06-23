@@ -25,13 +25,20 @@ namespace MarbleMania
             Color = activeColor;
         }
 
+        public override void OnGridActive()
+        {
+            _grid.RemoveCrate(this);
+        }
+
         public override void OnSelected()
+        
         {
         }
         public override BoxData CreateData()
         {
             var data = new BoxData();
-            data.customData = Color.ToString();
+            data.type = Type;
+            data.colorType = Color;
             return data;
         }
     }

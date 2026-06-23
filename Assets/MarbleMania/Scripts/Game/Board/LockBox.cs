@@ -18,6 +18,7 @@ namespace MarbleMania
                 Debug.Log("color set");
                 _color = value;
                 _renderer.material = GameConfig.GetMaterial(value);
+                
             }
         }
 

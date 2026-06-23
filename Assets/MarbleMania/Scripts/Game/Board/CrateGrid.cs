@@ -24,7 +24,10 @@ namespace MarbleMania
     //         _crate = null;
     //     }
     // }
-
+    public interface IBoxCollector
+    {
+        public bool TryCollect(Box box);
+    }
     [Serializable]
     public class CrateGridData
     {
@@ -67,6 +70,7 @@ namespace MarbleMania
         [SerializeField] private float _cellSize;
         [SerializeField] private Vector2 _maxSize = new Vector2(100, 100);
 
+        private List<IBoxCollector> _boxCollectors;
         public int RowCount => _rowCount;
         public int ColCount => _colCount;
 
@@ -87,6 +91,31 @@ namespace MarbleMania
         public void RemoveOnBoxRemoved(Action<Box> onBoxRemove)
         {
             _onBoxRemove -= onBoxRemove;
+        }
+
+        public void RegisterBoxCollector(IBoxCollector collector)
+        {
+            if (_boxCollectors == null)
+            {
+                _boxCollectors = new List<IBoxCollector>();
+            }
+            if (!_boxCollectors.Contains(collector))
+            {
+                _boxCollectors.Add(collector);
+            }
+        }
+        public void UnRegisterBoxCollector(IBoxCollector collector)
+        {
+            if (_boxCollectors == null) return;
+            for (var i = _boxCollectors.Count - 1; i >= 0; i--)
+            {
+                var boxCollector = _boxCollectors[i];
+                if (boxCollector == collector)
+                {
+                    _boxCollectors.RemoveAt(i);
+                    break;
+                }
+            }
         }
         private void Awake()
         {
