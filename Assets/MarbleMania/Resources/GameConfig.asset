@@ -36,5 +36,8 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0.09301448, g: 1, b: 0, a: 1}
   - {r: 0, g: 0.07363939, b: 1, a: 1}
-  _commonMaterials: []
+  _commonMaterials:
+  - {fileID: 2100000, guid: 9ab763990591cd24eb195fedd2310275, type: 2}
+  - {fileID: 2100000, guid: 3780329f5fc7b0248b72969fca98f131, type: 2}
+  - {fileID: 2100000, guid: 98d87c24421cfc943a90db0f1ed4558c, type: 2}
   _mainGameUIAsset: {fileID: 11400000, guid: 251cd8cbef0dc6044b5787b647e88a1b, type: 2}

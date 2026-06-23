@@ -186,6 +186,7 @@ namespace MarbleMania
             var box = _crates[row, col];
             _crates[row, col] = null;
             _onBoxRemove?.Invoke(box);
+            CheckActiveAtCol(col);
             foreach (IBoxCollector collector in _boxCollectors)
             {
                 if (collector.TryCollect(box))
@@ -243,9 +244,13 @@ namespace MarbleMania
             box.OnSelected();
             RemoveCrate(box);
             GameObjectPool.RemoveObject(box.gameObject);
+            // gameObject.DelayCall(0.7f, () => { UpdateCratePosition(); });
+        }
+
+        private void CheckActiveAtCol(int col)
+        {
             var next = FirstCrateOfCol(col);
             next?.OnGridActive();
-            // gameObject.DelayCall(0.7f, () => { UpdateCratePosition(); });
         }
 
         public bool CanRemoveCrate(Box box)

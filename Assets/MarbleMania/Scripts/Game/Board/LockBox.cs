@@ -27,9 +27,9 @@ namespace MarbleMania
         {
             base.Init(boxData);
             SetLocked(true);
-            _grid?.AddOnBoxRemoved(OnBoxRemove);
+            // _grid?.AddOnBoxRemoved(OnBoxRemove);
             // Color = Enum.Parse<ColorType>(boxData.customData);
-            _grid.RegisterBoxCollector(this);
+            _grid?.RegisterBoxCollector(this);
             SetColor(boxData.colorType);
         }
 
@@ -66,6 +66,7 @@ namespace MarbleMania
             if (key.Color == Color)
             {
                 SetLocked(false);
+                _grid?.UnRegisterBoxCollector(this);
                 return true;
             }
             GameObjectPool.RemoveObject(key.gameObject);
